@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang=”pt-br” xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout">
+
+<head th:insert="template/fragmentos/cabecalho.html :: head"> </head>
+
+<body>
+<header th:insert="template/fragmentos/header.html :: header"> </header>
+	<div class="container">
+
+		<h1>Informações do funcionário:</h1>
+		<div class="container" th:each="funcionario : ${funcionarios}">
+
+			<br>
+
+			<p>
+				<b>Nome:</b> <span th:text="${funcionario.nome}"></span>
+			</p>
+			<p>
+				<b>Data de nascimento:</b> <span th:text="${funcionario.data}"></span>
+			</p>
+			<p>
+				<b>E-mail:</b> <span th:text="${funcionario.email}"></span>
+			</p>
+			<p>
+				<b>Setor:</b> <span th:text="${funcionario.tipo}"></span>
+			</p>
+
+			<br> <br>
+
+			<h2>Cadastrar auxiliares</h2>
+
+
+			<form method="post" th:object="${auxiliar}">
+
+				<div class="form-group">
+					<div class="row">
+
+						<div class="col">
+							<label for=""><b>Nome:</b> </label> <input type="text" value=""
+								name="nome" class="form-control" placeholder="Nome Completo"
+								required />
+						</div>
+
+
+						<div class="col">
+							<label for=""><b>CPF: </b> </label><input type="text" value=""
+								name="cpf" placeholder="Somente números, sem traçõs ou pontos."
+								class="validate form-control" required />
+						</div>
+
+
+						<br> <br>
+						<div class="col">
+
+							<div class="form-group">
+								<label for=""><b>Data de nascimento:</b></label> <input
+									type="date" value="" name="datanascimento" class="form-control"
+									required /> <small class="form-text text-muted"><i>*
+										Dia/Mês/Ano.</i></small>
+							</div>
+						</div>
+
+					</div>
+
+
+
+
+					<button type="submit" class="btn btn-success">Adicionar
+						Auxiliar</button>
+			</form>
+
+
+
+		</div>
+
+		<th:block th:include="mensagem-validacao"></th:block>
+
+		<br> <br>
+
+		<h2>Auxiliares:</h2>
+
+		<br>
+
+		<table class="table table-hover table-responsive w-auto table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Nome do Auxiliar:</th>
+					<th scope="col">CPF:</th>
+					<th scope="col">Data de nascimento:</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="auxiliar : ${auxiliares}">
+					<td><span th:text="${auxiliar.nome}"></span></td>
+					<td><span th:text="${auxiliar.cpf}"></span></td>
+					<td><span th:text="${auxiliar.datanascimento}"></span></td>
+					<td><a class="waves-effect waves-light btn-small"
+						th:href="${(#mvc.url('FC#deletarAuxiliar').arg(0, auxiliar.cpf)).build()}"><button
+								type="button" class="btn btn-danger">Excluir</button></a></td>
+
+
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+
+<div th:insert="template/fragmentos/divfooter.html :: div"> </div>
+</body>
+
+</html>

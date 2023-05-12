@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang=”pt-br” xmlns:th="http://thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="layout" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="template/fragmentos/cabecalho.html :: head"> </head>
+
+
+<body>
+<header th:insert="template/fragmentos/header.html :: header"> </header>
+
+	<div class="container">
+
+		<th:block th:include="mensagem-validacao"></th:block>
+
+
+
+
+		<form method="POST" th:action="@{/TelaBaixaReq/{codigo}/(codigo=${codigo})}">
+
+			<h3>Finalizar requerimento</h3>
+
+			<br>
+
+			<div class="form-group">
+				<label for=""><b>Título</b></label> <input type="text"
+														   class="form-control" value="" name="titulo"
+														   th:value="${requerimento.titulo}" required />
+			</div>
+
+			<div class="form-group">
+				<label for=""><b>Matrícula</b></label> <input type="text"
+															  class="form-control" value="" name="matricula"
+															  th:value="${requerimento.matricula}" required />
+			</div>
+
+			<div class="form-group">
+				<label for=""><b>Nome do requerente</b></label> <input type="text"
+																	   class="form-control" value="" name="nomeRequerente"
+																	   th:value="${requerimento.nomeRequerente}" required />
+			</div>
+
+			<div class="form-group">
+				<label for=""><b>E-mail</b></label> <input type="email"
+														   class="form-control" value="" name="email"
+														   th:value="${requerimento.email}" required/>
+			</div>
+
+			<div class="form-group">
+				<label for=""><b>CPF</b></label> <input type="cpf"
+														   class="form-control" value="" name="cpf"
+														   th:value="${requerimento.cpf}" required />
+			</div>
+			<div class="form-group">
+				<label for=""><b>Descrição</b></label> <input type="text"
+														  class="form-control"
+														  value="" name="descricao" th:value="${requerimento.descricao}" required />
+
+			</div>
+
+			<div class="form-group">
+				<label for=""><b>Senha</b></label> <input type="text"
+														  class="form-control"
+														  value="" name="senha" th:value="${requerimento.senha}" required />
+
+			</div>
+			<div class="form-group">
+				<label for=""><b>Nome do Funcionário responsável</b></label> <input type="text"
+														  class="form-control"
+														  value="" name="nome" th:value="nome" required />
+
+			</div>
+
+			<div class="form-group">
+				<label for=""><b>Mensagem da área Tecnica</b></label>
+				<textarea class="form-control" name="mensagemRetorno" rows="3"
+						  th:text="${requerimento.mensagemRetorno}" required></textarea>
+				<small class="form-text text-muted"><i>* Escreva uma mensagem de resposta para o aluno</i></small>
+			</div>
+
+
+			<div class="form-group">
+				<label for=""><b>Status</b></label> <input type="text"
+														  class="form-control"
+														  value="" name="status"
+														   th:value="${requerimento.status}" required />
+
+			</div>
+            </br></br>
+			<button type="submit" class="btn btn-success">Finalizar</button>
+		</form>
+		<div class="col-lg-12" style="display: inline-block; margin-left: 15px;">
+			<a type="button"   href="/requerimentos"  class="btn">Voltar</a>
+		</div>
+
+	</div>
+
+
+<div th:insert="template/fragmentos/divfooter.html :: div"> </div>
+</body>
+
+
+</html>

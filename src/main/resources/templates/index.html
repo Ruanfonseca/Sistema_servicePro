@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang=”pt-br” xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout">
+
+<head th:insert="template/fragmentos/cabecalho.html :: head"> </head>
+
+<body>
+
+<header th:insert="template/fragmentos/header.html :: header"> </header>
+	<div class="container">
+		<br> <br>
+		<div class="row">
+			<div class="col">
+				<br> <br>
+				<div class="card text-center card w-100">
+					<div class="card-header">
+						<h3> Pesquisar no sistema</h3>
+					</div>
+
+					<form class="form-inline" method="post">
+
+
+						<div class="row form-group justify-content-center w-100 p-2">
+
+
+							<div class="col col-14 col-md-2">
+
+								<label for="cars" class="my-3 p-2 w-100">
+									<h5>Tipo de busca:</h5>
+								</label>
+							</div>
+
+							<div class="col col-14 col-md-2">
+
+
+								<select name="nome" id="nome"
+									class="custom-select my-3 p-2 w-100" required>
+									<option value="">Escolher...</option>
+									<option value="todos">Todos</option>
+									<option value="nomefuncionario">Funcionário</option>
+									<option value="nomeauxiliar">Auxiliar</option>
+									<option value="cpfrequerimento">Requerimento</option>
+								</select>
+
+
+							</div>
+
+							<div class="col col-14 col-md-4">
+
+								<input class="form-control form-control-lg my-3 p-2 w-100"
+									type="search" placeholder="Insira sua pesquisa..."
+									aria-label="Pesquisar" name="buscar" id="buscar" required><i>* Digite o cpf para buscar requerimentos.</i></input>
+
+							</div>
+
+							<div class="col col-14 col-md-2">
+
+								<button class="btn btn-primary my-3 p-2 w-100" type="submit">Pesquisar</button>
+
+							</div>
+						</div>
+
+					</form>
+
+					<div class="row form-group justify-content-center w-100 p-2">
+						<h4>
+							<i><span th:text="${mensagem}"></i>
+						</h4>
+						</span>
+					</div>
+
+					<div class="row form-group justify-content-center w-100 p-2">
+						<table
+							class="table table-hover table-responsive w-auto table-striped">
+
+							<tbody>
+								<tr th:each="funcionario : ${funcionarios}">
+									<td><a
+										th:href="${(#mvc.url('FC#detalhesFuncionario').arg(0, funcionario.id)).build()}"><span
+											th:text="${funcionario.nome}"></span></a> - em <i>funcionários.</i></td>
+
+
+								</tr>
+								<tr th:each="requerimento : ${requerimentos}">
+									<td><i>Seus Status - </i><span th:text="${requerimento.status}"></span> </td>
+									<td><i>Mensagem da Área técnica - </i><span th:text="${requerimento.mensagemRetorno}"></span> </td>
+
+								</tr>
+
+								<tr th:each="auxiliar : ${auxiliares}">
+									<td><span th:text="${auxiliar.nome}"></span> - <i>em
+											auxiliares.</i></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+<div th:insert="template/fragmentos/divfooter.html :: div"> </div>
+</body>
+
+</html>
