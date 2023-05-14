@@ -28,12 +28,39 @@
                                             style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;"
                                             href="/cadastrarFuncionario">Cadastrar Funcionário</a></li>
 
-                    <li class="nav-item"><a class="nav-link" href="/requerimentos"
-                                            style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;">
-                        Listar Requerimentos </a></li>
+                    <select onchange="javascript:location.href=this.value;"
+                            th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'"
+                            aria-label="Lista de Requerimentos">
+                        <option value="" selected>Verificar</option>
+                        <option th:value="@{/requerimentos}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                            Lista de Requerimentos Pendentes
+                        </option>
+                        <option th:value="@{/requerimentosFinalizados}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                            Lista de Requerimentos Finalizados
+                        </option>
+                    </select>
 
-                    <li class="nav-item"><a class="nav-link" style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;"
-                                            href="/cadastrarReq">  Cadastrar Requerimentos </a>
+
+                    <select onchange="javascript:location.href=this.value;"
+                            th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'"
+                            aria-label="Lista de Requerimentos">
+                        <option value="" selected>Cadastrar</option>
+                        <option th:value="@{/cadastrarReq}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                                 Requerimento Wifi
+                        </option>
+                        <option th:value="@{/cadastrarReqSala}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                            Requerimento Sala
+                        </option>
+                        <option th:value="@{/cadastrarReqProjetor}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                            Requerimento Projetor
+                        </option>
+                    </select>
+
                     <li class="nav-item"><a class="nav-link" style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;" href="https://www.uerj.br/" target="_blank">Portal da UERJ
                     </a></li>
                 </ul>

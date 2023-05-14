@@ -14,7 +14,6 @@ import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -46,7 +45,7 @@ public class ReqController {
 
 	@PostMapping("/cadastrarReq")
 	public String cadastrarReq(@Valid @ModelAttribute("requerimento") Requerimento req, BindingResult result,
-			RedirectAttributes attributes) {
+							   RedirectAttributes attributes) {
 
 
 
@@ -91,11 +90,11 @@ public class ReqController {
 
 	@GetMapping("/requerimentosFinalizados")
 	public ModelAndView listaDeFinalizados() {
-		ModelAndView mv = new ModelAndView("template/vaga/lista-vaga/#modalExemplo");
+		ModelAndView mv = new ModelAndView("template/vaga/lista-req-finalizado");
 
 		Iterable<Requerimento> requerimento = vr.findByStatusFinalizado();
 
-		mv.addObject("reqs", requerimento);
+		mv.addObject("req", requerimento);
 		return mv;
 	}
 	@GetMapping("/requerimentos")
@@ -133,8 +132,8 @@ public class ReqController {
 
 	@PostMapping("/editar-requerimento/{codigo}")
 	public String updateReq(@PathVariable("codigo") long codigo,
-			@Valid @ModelAttribute("requerimento") Requerimento requerimento, BindingResult result,
-			RedirectAttributes attributes) {
+							@Valid @ModelAttribute("requerimento") Requerimento requerimento, BindingResult result,
+							RedirectAttributes attributes) {
 		if (result.hasErrors()) {
 			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
 			return "redirect:/editar-requerimento/" + codigo;
@@ -175,7 +174,7 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
 
 	@PostMapping("/TelaBaixaReq/{codigo}")
-	public String baixaRequerimento(@PathVariable("codigo") long codigo,@RequestParam("nome") String nome,
+	public String baixaRequerimento(@PathVariable("codigo") long codigo, @RequestParam("nome") String nome,
 									@Valid @ModelAttribute("requerimento") Requerimento requerimento, BindingResult result,
 									RedirectAttributes attributes) {
 
