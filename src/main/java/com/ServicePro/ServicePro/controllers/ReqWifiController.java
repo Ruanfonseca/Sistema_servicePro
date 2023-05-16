@@ -9,7 +9,7 @@ import com.ServicePro.ServicePro.models.Funcionario;
 import com.ServicePro.ServicePro.models.OrdemDeServico;
 import com.ServicePro.ServicePro.models.Requerimento;
 import com.ServicePro.ServicePro.repository.OrdemDeServicoRepository;
-import com.ServicePro.ServicePro.repository.RequerimentoRepository;
+import com.ServicePro.ServicePro.repository.RequerimentoWIfiRepository;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,10 +24,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ServicePro.ServicePro.repository.FuncionarioRepository;
 
 @Controller
-public class ReqController {
+public class ReqWifiController {
 
 	@Autowired
-	private RequerimentoRepository vr;
+	private RequerimentoWIfiRepository vr;
 
 	@Autowired
 	private FuncionarioRepository func;
@@ -56,7 +56,7 @@ public class ReqController {
 						"Erro no campo " + ((FieldError) error).getField() + ": " + error.getDefaultMessage());
 			}
 
-			return "redirect:/cadastrarReq";
+			return "redirect:/cad	astrarReq";
 		}
 		if (!ValidacaoUtil.validarCPF(req.getCpf())) {
 			attributes.addFlashAttribute("mensagem", "CPF invalido!");
@@ -97,6 +97,8 @@ public class ReqController {
 		mv.addObject("req", requerimento);
 		return mv;
 	}
+
+
 	@GetMapping("/requerimentos")
 	public ModelAndView lista() {
 		ModelAndView mv = new ModelAndView("template/vaga/lista-vaga");
@@ -104,6 +106,7 @@ public class ReqController {
 		Iterable<Requerimento> requerimento = vr.findByStatusPendente();
 
 		mv.addObject("requerimentos", requerimento);
+
 		return mv;
 	}
 
@@ -178,7 +181,7 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 									@Valid @ModelAttribute("requerimento") Requerimento requerimento, BindingResult result,
 									RedirectAttributes attributes) {
 
-		if (requerimento.getStatus().equals("Finalizado")) {
+		if (requerimento.getStatus().equals("FINALIZADO")) {
 			attributes.addFlashAttribute("mensagem", "O requerimento já foi finalizado");
 			return "redirect:/requerimentos" ;
 		}
@@ -198,6 +201,7 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
 
 		vr.save(requerimento);
+
 		LocalDateTime data = LocalDateTime.now();
 		OrdemDeServico ordemDeServico = new OrdemDeServico(data, aux, requerimento);
 		OS.save(ordemDeServico);

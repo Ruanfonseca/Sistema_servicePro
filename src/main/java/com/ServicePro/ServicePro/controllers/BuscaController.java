@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ServicePro.ServicePro.repository.RequerimentoRepository;
+import com.ServicePro.ServicePro.repository.RequerimentoWIfiRepository;
 import com.ServicePro.ServicePro.repository.AuxiliarRepository;
 import com.ServicePro.ServicePro.repository.FuncionarioRepository;
 
@@ -19,7 +19,7 @@ public class BuscaController {
 	private FuncionarioRepository fr;
 	
 	@Autowired
-	private RequerimentoRepository Rr;
+	private RequerimentoWIfiRepository Rr;
 	
 	
 	@Autowired

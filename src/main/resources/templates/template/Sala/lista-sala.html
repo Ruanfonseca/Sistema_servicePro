@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang=”pt-br” xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout">
+<head th:insert="template/fragmentos/cabecalho.html :: head"> </head>
+
+<body>
+<header th:insert="template/fragmentos/header.html :: header"> </header>
+
+	<div class="container">
+		<h2>Lista de requerimentos do tipo SALA </h2>
+		<br>
+
+		<table class="table table-hover table-responsive w-auto table-striped">
+			<thead>
+				<tr>
+					<th>Código</th>
+					<th>Matrícula</th>
+					<th>Requerente</th>
+					<th>Descrição</th>
+					<th>Data</th>
+					<th>Ações</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="req : ${requerimentos}">
+					<td th:text="${req.codigo}"></td>
+					<td th:text="${req.matricula}"></td>
+					<td th:text="${req.nomeRequerente}"></td>
+					<td th:text="${req.descricao}"></td>
+
+					<td th:text="${req.data}"></td>
+					
+					<td><a class="btn btn-danger"
+						th:href="@{/requerimentoSALA/{codigo}(codigo=${req.codigo})}">Detalhes</a></td>
+					<td><a class="btn btn-warning"
+						th:href="@{/TelaBaixaReqSala/{codigo}(codigo=${req.codigo})}">Dar Baixa</a></td>
+					<td><a class="btn btn-primary"
+						th:href="@{/deletarReq/{codigo}(codigo=${req.codigo})}">Excluir</a>
+						<a class="btn btn-success"
+						th:href="@{/editar-requerimentoSALA/{codigo}(codigo=${req.codigo})}">Editar</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+<div th:insert="template/fragmentos/divfooter.html :: div"> </div>
+</body>
+
+</html>

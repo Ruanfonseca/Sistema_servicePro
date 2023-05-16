@@ -30,5 +30,4 @@ public class Auxiliar {
 	
 	@ManyToOne
 	private Funcionario funcionario;
-
 }

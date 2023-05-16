@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.ServicePro.ServicePro.models.Funcionario;
 
-public interface RequerimentoRepository extends CrudRepository<Requerimento, Long> {
+public interface RequerimentoWIfiRepository extends CrudRepository<Requerimento, Long> {
 	
 	Requerimento findByCodigo(long codigo);
 	Iterable<Requerimento> findByFuncionario(Funcionario funcionario);
@@ -18,11 +18,11 @@ public interface RequerimentoRepository extends CrudRepository<Requerimento, Lon
 	//Iterable<Requerimento> findByRequerimento(Requerimento requerimento);
 
 	Requerimento findByCpf(String cpf);
-	@Query("SELECT r FROM Requerimento r WHERE r.status = 'pendente'")
+	@Query("SELECT r FROM Requerimento r WHERE r.status = 'PENDENTE'")
 	Iterable<Requerimento> findByStatusPendente();
 
 
-	@Query("SELECT r FROM Requerimento r WHERE r.status = 'finalizado'")
+	@Query("SELECT r FROM Requerimento r WHERE r.status = 'FINALIZADO'")
 	Iterable<Requerimento> findByStatusFinalizado();
 
 	//Requerimento findById(long id);

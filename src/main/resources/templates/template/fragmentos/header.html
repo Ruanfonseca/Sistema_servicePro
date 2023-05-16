@@ -34,11 +34,15 @@
                         <option value="" selected>Verificar</option>
                         <option th:value="@{/requerimentos}"
                                 th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
-                            Lista de Requerimentos Pendentes
+                            Lista de Requerimentos WIFI
                         </option>
-                        <option th:value="@{/requerimentosFinalizados}"
+                        <option th:value="@{/requerimentosSALA}"
                                 th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
-                            Lista de Requerimentos Finalizados
+                            Lista de Requerimentos SALA
+                        </option>
+                        <option th:value="@{/requerimentosProj}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                            Lista de Requerimentos PROJETORES
                         </option>
                     </select>
 
@@ -55,14 +59,19 @@
                                 th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
                             Requerimento Sala
                         </option>
-                        <option th:value="@{/cadastrarReqProjetor}"
+                        <option th:value="@{/cadastrarReqProj}"
                                 th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
                             Requerimento Projetor
                         </option>
                     </select>
 
                     <li class="nav-item"><a class="nav-link" style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;" href="https://www.uerj.br/" target="_blank">Portal da UERJ
+
                     </a></li>
+                    <li class="nav-item"><a class="nav-link"
+                                            style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;"
+                                            href="/suporte">Suporte</a></li>
+
                 </ul>
             </div>
         </div>
