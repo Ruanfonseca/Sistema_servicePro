@@ -56,7 +56,7 @@ public class ReqWifiController {
 						"Erro no campo " + ((FieldError) error).getField() + ": " + error.getDefaultMessage());
 			}
 
-			return "redirect:/cad	astrarReq";
+			return "redirect:/cadastrarReq";
 		}
 		if (!ValidacaoUtil.validarCPF(req.getCpf())) {
 			attributes.addFlashAttribute("mensagem", "CPF invalido!");

@@ -27,6 +27,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests().antMatchers("/").permitAll()
 		.antMatchers("/requerimentos").authenticated()
 		.antMatchers("/cadastrarFuncionario").authenticated()
+				.antMatchers("/requerimentos").authenticated()
 		.antMatchers("/funcionarios").authenticated()
 		
 		.antMatchers("/**").permitAll().anyRequest()
