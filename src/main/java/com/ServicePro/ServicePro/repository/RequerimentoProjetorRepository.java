@@ -18,12 +18,12 @@ public interface RequerimentoProjetorRepository extends CrudRepository<Requerime
 	//Iterable<Requerimento> findByRequerimento(Requerimento requerimento);
 
 	RequerimentoProjetor findByCpf(String cpf);
-	@Query("SELECT r FROM RequerimentoProjetor r WHERE r.status = 'pendente'")
+	@Query("SELECT r FROM RequerimentoProjetor r WHERE r.status = 'PENDENTE'")
 	Iterable<RequerimentoProjetor> findByStatusPendente();
 
 
-	@Query("SELECT r FROM Requerimento r WHERE r.status = 'finalizado'")
-	Iterable<Requerimento> findByStatusFinalizado();
+	@Query("SELECT r FROM Requerimento r WHERE r.status = 'FINALIZADO'")
+	Iterable<RequerimentoProjetor> findByStatusFinalizado();
 
 	//Requerimento findById(long id);
 

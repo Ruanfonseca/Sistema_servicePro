@@ -11,7 +11,6 @@
 
 		<h1>Informações do funcionário:</h1>
 		<div class="container" th:each="funcionario : ${funcionarios}">
-
 			<br>
 
 			<p>
@@ -25,6 +24,9 @@
 			</p>
 			<p>
 				<b>Setor:</b> <span th:text="${funcionario.tipo}"></span>
+			</p>
+			<p>
+				<b>Matrícula:</b> <span th:text="${funcionario.matricula}"></span>
 			</p>
 
 			<br> <br>

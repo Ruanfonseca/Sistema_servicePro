@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+
+actor "Funcionário" as Funcionario
+
+==Verifica lista de requerimentos==
+Funcionario -> Funcionario: Clicar na opção "Listar requerimentos wifi"
+Funcionario -> BancoDados: Consultar registros de requerimentos
+BancoDados -> Funcionario: Retornar lista de requerimentos
+== ==
+
+
+==Verifica detalhes do requerimento ==
+Funcionario -> Funcionario: Clicar na opção "Detalhes"
+Funcionario -> BancoDados: Consultar detalhes do requerimento
+BancoDados -> Funcionario: Retornar detalhes do requerimento
+== ==
+
+
+== Excluir requerimento ==
+Funcionario -> Funcionario: Clicar na opção "Excluir"
+Funcionario -> BancoDados: Consultar registros de requerimentos
+BancoDados -> Funcionario: Retornar lista de requerimentos
+Funcionario -> Funcionario: Selecionar requerimento a ser excluído
+Funcionario -> BancoDados: Excluir requerimento
+BancoDados -> Funcionario: Confirmação de exclusão
+== ==
+
+
+==Edição de requerimento==
+Funcionario -> Funcionario: Clicar na opção "Editar requerimento wifi"
+Funcionario -> BancoDados: Consultar detalhes do requerimento
+BancoDados -> Funcionario: Retornar detalhes do requerimento
+Funcionario -> Funcionario: Realizar alterações no requerimento
+Funcionario -> BancoDados: Atualizar requerimento
+BancoDados -> Funcionario: Confirmação de atualização
+== ==
+
+
+==Realizar baixa de requerimento==
+Funcionario -> Funcionario: Clicar na opção "Dar baixa requerimentos wifi"
+Funcionario -> Funcionario: Digitar matrícula
+Funcionario -> Funcionario: Escrever mensagem de retorno
+Funcionario -> Funcionario: Selecionar opção "FINALIZADO"
+Funcionario -> BancoDados: Atualizar status do requerimento
+BancoDados -> Funcionario: Confirmação de atualização
+ == ==
+@enduml
+
+

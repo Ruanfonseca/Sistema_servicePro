@@ -8,11 +8,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Requerimento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
-
 
     @NotEmpty
     private String titulo;
@@ -36,16 +39,15 @@ public class Requerimento {
 
     private LocalDateTime data = LocalDateTime.now();
 
+    @NotEmpty
     private String senha;
 
-    @NotEmpty
-    private String status = "Pendente";
+    private String status = "PENDENTE";
 
     @ManyToOne
     private Funcionario funcionario;
 
     @OneToOne(mappedBy = "requerimento")
     private OrdemDeServico ordemDeServico;
-
 
 }

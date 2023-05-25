@@ -3,6 +3,7 @@ package com.ServicePro.ServicePro.controllers;
 import com.ServicePro.ServicePro.models.*;
 import com.ServicePro.ServicePro.repository.*;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -55,7 +56,7 @@ public class ReqProjetorController {
             return "redirect:/cadastrarReqProj";
 
         }if(projetorRepository.findByCpf(req.getCpf()) !=null){
-            if(req.getStatus() == "Pendente")
+            if(req.getStatus() == "PENDENTE")
                 attributes.addFlashAttribute("mensagem", "Já Existe um requerimento pendente associado a esse cpf !");
             return "redirect:/cadastrarReqProj";
 
@@ -79,19 +80,16 @@ public class ReqProjetorController {
         return "redirect:/cadastrarReqProj";
     }
 
-    /*
-
-    @GetMapping("/requerimentosFinalizados")
+    @GetMapping("/requerimentosProjFinalizados")
     public ModelAndView listaDeFinalizados() {
-        ModelAndView mv = new ModelAndView("template/vaga/lista-req-finalizado");
+        ModelAndView mv = new ModelAndView("template/projetor/lista-req-projetor-finalizado");
 
-        Iterable<Requerimento> requerimento = vr.findByStatusFinalizado();
+        Iterable<RequerimentoProjetor> requerimento = projetorRepository.findByStatusFinalizado();
 
         mv.addObject("req", requerimento);
         return mv;
     }
 
-     */
     @GetMapping("/requerimentosProj")
     public ModelAndView lista() {
         ModelAndView mv = new ModelAndView("template/projetor/lista-projetor");
@@ -138,25 +136,17 @@ public class ReqProjetorController {
 
             return "redirect:/editar-requerimentoProj/" + codigo;
         }
-        if(requerimento.getStatus().equals("Finalizado")){
+        if(requerimento.getStatus().equals("FINALIZADO")){
             attributes.addFlashAttribute("mensagem", "O requerimento já foi finalizado");
             return "redirect:/requerimentosProj/" + codigo;
         }
         projetorRepository.save(requerimento);
+
         attributes.addFlashAttribute("mensagem", "Requerimento alterado com sucesso!");
-        return "redirect:/requerimentosProj/" + codigo;
+
+        return "redirect:/requerimentoProj/" + codigo;
     }
 
-    /*
-        @GetMapping("/TelaBaixaReq/{codigo}")
-        public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
-
-            Requerimento requerimento = vr.findByCodigo(codigo);
-            ModelAndView mv = new ModelAndView("template/vaga/TelaBaixaReq");
-            mv.addObject("requerimento", requerimento);
-            return mv;
-        }
-    */
     @GetMapping("/TelaBaixaReqProj/{codigo}")
     public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
@@ -172,39 +162,28 @@ public class ReqProjetorController {
 
 
 
-
-    @PostMapping("/TelaBaixaProjetor/{codigo}")
-    public String baixaRequerimento(@PathVariable("codigo") long codigo, @RequestParam("nome") String nome,
-                                    @Valid @ModelAttribute("requerimentoProjetor") RequerimentoProjetor requerimento, BindingResult result,
+    @PostMapping("/TelaBaixaReqProj/{codigo}")
+    public String baixaRequerimento(@PathVariable("codigo") long codigo, @RequestParam("matri") String matricula,
+                                    @Valid @ModelAttribute("requerimento") RequerimentoProjetor requerimento, @NotNull BindingResult result,
                                     RedirectAttributes attributes) {
-
-        if (requerimento.getStatus().equals("Finalizado")) {
-            attributes.addFlashAttribute("mensagem", "O requerimento já foi finalizado");
-            return "redirect:/requerimentosProj";
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("mensagem", "Verifique os campos...");
+            return "redirect:/TelaBaixaReqProj/" + codigo;
         }
+        Funcionario aux = func.findByMatricula(matricula);
 
-
-        if(func.findByNome(nome)==null){
-            attributes.addFlashAttribute("mensagem", "Esse funcionário não existe!");
-            return "redirect:/TelaBaixaProjetor/" + codigo ;
+        if (!aux.getTipo().equals("LOGISTICA")) {
+            attributes.addFlashAttribute("mensagem", "Você não é um funcionário da Logistica!");
+            return "redirect:/TelaBaixaReqProj/" + codigo;
         }
-
-        Funcionario aux = func.findByNome(nome);
-
-        if(aux.getTipo() !="logistica"){
-            attributes.addFlashAttribute("mensagem", "Você não é um funcionario da coinfo!");
-            return "redirect:/TelaBaixaProjetor/" + codigo ;
-        }
-
 
         projetorRepository.save(requerimento);
         LocalDateTime data = LocalDateTime.now();
-        OrdemDeServicoProjetor ordemDeServico = new OrdemDeServicoProjetor(data, aux, requerimento);
-        OS.save(ordemDeServico);
+        OrdemDeServicoProjetor ordemDeServicoProjetor = new OrdemDeServicoProjetor(data, aux,requerimento);
+        OS.save(ordemDeServicoProjetor);
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
-        return "redirect:/requerimentoProj/" + codigo;
+        return "redirect:/requerimentosProj/" + codigo;
     }
-
 
 }

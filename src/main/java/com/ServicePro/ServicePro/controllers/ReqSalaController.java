@@ -6,6 +6,7 @@ import com.ServicePro.ServicePro.repository.OrdemDeServicoRepository;
 import com.ServicePro.ServicePro.repository.OrdemDeServicoSalaRepository;
 import com.ServicePro.ServicePro.repository.RequerimentoSalaRepository;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -81,17 +82,16 @@ public class ReqSalaController {
         return "redirect:/cadastrarReqSala";
     }
 
-/*
-    @GetMapping("/requerimentosFinalizados")
+
+    @GetMapping("/requerimentosSALAFinalizados")
     public ModelAndView listaDeFinalizados() {
-        ModelAndView mv = new ModelAndView("template/vaga/lista-req-finalizado");
+        ModelAndView mv = new ModelAndView("template/Sala/lista-req-sala-finalizado");
 
-        Iterable<Requerimento> requerimento = vr.findByStatusFinalizado();
+        Iterable<RequerimentoSala> requerimento = salaRepository.findByStatusFinalizado();
 
-        mv.addObject("req", requerimento);
+        mv.addObject("requerimentos", requerimento);
         return mv;
     }
-    */
 
     @GetMapping("/requerimentosSALA")
     public ModelAndView lista() {
@@ -136,7 +136,7 @@ public class ReqSalaController {
             }
             return "redirect:/editar-requerimentoSALA/" + codigo;
         }
-        if(requerimento.getStatus().equals("finalizado")){
+        if(requerimento.getStatus().equals("FINALIZADO")){
             attributes.addFlashAttribute("mensagem", "O requerimento já foi finalizado");
             return "redirect:/requerimentosSALA/" + codigo;
         }
@@ -164,43 +164,37 @@ public class ReqSalaController {
 
         RequerimentoSala requerimento = salaRepository.findByCodigo(codigo);
         mv.addObject("requerimento", requerimento);
+
         return mv;
     }
 
 
 
-
     @PostMapping("/TelaBaixaReqSala/{codigo}")
-    public String baixaRequerimento(@PathVariable("codigo") long codigo, @RequestParam("nome") String nome,
-                                    @Valid @ModelAttribute("requerimento") RequerimentoSala requerimentoSala, BindingResult result,
+    public String baixaRequerimento(@PathVariable("codigo") long codigo, @RequestParam("matri") String matricula,
+                                    @Valid @ModelAttribute("requerimento") RequerimentoSala requerimento, @NotNull BindingResult result,
                                     RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            List<ObjectError> errors = result.getAllErrors();
+            for (ObjectError error : errors) {
+                attributes.addFlashAttribute("mensagem",
+                        "Erro no campo " + ((FieldError) error).getField() + ": " + error.getDefaultMessage());
+            }
+        }
+        Funcionario aux = func.findByMatricula(matricula);
 
-        if (requerimentoSala.getStatus().equals("FINALIZADO")) {
-            attributes.addFlashAttribute("mensagem", "O requerimento já foi finalizado");
-            return "redirect:/requerimentosSALA" ;
+        if (!aux.getTipo().equals("LOGISTICA")) {
+            attributes.addFlashAttribute("mensagem", "Você não é um funcionário da Logistica!");
+            return "redirect:/TelaBaixaReqSala/" + codigo;
         }
 
-
-        if(func.findByNome(nome)==null){
-            attributes.addFlashAttribute("mensagem", "Esse funcionário não existe!");
-            return "redirect:/TelaBaixaReqSala/" + codigo ;
-        }
-
-        Funcionario aux = func.findByNome(nome);
-
-        if(!aux.getTipo().equals("logistica")){
-            attributes.addFlashAttribute("mensagem", "Você não é um funcionario da logistica!");
-            return "redirect:/TelaBaixaReqSala/" + codigo ;
-        }
-
-
-        salaRepository.save(requerimentoSala);
+        salaRepository.save(requerimento);
         LocalDateTime data = LocalDateTime.now();
-        OrdemDeServicoSala ordemDeServico = new OrdemDeServicoSala(data, aux,requerimentoSala);
-        OS.save(ordemDeServico);
+        OrdemDeServicoSala ordemDeServicoSala = new OrdemDeServicoSala(data, aux,requerimento);
+        OS.save(ordemDeServicoSala);
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
-        return "redirect:/requerimentosSALA/" + codigo;
+        return "redirect:/requerimentoSALA/" + codigo;
     }
 
 

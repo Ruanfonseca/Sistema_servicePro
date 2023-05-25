@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor Aluno
+participant "Sistema" as Sistema
+
+== Cadastrar Requerimento do tipo (WIFI) ==
+
+Aluno -> Sistema: Solicitar acesso WIFI
+Sistema -> Sistema: Autenticar aluno
+Sistema -> Aluno: Exibir formulário
+Aluno -> Sistema: Preencher formulário e enviar
+Sistema -> Sistema: Validar dados
+Sistema -> Sistema: Salvar requerimento
+Sistema --> Aluno: Exibir mensagem de retorno
+
+== Submeter requerimento ==
+
+Aluno -> Sistema: Submeter formulário
+Sistema -> Sistema: Receber dados do formulário
+Sistema -> Sistema: Persistir requerimento
+
+== Persistir Requerimento ==
+
+Sistema -> Sistema: Receber requerimento após validação
+Sistema -> Sistema: Salvar no banco de dados
+
+==Verificar status do Requerimento (Wifi) ==
+Aluno -> Sistema: Digitar CPF e fazer busca
+activate Sistema
+
+Sistema -> Sistema: Verificar se CPF é válido
+alt CPF válido
+    Sistema -> Sistema: Buscar requerimentos associados ao CPF
+    Sistema -> Aluno: Exibir resultados dos requerimentos
+else CPF inválido
+    Sistema -> Aluno: Exibir mensagem de CPF inválido
+end
+
+deactivate Sistema
+
+== Retornar Requerimento ==
+actor Sistema
+
+autonumber
+
+Sistema -> Sistema: Pesquisar requerimento no banco usando CPF
+activate Sistema
+
+alt Requerimento encontrado
+    Sistema -> Sistema: Retornar requerimento
+    Sistema --> Sistema: Exibir requerimento encontrado
+else Requerimento não encontrado
+    Sistema --> Sistema: Retornar vazio
+    Sistema --> Sistema: Exibir requerimento não encontrado
+end
+
+deactivate Sistema
+
+
+
+
+
+@enduml

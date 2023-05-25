@@ -1,0 +1,468 @@
+@startuml
+class Auxiliar {
+  - id: long
+  - cpf: String
+  - nome: String
+  - datanascimento: String
+  - funcionario: Funcionario
+
+  + Auxiliar()
+  + Auxiliar(id: long, cpf: String, nome: String, datanascimento: String, funcionario: Funcionario)
+  + getId(): long
+  + setId(id: long): void
+  + getCpf(): String
+  + setCpf(cpf: String): void
+  + getNome(): String
+  + setNome(nome: String): void
+  + getDatanascimento(): String
+  + setDatanascimento(datanascimento: String): void
+  + getFuncionario(): Funcionario
+  + setFuncionario(funcionario: Funcionario): void
+}
+
+class Funcionario {
+  - id: long
+  - tipo: String
+  - nome: String
+  - cpf: String
+  - data: String
+  - email: String
+  - auxiliares: List<Auxiliar>
+
+  + Funcionario()
+  + Funcionario(id: long, tipo: String, nome: String, cpf: String, data: String, email: String, auxiliares: List<Auxiliar>)
+  + getId(): long
+  + setId(id: long): void
+  + getTipo(): String
+  + setTipo(tipo: String): void
+  + getNome(): String
+  + setNome(nome: String): void
+  + getCpf(): String
+  + setCpf(cpf: String): void
+  + getData(): String
+  + setData(data: String): void
+  + getEmail(): String
+  + setEmail(email: String): void
+  + getAuxiliares(): List<Auxiliar>
+  + setAuxiliares(auxiliares: List<Auxiliar>): void
+}
+
+class OrdemDeServico {
+  - id: long
+  - diaFechamento: LocalDateTime
+  - funcionario: Funcionario
+  - requerimento: Requerimento
+
+  + OrdemDeServico()
+  + OrdemDeServico(id: long, diaFechamento: LocalDateTime, funcionario: Funcionario, requerimento: Requerimento)
+  + getId(): long
+  + setId(id: long): void
+  + getDiaFechamento(): LocalDateTime
+  + setDiaFechamento(diaFechamento: LocalDateTime): void
+  + getFuncionario(): Funcionario
+  + setFuncionario(funcionario: Funcionario): void
+  + getRequerimento(): Requerimento
+  + setRequerimento(requerimento: Requerimento): void
+}
+
+class Requerimento {
+  - codigo: Long
+  - titulo: String
+  - descricao: String
+  - cpf: String
+  - matricula: String
+  - nomeRequerente: String
+  - email: String
+  - mensagemRetorno: String
+  - data: LocalDateTime
+  - senha: String
+  - status: String
+  - funcionario: Funcionario
+  - ordemDeServico: OrdemDeServico
+
+  + Requerimento()
+  + getCodigo(): Long
+  + setCodigo(codigo: Long): void
+  + getTitulo(): String
+  + setTitulo(titulo: String): void
+  + getDescricao(): String
+  + setDescricao(descricao: String): void
+  + getCpf(): String
+  + setCpf(cpf: String): void
+  + getMatricula(): String
+  + setMatricula(matricula: String): void
+  + getNomeRequerente(): String
+  + setNomeRequerente(nomeRequerente: String): void
+  + getEmail(): String
+  + setEmail(email: String): void
+  + getMensagemRetorno(): String
+  + setMensagemRetorno(mensagemRetorno: String): void
+  + getData(): LocalDateTime
+  + setData(data: LocalDateTime): void
+  + getSenha(): String
+  + setSenha(senha: String): void
+  + getStatus(): String
+  + setStatus(status: String): void
+  + getFuncionario(): Funcionario
+  + setFuncionario(funcionario: Funcionario): void
+  + getOrdemDeServico(): OrdemDeServico
+  + setOrdemDeServico(ordemDeServico: OrdemDeServico): void
+}
+
+class OrdemDeServicoProjetor {
+  - id: long
+  - diaFechamento: LocalDateTime
+  - funcionario: Funcionario
+  - requerimentoProjetor: RequerimentoProjetor
+
+  + OrdemDeServicoProjetor()
+  + OrdemDeServicoProjetor(id: long, diaFechamento: LocalDateTime, funcionario: Funcionario, requerimentoProjetor: RequerimentoProjetor)
+  + getId(): long
+  + setId(id: long): void
+  + getDiaFechamento(): LocalDateTime
+  + setDiaFechamento(diaFechamento: LocalDateTime): void
+  + getFuncionario(): Funcionario
+  + setFuncionario(funcionario: Funcionario): void
+  + getRequerimentoProjetor(): RequerimentoProjetor
+  + setRequerimentoProjetor(requerimentoProjetor: RequerimentoProjetor): void
+}
+
+class RequerimentoSala {
+  - numeroSala: String
+  - dataDeUso: String
+  - horaInicial: String
+  - horaFinal: String
+  - codigo: Long
+  - titulo: String
+  - descricao: String
+  - cpf: String
+  - matricula: String
+  - nomeRequerente: String
+  - email: String
+  - mensagemRetorno: String
+  - data: LocalDateTime
+  - status: String
+  - funcionario: Funcionario
+  - ordemDeServico: OrdemDeServico
+
+  + RequerimentoSala()
+  + getNumeroSala(): String
+  + setNumeroSala(numeroSala: String): void
+  + getDataDeUso(): String
+  + setDataDeUso(dataDeUso: String): void
+  + getHoraInicial(): String
+  + setHoraInicial(horaInicial: String): void
+  + getHoraFinal(): String
+  + setHoraFinal(horaFinal: String): void
+  + getCodigo(): Long
+  + setCodigo(codigo: Long): void
+  + getTitulo(): String
+  + setTitulo(titulo: String): void
+  + getDescricao(): String
+  + setDescricao(descricao: String): void
+  + getCpf(): String
+  + setCpf(cpf: String): void
+  + getMatricula(): String
+  + setMatricula(matricula: String): void
+  + getNomeRequerente(): String
+  + setNomeRequerente(nomeRequerente: String): void
+  + getEmail(): String
+  + setEmail(email: String): void
+  + getMensagemRetorno(): String
+  + setMensagemRetorno(mensagemRetorno: String): void
+  + getData(): LocalDateTime
+  + setData(data: LocalDateTime): void
+  + getStatus(): String
+  + setStatus(status: String): void
+  + getFuncionario(): Funcionario
+  + setFuncionario(funcionario: Funcionario): void
+  + getOrdemDeServico(): OrdemDeServico
+  + setOrdemDeServico(ordemDeServico: OrdemDeServico): void
+}
+
+class RequerimentoProjetor {
+  - codigo: Long
+  - dataDeUso: String
+  - horaInicial: String
+  - horaFinal: String
+  - titulo: String
+  - descricao: String
+  - cpf: String
+  - matricula: String
+  - nomeRequerente: String
+  - email: String
+  - mensagemRetorno: String
+  - data: LocalDateTime
+  - status: String
+  - funcionario: Funcionario
+  - ordemDeServico: OrdemDeServico
+
+  + RequerimentoProjetor()
+  + getCodigo(): Long
+  + setCodigo(codigo: Long): void
+  + getDataDeUso(): String
+  + setDataDeUso(dataDeUso: String): void
+  + getHoraInicial(): String
+  + setHoraInicial(horaInicial: String): void
+  + getHoraFinal(): String
+  + setHoraFinal(horaFinal: String): void
+  + getTitulo(): String
+  + setTitulo(titulo: String): void
+  + getDescricao(): String
+  + setDescricao(descricao: String): void
+  + getCpf(): String
+  + setCpf(cpf: String): void
+  + getMatricula(): String
+  + setMatricula(matricula: String): void
+  + getNomeRequerente(): String
+  + setNomeRequerente(nomeRequerente: String): void
+  + getEmail(): String
+  + setEmail(email: String): void
+  + getMensagemRetorno(): String
+  + setMensagemRetorno(mensagemRetorno: String): void
+  + getData(): LocalDateTime
+  + setData(data: LocalDateTime): void
+  + getStatus(): String
+  + setStatus(status: String): void
+  + getFuncionario(): Funcionario
+  + setFuncionario(funcionario: Funcionario): void
+  + getOrdemDeServico(): OrdemDeServico
+  + setOrdemDeServico(ordemDeServico: OrdemDeServico): void
+}
+class FuncionarioRepository {
+    + findAll(): Iterable<Funcionario>
+    + findById(id: long): Funcionario
+    + save(funcionario: Funcionario): Funcionario
+    + delete(funcionario: Funcionario): void
+}
+   class ReqProjetorController {
+        - func: FuncionarioRepository
+        - OS: OrdemDeServicoProjetorRepository
+        - projetorRepository: RequerimentoProjetorRepository
+
+        + form(): ModelAndView
+        + cadastrarReq(req: RequerimentoProjetor, result: BindingResult, attributes: RedirectAttributes): String
+        + lista(): ModelAndView
+        + detalhesReq(codigo: long): ModelAndView
+        + deletarReq(codigo: long): String
+        + editarRequerimento(codigo: long): ModelAndView
+        + updateReq(codigo: long, requerimento: RequerimentoProjetor, result: BindingResult, attributes: RedirectAttributes): String
+        + baixaRequerimento(codigo: long): ModelAndView
+        + baixaRequerimento(codigo: long, nome: String, requerimento: RequerimentoProjetor, result: BindingResult, attributes: RedirectAttributes): String
+    }
+class ReqSalaController {
+  - func: FuncionarioRepository
+  - OS: OrdemDeServicoSalaRepository
+  - salaRepository: RequerimentoSalaRepository
+  + form(): ModelAndView
+  + cadastrarReqSala(req: RequerimentoSala, result: BindingResult, attributes: RedirectAttributes): String
+  + lista(): ModelAndView
+  + detalhesSALA(codigo: long): ModelAndView
+  + deletarReq(codigo: long): String
+  + editarRequerimento(codigo: long): ModelAndView
+  + updateReq(codigo: long, requerimento: RequerimentoSala, result: BindingResult, attributes: RedirectAttributes): String
+  + baixaRequerimento(codigo: long): ModelAndView
+  + baixaRequerimento(codigo: long, nome: String, requerimento: RequerimentoSala, result: BindingResult, attributes: RedirectAttributes): String
+}
+
+class FuncionarioRepository {
+    + findAllsetor(setor: String): Iterable<Funcionario>
+    + findByCpf(cpf: String): Funcionario
+    + findByNome(nome: String): Funcionario
+}
+
+class OrdemDeServicoProjetorRepository {
+    + save(ordemDeServico: OrdemDeServicoProjetor): OrdemDeServicoProjetor
+}
+
+class RequerimentoProjetorRepository {
+    + findByCpf(cpf: String): RequerimentoProjetor
+    + findByStatusPendente(): Iterable<RequerimentoProjetor>
+    + findByCodigo(codigo: long): RequerimentoProjetor
+
+
+
+
+
+
+
+ class BuscaController {
+        - fr: FuncionarioRepository
+        - Rr: RequerimentoWIfiRepository
+        - dr: AuxiliarRepository
+
+        + abrirIndex(): ModelAndView
+        + buscarIndex(buscar: String, nome: String): ModelAndView
+    }
+
+class AuxiliarRepository {
+    + findByFuncionario(funcionario: Funcionario): Iterable<Auxiliar>
+    + findByCpf(cpf: String): Auxiliar
+    + save(auxiliar: Auxiliar): Auxiliar
+    + delete(auxiliar: Auxiliar): void
+}
+class FuncionarioController {
+        - fr: FuncionarioRepository
+        - dr: AuxiliarRepository
+
+        + form(): String
+        + form(funcionario: Funcionario, result: BindingResult, attributes: RedirectAttributes): String
+        + listaFuncionarios(): ModelAndView
+        + detalhesFuncionario(id: long): ModelAndView
+        + detalhesFuncionarioPost(id: long, auxiliares: Auxiliar, result: BindingResult, attributes: RedirectAttributes): String
+        + deletarFuncionario(id: long): String
+        + editarFuncionario(id: long): ModelAndView
+        + updateFuncionario(funcionario: Funcionario, result: BindingResult, attributes: RedirectAttributes): String
+        + deletarAuxiliar(cpf: String): String
+    }
+
+class ValidacaoUtil {
+  + validarCPF(cpf: String): boolean
+}
+
+class OrdemDeServicoSala {
+  - id: long
+  - diaFechamento: LocalDateTime
+  - funcionario: Funcionario
+  - requerimento: RequerimentoSala
+
+  + OrdemDeServicoSala()
+  + OrdemDeServicoSala(id: long, diaFechamento: LocalDateTime, funcionario: Funcionario, requerimento: RequerimentoSala)
+  + getId(): long
+  + setId(id: long): void
+  + getDiaFechamento(): LocalDateTime
+  + setDiaFechamento(diaFechamento: LocalDateTime): void
+  + getFuncionario(): Funcionario
+  + setFuncionario(funcionario: Funcionario): void
+  + getRequerimento(): RequerimentoSala
+  + setRequerimento(requerimento: RequerimentoSala): void
+}
+
+class DriverManagerDataSource {
+  + setDriverClassName(driverClassName: String)
+  + setUrl(url: String)
+  + setUsername(username: String)
+  + setPassword(password: String)
+}
+
+class DataSource {
+}
+
+class HibernateJpaVendorAdapter {
+  + setDatabase(database: Database)
+  + setShowSql(showSql: boolean)
+  + setGenerateDdl(generateDdl: boolean)
+  + setDatabasePlatform(databasePlatform: String)
+  + setPrepareConnection(prepareConnection: boolean)
+}
+class ReqWifiController {
+  - vr: RequerimentoWIfiRepository
+  - func: FuncionarioRepository
+  - OS: OrdemDeServicoRepository
+
+  + form(): ModelAndView
+  + cadastrarReq(req: Requerimento, result: BindingResult, attributes: RedirectAttributes): String
+  + listaDeFinalizados(): ModelAndView
+  + lista(): ModelAndView
+  + detalhesReq(codigo: long): ModelAndView
+  + deletarReq(codigo: long): String
+  + editarRequerimento(codigo: long): ModelAndView
+  + updateReq(codigo: long, requerimento: Requerimento, result: BindingResult, attributes: RedirectAttributes): String
+  + baixaRequerimento(codigo: long): ModelAndView
+  + baixaRequerimento(codigo: long, nome: String, requerimento: Requerimento, result: BindingResult, attributes: RedirectAttributes): String
+}
+class SuporteController {
+  + abrirIndex(): ModelAndView
+}
+
+interface AuxiliarRepository <<CrudRepository>> {
+  + findByFuncionario(funcionario: Funcionario): Iterable<Auxiliar>
+  + findByCpf(cpf: String): Auxiliar
+  + findById(id: long): Auxiliar
+  + findByNome(nome: String): List<Auxiliar>
+  + findByNomesAuxiliares(nome: String): List<Auxiliar>
+}
+
+interface FuncionarioRepository <<CrudRepository>> {
+  + findById(id: long): Funcionario
+  + findByNome(nome: String): Funcionario
+  + findByCpf(cpf: String): Funcionario
+  + findByNomes(nome: String): List<Funcionario>
+  + findAllsetor(setor: String): Iterable<Funcionario>
+}
+interface OrdemDeServicoProjetorRepository <<CrudRepository>> {
+  + findById(id: long): OrdemDeServicoProjetor
+}
+interface OrdemDeServicoRepository <<CrudRepository>> {
+  + findById(id: long): OrdemDeServico
+
+}
+interface OrdemDeServicoSalaRepository <<CrudRepository>> {
+  + findById(id: long): OrdemDeServicoSala
+}
+interface RequerimentoProjetorRepository <<CrudRepository>> {
+  + findByCodigo(codigo: long): RequerimentoProjetor
+  + findByFuncionario(funcionario: Funcionario): Iterable<RequerimentoProjetor>
+  + findByCpf(cpf: String): RequerimentoProjetor
+  + findByStatusPendente(): Iterable<RequerimentoProjetor>
+  + findByStatusFinalizado(): Iterable<Requerimento>
+  + findBycpf(cpf: String): List<Requerimento>
+}
+
+interface RequerimentoSalaRepository <<CrudRepository>> {
+  + findByCodigo(codigo: long): RequerimentoSala
+  + findByFuncionario(funcionario: Funcionario): Iterable<RequerimentoSala>
+  + findByCpf(cpf: String): RequerimentoSala
+  + findByStatusPendente(): Iterable<RequerimentoSala>
+  + findByStatusFinalizado(): Iterable<RequerimentoSala>
+  + findBycpf(cpf: String): List<RequerimentoSala>
+}
+
+interface RequerimentoWIfiRepository <<CrudRepository>> {
+  + findByCodigo(codigo: long): Requerimento
+  + findByFuncionario(funcionario: Funcionario): Iterable<Requerimento>
+  + findByCpf(cpf: String): Requerimento
+  + findByStatusPendente(): Iterable<Requerimento>
+  + findByStatusFinalizado(): Iterable<Requerimento>
+  + findBycpf(cpf: String): List<Requerimento>
+}
+DataConfiguration --> DriverManagerDataSource
+DataConfiguration --> JpaVendorAdapter
+DataConfiguration --> DataSource
+RequerimentoWIfiRepository --> Funcionario
+RequerimentoWIfiRepository --> Requerimento
+RequerimentoSalaRepository --> Funcionario
+RequerimentoSalaRepository --> RequerimentoSala
+RequerimentoProjetorRepository --> RequerimentoProjetor
+OrdemDeServicoRepository --> OrdemDeServico
+OrdemDeSalaRepository --> OrdemDeServicoSala
+OrdemDeServicoProjetorRepository --> OrdemDeServicoProjetor
+FuncionarioRepository --> Funcionario
+SuporteController --> ModelAndView
+ReqWifiController --> RequerimentoWIfiRepository
+ReqWifiController --> FuncionarioRepository
+ReqWifiController --> OrdemDeServicoRepository
+ReqSalaController --> FuncionarioRepository
+ReqSalaController --> OrdemDeServicoSalaRepository
+ReqSalaController --> RequerimentoSalaRepository
+OrdemDeServico "1" --> "1" Funcionario
+OrdemDeServico "1" --> "1" Requerimento
+Requerimento "0..1" --> "1" OrdemDeServico
+OrdemDeServicoProjetor "1" --> "1" Funcionario
+OrdemDeServicoProjetor "1" --> "1" RequerimentoProjetor
+RequerimentoProjetor "0..1" --> "1" OrdemDeServicoProjetor
+OrdemDeServicoSala "1" --> "1" Funcionario
+OrdemDeServicoSala "1" --> "1" RequerimentoSala
+RequerimentoSala "0..1" --> "1" OrdemDeServicoSala
+Funcionario "1" --> "*" Auxiliar
+Funcionario "*" --> "*" OrdemDeServico
+Funcionario "*" --> "*" OrdemDeServicoProjetor
+Funcionario "*" --> "*" OrdemDeServicoSala
+@enduml
+
+
+
+
+
+
+

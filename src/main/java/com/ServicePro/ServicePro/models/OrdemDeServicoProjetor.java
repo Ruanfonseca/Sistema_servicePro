@@ -28,11 +28,9 @@ public class OrdemDeServicoProjetor {
     @JoinColumn(name = "requerimento_id",referencedColumnName = "codigo")
     private RequerimentoProjetor requerimentoProjetor;
 
-    public OrdemDeServicoProjetor(LocalDateTime diaFechamento, Funcionario funcionario,
-                                  RequerimentoProjetor requerimentoProjetor) {
-        this.diaFechamento = diaFechamento;
-        this.funcionario = funcionario;
-        this.requerimentoProjetor = requerimentoProjetor;
+    public OrdemDeServicoProjetor(LocalDateTime data, Funcionario aux, RequerimentoProjetor requerimento) {
+    this.diaFechamento = data;
+    this.funcionario = aux;
+    this.requerimentoProjetor = requerimento;
     }
-
 }

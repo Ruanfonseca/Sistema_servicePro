@@ -18,12 +18,15 @@ public interface RequerimentoWIfiRepository extends CrudRepository<Requerimento,
 	//Iterable<Requerimento> findByRequerimento(Requerimento requerimento);
 
 	Requerimento findByCpf(String cpf);
-	@Query("SELECT r FROM Requerimento r WHERE r.status = 'PENDENTE'")
-	Iterable<Requerimento> findByStatusPendente();
 
 
 	@Query("SELECT r FROM Requerimento r WHERE r.status = 'FINALIZADO'")
 	Iterable<Requerimento> findByStatusFinalizado();
+
+	@Query("SELECT r FROM Requerimento r WHERE r.status = 'PENDENTE'")
+	Iterable<Requerimento> findByStatusPendente();
+
+
 
 	//Requerimento findById(long id);
 

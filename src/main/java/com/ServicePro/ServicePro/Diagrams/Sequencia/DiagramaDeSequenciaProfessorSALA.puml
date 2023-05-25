@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor "Professor" as Professor
+
+==Cadastrar um Requerimento do tipo (SALA)==
+
+Professor -> Sistema: Autenticação do professor
+Sistema -> Sistema: Buscar informações do professor no banco de dados
+Professor -> Sistema: Selecionar opção de solicitar sala de aula
+Sistema -> Sistema: Exibir formulário correspondente
+Professor -> Sistema: Preencher dados do formulário
+Professor -> Sistema: Escolher opção "Enviar"
+Sistema -> Sistema: Realizar validações
+Sistema -> BancoDados: Salvar requerimento no banco de dados
+BancoDados -> Sistema: Confirmação de salvamento
+Sistema -> Professor: Exibir mensagem de retorno
+== ==
+==Submeter requerimento==
+
+Sistema -> Sistema: Receber requisição de persistência do formulário
+Sistema -> Sistema: Exibir formulário para o professor preencher
+Sistema -> Sistema: Aguardar envio do requerimento pelo professor
+Sistema -> BancoDados: Persistir os dados do requerimento
+BancoDados -> Sistema: Confirmação de persistência
+== ==
+
+
+==Persistir Requerimento==
+Sistema -> Sistema: Receber requerimento após validações
+Sistema -> BancoDados: Gravar requerimento no banco de dados
+BancoDados -> Sistema: Confirmação de gravação
+== ==
+
+==Verificar status do Requerimento (SALA) ==
+Professor -> Sistema: Digitar CPF e fazer busca
+Sistema -> BancoDados: Consultar requerimentos associados ao CPF
+BancoDados -> Sistema: Retornar resultados dos requerimentos
+Sistema -> Professor: Exibir resultados dos requerimentos
+== ==
+
+== Retorno de requerimento==
+
+Sistema -> BancoDados: Consultar requerimento utilizando o CPF
+BancoDados -> Sistema: Retornar requerimento encontrado ou vazio
+== ==
+
+@enduml

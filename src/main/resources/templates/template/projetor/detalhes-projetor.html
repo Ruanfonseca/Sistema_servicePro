@@ -31,15 +31,22 @@
 			<p>
 				<b>Descrição:</b> <span th:text="${requerimento.descricao}"></span>
 			</p>
+
 			<p>
-				<b>Data:</b> <span th:text="${requerimento.data}"></span>
+				<b>Data de Uso:</b> <span th:text="${requerimento.dataDeUso}"></span>
+			</p>
+			<p>
+				<b>Hora Inicial:</b> <span th:text="${requerimento.horaInicial}"></span>
+			</p>
+			<p>
+				<b>Hora final:</b> <span th:text="${requerimento.horaFinal}"></span>
 			</p>
 
             <p>
 				<b>Status:</b> <span th:text="${requerimento.status}"></span>
 			</p>
 
-			<br> <a class="btn btn-danger" href="/requerimentosSALA">
+			<br> <a class="btn btn-danger" href="/requerimentosProj">
 				Voltar </a>
 		</div>
 		<br> <br>

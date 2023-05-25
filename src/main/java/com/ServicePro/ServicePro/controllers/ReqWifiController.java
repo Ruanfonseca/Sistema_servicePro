@@ -7,10 +7,12 @@ import javax.validation.Valid;
 
 import com.ServicePro.ServicePro.models.Funcionario;
 import com.ServicePro.ServicePro.models.OrdemDeServico;
+import com.ServicePro.ServicePro.models.OrdemDeServicoSala;
 import com.ServicePro.ServicePro.models.Requerimento;
 import com.ServicePro.ServicePro.repository.OrdemDeServicoRepository;
 import com.ServicePro.ServicePro.repository.RequerimentoWIfiRepository;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ServicePro.ServicePro.repository.FuncionarioRepository;
+
 
 @Controller
 public class ReqWifiController {
@@ -46,8 +49,6 @@ public class ReqWifiController {
 	@PostMapping("/cadastrarReq")
 	public String cadastrarReq(@Valid @ModelAttribute("requerimento") Requerimento req, BindingResult result,
 							   RedirectAttributes attributes) {
-
-
 
 		if (result.hasErrors()) {
 			List<ObjectError> errors = result.getAllErrors();
@@ -94,7 +95,7 @@ public class ReqWifiController {
 
 		Iterable<Requerimento> requerimento = vr.findByStatusFinalizado();
 
-		mv.addObject("req", requerimento);
+		mv.addObject("requerimentos", requerimento);
 		return mv;
 	}
 
@@ -104,6 +105,7 @@ public class ReqWifiController {
 		ModelAndView mv = new ModelAndView("template/vaga/lista-vaga");
 
 		Iterable<Requerimento> requerimento = vr.findByStatusPendente();
+
 
 		mv.addObject("requerimentos", requerimento);
 
@@ -141,7 +143,7 @@ public class ReqWifiController {
 			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
 			return "redirect:/editar-requerimento/" + codigo;
 		}
-		if(requerimento.getStatus().equals("Finalizado")){
+		if(requerimento.getStatus().equals("FINALIZADO")){
 			attributes.addFlashAttribute("mensagem", "O requerimento já foi finalizado");
 			return "redirect:/requerimento/" + codigo;
 		}
@@ -163,9 +165,10 @@ public class ReqWifiController {
 @GetMapping("/TelaBaixaReq/{codigo}")
 public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
-	Iterable<Funcionario> funcionarios = func.findAllsetor("Coinfo");
+	//Iterable<Funcionario> funcionarios = func.findAllsetor("Coinfo");
 	ModelAndView mv = new ModelAndView("template/vaga/TelaBaixaReq");
-	mv.addObject("funcionario", funcionarios);
+
+	//mv.addObject("funcionario", funcionarios);
 
 	Requerimento requerimento = vr.findByCodigo(codigo);
 	mv.addObject("requerimento", requerimento);
@@ -175,40 +178,29 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
 
 
-
 	@PostMapping("/TelaBaixaReq/{codigo}")
-	public String baixaRequerimento(@PathVariable("codigo") long codigo, @RequestParam("nome") String nome,
-									@Valid @ModelAttribute("requerimento") Requerimento requerimento, BindingResult result,
+	public String baixaRequerimento(@PathVariable("codigo") long codigo, @RequestParam("matri") String matricula,
+									@Valid @ModelAttribute("requerimento") Requerimento requerimento, @NotNull BindingResult result,
 									RedirectAttributes attributes) {
-
-		if (requerimento.getStatus().equals("FINALIZADO")) {
-			attributes.addFlashAttribute("mensagem", "O requerimento já foi finalizado");
-			return "redirect:/requerimentos" ;
+		if (result.hasErrors()) {
+			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
+			return "redirect:/TelaBaixaReq/" + codigo;
 		}
-
-
-		if(func.findByNome(nome)==null){
-			attributes.addFlashAttribute("mensagem", "Esse funcionário não existe!");
-			return "redirect:/TelaBaixaReq/" + codigo ;
+		Funcionario aux = func.findByMatricula(matricula);
+		if (!aux.getTipo().equals("COINFO")) {
+			attributes.addFlashAttribute("mensagem", "Você não é um funcionário da coinfo!");
+			return "redirect:/TelaBaixaReq/" + codigo;
 		}
-
-		Funcionario aux = func.findByNome(nome);
-
-		if(aux.getTipo() !="Coinfo"){
-			attributes.addFlashAttribute("mensagem", "Você não é um funcionario da coinfo!");
-			return "redirect:/TelaBaixaReq/" + codigo ;
-		}
-
 
 		vr.save(requerimento);
-
 		LocalDateTime data = LocalDateTime.now();
-		OrdemDeServico ordemDeServico = new OrdemDeServico(data, aux, requerimento);
+		OrdemDeServico ordemDeServico = new OrdemDeServico(data, aux,requerimento);
 		OS.save(ordemDeServico);
 
 		attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
 		return "redirect:/requerimento/" + codigo;
 	}
+
 
 
 

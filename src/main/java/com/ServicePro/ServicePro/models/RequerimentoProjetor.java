@@ -10,18 +10,20 @@ import java.time.LocalDateTime;
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RequerimentoProjetor  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
-    @NotEmpty
+
     private String dataDeUso;
 
-    @NotEmpty
+
     private String horaInicial;
 
-    @NotEmpty
+
     private String horaFinal;
 
     @NotEmpty
@@ -46,14 +48,12 @@ public class RequerimentoProjetor  {
 
     private LocalDateTime data = LocalDateTime.now();
 
-
     @NotEmpty
-    private String status = "Pendente";
+    private String status = "PENDENTE";
 
     @ManyToOne
     private Funcionario funcionario;
 
     @OneToOne(mappedBy = "requerimento")
     private OrdemDeServico ordemDeServico;
-
 }

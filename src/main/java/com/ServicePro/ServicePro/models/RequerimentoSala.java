@@ -10,23 +10,23 @@ import java.time.LocalDateTime;
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RequerimentoSala{
-
-    @NotEmpty
-    private String numeroSala;
-
-    @NotEmpty
-    private String dataDeUso;
-
-    @NotEmpty
-    private String horaInicial;
-
-    @NotEmpty
-    private String horaFinal;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
+
+
+    private String numeroSala;
+
+    private String dataDeUso;
+
+    private String horaInicial;
+
+    private String horaFinal;
+
 
 
     @NotEmpty

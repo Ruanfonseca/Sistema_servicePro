@@ -18,11 +18,11 @@ public interface RequerimentoSalaRepository extends CrudRepository<RequerimentoS
 	//Iterable<Requerimento> findByRequerimento(Requerimento requerimento);
 
 	RequerimentoSala findByCpf(String cpf);
-	@Query("SELECT r FROM RequerimentoSala r WHERE r.status = 'pendente'")
+	@Query("SELECT r FROM RequerimentoSala r WHERE r.status = 'PENDENTE'")
 	Iterable<RequerimentoSala> findByStatusPendente();
 
 
-	@Query("SELECT r FROM RequerimentoSala r WHERE r.status = 'finalizado'")
+	@Query("SELECT r FROM RequerimentoSala r WHERE r.status = 'FINALIZADO'")
 	Iterable<RequerimentoSala> findByStatusFinalizado();
 
 	//Requerimento findById(long id);

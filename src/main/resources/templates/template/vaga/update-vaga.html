@@ -54,6 +54,12 @@
 			</div>
 
 			<div class="form-group">
+				<label for=""><b>status</b></label> <input type="text"
+																	   class="form-control" value="" name="status"
+																	   th:value="${requerimento.status}" required />
+			</div>
+
+			<div class="form-group">
 				<label for=""><b>E-mail</b></label> <input type="email"
 					class="form-control" value="" name="email"
 					th:value="${requerimento.email}" required />

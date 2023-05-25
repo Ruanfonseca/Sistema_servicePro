@@ -28,10 +28,9 @@ public class OrdemDeServicoSala {
     @JoinColumn(name = "requerimento_id",referencedColumnName = "codigo")
     private RequerimentoSala requerimento;
 
-    public OrdemDeServicoSala(LocalDateTime diaFechamento, Funcionario funcionario, RequerimentoSala requerimento) {
-        this.diaFechamento = diaFechamento;
-        this.funcionario = funcionario;
-        this.requerimento = requerimento;
+    public OrdemDeServicoSala(LocalDateTime data, Funcionario aux, RequerimentoSala requerimentoSala) {
+        this.diaFechamento = data;
+        this.funcionario = aux;
+        this.requerimento = requerimentoSala;
     }
-
 }

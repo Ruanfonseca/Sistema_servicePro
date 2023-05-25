@@ -12,8 +12,14 @@
 
 <div class="container">
     <h2>Lista de requerimentos finalizados</h2>
-
     <br>
+    <div class="form-check">
+        <a th:href="@{/requerimentos}" class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            Listar requerimentos pendentes
+        </a>
+    </div>
+
 
     <table class="table table-hover table-responsive w-auto table-striped">
         <thead>
@@ -39,13 +45,6 @@
 
             <td><a class="btn btn-danger"
                    th:href="@{/requerimento/{codigo}(codigo=${req.codigo})}">Detalhes</a></td>
-            <td><a class="btn btn-warning"
-                   th:href="@{/TelaBaixaReq/{codigo}(codigo=${req.codigo})}">Dar Baixa</a></td>
-            <td><a class="btn btn-primary"
-                   th:href="@{/deletarReq/{codigo}(codigo=${req.codigo})}">Excluir</a>
-                <a class="btn btn-success"
-                   th:href="@{/editar-requerimento/{codigo}(codigo=${req.codigo})}">Editar</a>
-            </td>
         </tr>
         </tbody>
     </table>

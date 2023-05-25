@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public  class OrdemDeServico {
 
     @Id
@@ -25,10 +26,9 @@ public  class OrdemDeServico {
     @JoinColumn(name = "requerimento_id",referencedColumnName = "codigo")
     private Requerimento requerimento;
 
-    public OrdemDeServico(LocalDateTime diaFechamento, Funcionario funcionario, Requerimento requerimento) {
-        this.diaFechamento = diaFechamento;
-        this.funcionario = funcionario;
+    public OrdemDeServico(LocalDateTime data, Funcionario aux, Requerimento requerimento) {
+        this.diaFechamento = data;
+        this.funcionario = aux;
         this.requerimento = requerimento;
     }
-
 }

@@ -30,6 +30,9 @@ public class Funcionario implements Serializable {
 	private String data;
 	private String email;
 
+	@Column(unique = true)
+	private String matricula;
+
 	@OneToMany(mappedBy = "funcionario", cascade = CascadeType.REMOVE)
 	private List<Auxiliar>auxiliares;
 

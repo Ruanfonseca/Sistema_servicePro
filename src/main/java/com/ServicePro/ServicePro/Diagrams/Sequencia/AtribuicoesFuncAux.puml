@@ -1,0 +1,60 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+==Cadastro de funcionário==
+Funcionario -> Sistema: Preenchimento do formulário
+Sistema -> Sistema: Realizar validações
+Sistema -> BancoDeDados: Salvar funcionário
+BancoDeDados --> Sistema: Confirmação de salvamento
+Sistema -> Funcionario: Exibir mensagem de confirmação
+
+==Cadastro de auxiliar==
+Funcionario -> Sistema: Preenchimento do formulário
+Sistema -> Sistema: Realizar validações
+Sistema -> BancoDeDados: Salvar auxiliar
+BancoDeDados --> Sistema: Confirmação de salvamento
+Sistema -> Funcionario: Exibir mensagem de confirmação
+
+==Listar funcionários==
+Funcionario -> Sistema: Clicar na opção listar funcionários
+Sistema -> BancoDeDados: Solicitar lista de funcionários
+BancoDeDados --> Sistema: Retornar lista de funcionários
+Sistema -> Funcionario: Exibir lista de funcionários
+
+==Editar registro de funcionário==
+Funcionario -> Sistema: Clicar na opção editar
+Sistema -> BancoDeDados: Solicitar dados do registro de funcionário
+BancoDeDados --> Sistema: Retornar dados do registro de funcionário
+Sistema -> Funcionario: Exibir dados do registro de funcionário para edição
+Funcionario -> Sistema: Realizar a edição
+Funcionario -> Sistema: Clicar em salvar
+Sistema -> BancoDeDados: Enviar dados do registro de funcionário editado
+BancoDeDados --> Sistema: Confirmar sucesso da edição
+
+==Excluir registro de funcionário==
+Funcionario -> Sistema: Clicar na opção excluir
+Sistema -> BancoDeDados: Solicitar confirmação para exclusão do registro de funcionário
+BancoDeDados --> Sistema: Retornar confirmação para exclusão
+Sistema -> Funcionario: Exibir confirmação para exclusão
+Funcionario -> Sistema: Confirmar exclusão
+Sistema -> BancoDeDados: Solicitar exclusão do registro de funcionário
+BancoDeDados --> Sistema: Confirmar sucesso da exclusão
+
+==Verificar lista de auxiliares==
+Funcionario -> Sistema: Clicar na opção listar detalhes
+Sistema -> BancoDeDados: Solicitar lista de auxiliares
+BancoDeDados --> Sistema: Retornar lista de auxiliares
+Sistema -> Funcionario: Exibir lista de auxiliares
+
+==Excluir registro de auxiliar==
+Funcionario -> Sistema: Clicar na opção excluir
+Sistema -> BancoDeDados: Solicitar confirmação para exclusão do registro de auxiliar
+BancoDeDados --> Sistema: Retornar confirmação para exclusão
+Sistema -> Funcionario: Exibir confirmação para exclusão
+Funcionario -> Sistema: Confirmar exclusão
+Sistema -> BancoDeDados: Solicitar exclusão do registro de auxiliar
+BancoDeDados --> Sistema: Confirmar sucesso da exclusão
+
+@enduml

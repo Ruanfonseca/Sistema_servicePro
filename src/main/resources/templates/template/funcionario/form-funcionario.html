@@ -5,9 +5,11 @@
 
 <head th:insert="template/fragmentos/cabecalho.html :: head"> </head>
 
+
 <body>
 
 <header th:insert="template/fragmentos/header.html :: header"> </header>
+
 	<div class="container">
 
 		<h1>Cadastro de Funcionário</h1>
@@ -39,10 +41,14 @@
 						name="email" class="form-control" placeholder="email@email.com"
 						required />
 				</div>
+				<div class="col">
+					<label for=""><b>Matricula:</b> </label> <input type="text" value="" name="matricula" class="form-control"
+																	placeholder="Ex.:1923333070" pattern="^\d{10}$" required />
+				</div>
 
 				<div class="col">
 					<label for=""><b>Setor:</b> </label> <input type="text" value=""
-																 name="tipo" class="form-control" placeholder="Ex:Coinfo"
+																 name="tipo" class="form-control" placeholder="Ex:COINFO OU LOGISTICA"
 																 required />
 				</div>
 
@@ -52,6 +58,7 @@
 																name="cpf" class="form-control" placeholder="Ex:17192891740"
 																required />
 				</div>
+
 			</div>
 			<button type="submit" class="btn btn-success">Adicionar
 				Funcionário</button>

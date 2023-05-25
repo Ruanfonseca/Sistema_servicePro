@@ -14,9 +14,7 @@
 		<th:block th:include="mensagem-validacao"></th:block>
 
 
-
-
-		<form method="POST" th:action="@{/TelaBaixaProjetor/{codigo}/(codigo=${codigo})}">
+		<form method="POST">
 
 			<h3>Finalizar requerimento</h3>
 
@@ -59,9 +57,10 @@
 			</div>
 
 			<div class="form-group">
-				<label for=""><b>Nome do Funcionário responsável</b></label> <input type="text"
-														  class="form-control"
-														  value="" name="nome" th:value="nome" required />
+				<label for=""><b>Matrícula do Funcionário responsável</b></label> <input type="text"
+																						 class="form-control"
+																						 value="" name="matri" th:value="matri" pattern="^\d{10}$"
+																						 required />
 
 			</div>
 
@@ -74,11 +73,12 @@
 
 
 			<div class="form-group">
-				<label for=""><b>Status</b></label> <input type="text"
-														  class="form-control"
-														  value="" name="status"
-														   th:value="${requerimento.status}" required />
-
+				<label for=""><b>Status</b></label>
+				<select class="form-control" name="status" th:value="${requerimento.status}" required>
+					<option value="">Selecione uma opção</option>
+					<option value="FINALIZADO">FINALIZADO</option>
+					<option value="PENDENTE">PENDENTE</option>
+				</select>
 			</div>
             </br></br>
 			<button type="submit" class="btn btn-success">Finalizar</button>
