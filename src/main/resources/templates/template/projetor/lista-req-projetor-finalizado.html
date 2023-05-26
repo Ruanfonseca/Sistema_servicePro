@@ -14,10 +14,10 @@
     <h2>Lista de requerimentos finalizados</h2>
     <br>
     <div class="form-check">
-        <a th:href="@{/requerimentosProj}" class="form-check-label">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" th:checked="${controllerMapping == '/requerimentosProj'}" th:onclick="'window.location.href = \'' + @{/requerimentosProj} + '\';'">
             Listar requerimentos pendentes
-        </a>
+        </label>
     </div>
 
 

@@ -11,10 +11,10 @@
 		<h2>Lista de requerimentos do tipo Projetor</h2>
 		<br>
 		<div class="form-check">
-			<a th:href="@{/requerimentosProjFinalizados}" class="form-check-label">
-				<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+			<label class="form-check-label">
+				<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" th:checked="${controllerMapping == '/requerimentosProjFinalizados'}" th:onclick="'window.location.href = \'' + @{/requerimentosProjFinalizados} + '\';'">
 				Listar requerimentos finalizados
-			</a>
+			</label>
 		</div>
 
 
