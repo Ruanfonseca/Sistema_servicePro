@@ -56,6 +56,4 @@ public class RequerimentoSala{
     @ManyToOne
     private Funcionario funcionario;
 
-    @OneToOne(mappedBy = "requerimento")
-    private OrdemDeServico ordemDeServico;
 }

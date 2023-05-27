@@ -1,80 +1,65 @@
 <!DOCTYPE html>
-<html lang=”pt-br” xmlns:th="http://thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="layout">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
 
-<head th:insert="template/fragmentos/cabecalho.html :: head"> </head>
-
+<head th:insert="template/fragmentos/cabecalho.html :: head"></head>
 
 <body>
+<header th:insert="template/fragmentos/header.html :: header"></header>
 
-<header th:insert="template/fragmentos/header.html :: header"> </header>
+<div class="container">
 
-	<div class="container">
+	<th:block th:include="mensagem-validacao"></th:block>
+
+	<form method="post">
 
 		<h1>Cadastro de Funcionário</h1>
 
 		<br>
 
-		<th:block th:include="mensagem-validacao"></th:block>
+		<div class="form-group">
+			<label for=""><b>Nome:</b></label>
+			<input type="text" class="form-control" value="" placeholder="Insira o nome do funcionário" name="nome" required>
+			<small class="form-text text-muted"><i>* Nome completo.</i></small>
+		</div>
 
-		<form method="post">
-
-			<div class="form-group">
-				<label for=""><b>Nome:</b> </label> <input type="text"
-					class="form-control" value=""
-					placeholder="Insira o nome do funcionário" name="nome" required>
-				<small class="form-text text-muted"><i>* Nome completo.</i></small>
+		<div class="row">
+			<div class="col">
+				<div class="form-group">
+					<label for=""><b>Data de nascimento:</b></label>
+					<input type="date" value="" name="data" class="form-control" required />
+					<small class="form-text text-muted"><i>* Dia/Mês/Ano.</i></small>
+				</div>
 			</div>
-
-			<div class="row">
-				<div class="col">
-
-					<div class="form-group">
-						<label for=""><b>Data de nascimento:</b></label> <input
-							type="date" value="" name="data" class="form-control" required />
-						<small class="form-text text-muted"><i>* Dia/Mês/Ano.</i></small>
-					</div>
-				</div>
-				<div class="col">
-					<label for=""><b>E-mail:</b> </label> <input type="text" value=""
-						name="email" class="form-control" placeholder="email@email.com"
-						required />
-				</div>
-				<div class="col">
-					<label for=""><b>Matricula:</b> </label> <input type="text" value="" name="matricula" class="form-control"
-																	placeholder="Ex.:1923333070" pattern="^\d{10}$" required />
-				</div>
-
-				<div class="col">
-					<label for=""><b>Setor:</b> </label> <input type="text" value=""
-																 name="tipo" class="form-control" placeholder="Ex:COINFO OU LOGISTICA"
-																 required />
-				</div>
-
-
-				<div class="col">
-					<label for=""><b>CPF:</b> </label> <input type="text" value=""
-																name="cpf" class="form-control" placeholder="Ex:17192891740"
-																required />
-				</div>
-
+			<div class="col">
+				<label for=""><b>E-mail:</b></label>
+				<input type="text" value="" name="email" class="form-control" placeholder="email@example.com" required />
 			</div>
-			<button type="submit" class="btn btn-success">Adicionar
-				Funcionário</button>
-	</div>
+			<div class="col">
+				<label for=""><b>Matricula:</b></label>
+				<input type="text" value="" name="matricula" class="form-control" placeholder="Ex.:1923333070" pattern="^\d{10}$" required />
+			</div>
+			<div class="col">
+				<label for=""><b>Setor:</b></label>
+				<select class="form-control" name="tipo" required>
+					<option value="">Selecione um setor</option>
+					<option value="COINFO">COINFO</option>
+					<option value="LOGISTICA">LOGISTICA</option>
+				</select>
+			</div>
+			<div class="col">
+				<label for=""><b>CPF:</b></label>
+				<input type="text" value="" name="cpf" class="form-control" placeholder="Ex:17192891740" required />
+			</div>
+		</div>
 
-	<br>
-	<br>
-
+		<button type="submit" class="btn btn-success">Adicionar Funcionário</button>
 	</form>
+</div>
 
+<br>
+<br>
 
-	</div>
-
-
-
-<div th:insert="template/fragmentos/divfooter.html :: div"> </div>
+<div th:insert="template/fragmentos/divfooter.html :: div"></div>
 
 </body>
 

@@ -196,10 +196,11 @@ public class ReqProjetorController {
         }
 
         projetorRepository.save(requerimento);
-        LocalDateTime data = LocalDateTime.now();
-        OrdemDeServicoProjetor ordemDeServicoProjetor = new OrdemDeServicoProjetor(data, aux,requerimento);
-        OS.save(ordemDeServicoProjetor);
 
+        LocalDateTime data = LocalDateTime.now();
+        OrdemDeServicoProjetor ordemDeServicoProjetor = new OrdemDeServicoProjetor(data,aux.getMatricula(), aux.getNome(),
+                requerimento.getMatricula(),requerimento.getNomeRequerente());
+        OS.save(ordemDeServicoProjetor);
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
         return "redirect:/requerimentosProj/" + codigo;
     }

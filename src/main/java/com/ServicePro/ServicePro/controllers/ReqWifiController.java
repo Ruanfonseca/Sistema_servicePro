@@ -204,7 +204,8 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
 		vr.save(requerimento);
 		LocalDateTime data = LocalDateTime.now();
-		OrdemDeServico ordemDeServico = new OrdemDeServico(data, aux,requerimento);
+		OrdemDeServico ordemDeServico = new OrdemDeServico(data,aux.getMatricula(), aux.getNome(),
+				requerimento.getMatricula(),requerimento.getNomeRequerente());
 		OS.save(ordemDeServico);
 
 		attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");

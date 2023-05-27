@@ -5,18 +5,23 @@ import javax.validation.Valid;
 import com.ServicePro.ServicePro.models.Auxiliar;
 import com.ServicePro.ServicePro.models.Funcionario;
 import com.ServicePro.ServicePro.models.Requerimento;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ServicePro.ServicePro.repository.AuxiliarRepository;
 import com.ServicePro.ServicePro.repository.FuncionarioRepository;
+
+import java.util.List;
 
 @Controller
 public class FuncionarioController {
@@ -78,7 +83,7 @@ public class FuncionarioController {
 
 	}
 
-	// POST que adiciona dependentes
+	// POST que adiciona auxiliares
 	@RequestMapping(value="/detalhes-funcionario/{id}", method = RequestMethod.POST)
 	public String detalhesFuncionarioPost(@PathVariable("id") long id, Auxiliar auxiliares, BindingResult result,
 			RedirectAttributes attributes) {
@@ -96,7 +101,7 @@ public class FuncionarioController {
 		Funcionario funcionario = fr.findById(id);
 		auxiliares.setFuncionario(funcionario);
 		dr.save(auxiliares);
-		attributes.addFlashAttribute("mensagem", "Dependente adicionado com sucesso");
+		attributes.addFlashAttribute("mensagem", "auxiliar adicionado com sucesso");
 		return "redirect:/detalhes-funcionario/{id}";
 		
 	}
@@ -122,9 +127,20 @@ public class FuncionarioController {
 	
 	// POST que atualiza o funcionário
 	@RequestMapping(value = "/editar-funcionario", method = RequestMethod.POST)
-	public String updateFuncionario(@Valid Funcionario funcionario,  BindingResult result, RedirectAttributes attributes){
-		
+	public String updateFuncionario(@Valid Funcionario funcionario, @NotNull BindingResult result, RedirectAttributes attributes){
+
+		if (result.hasErrors()) {
+			List<ObjectError> errors = result.getAllErrors();
+			for (ObjectError error : errors) {
+				attributes.addFlashAttribute("mensagem",
+						"  Erro no campo " + ((FieldError) error).getField() + ": " + error.getDefaultMessage());
+			}
+			return "redirect:/editar-funcionario";
+		}
+
+
 		fr.save(funcionario);
+
 		attributes.addFlashAttribute("successs", "Funcionário alterado com sucesso!");
 		
 		long idLong = funcionario.getId();
@@ -133,7 +149,7 @@ public class FuncionarioController {
 		
 	}
 	
-	// GET que deleta dependente
+	// GET que deleta auxu
 	@RequestMapping("/deletarAuxiliar")
 	public String deletarAuxiliar(String cpf) {
 		Auxiliar auxiliar = dr.findByCpf(cpf);

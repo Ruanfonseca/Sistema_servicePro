@@ -209,8 +209,10 @@ public class ReqSalaController {
         }
 
         salaRepository.save(requerimento);
+
         LocalDateTime data = LocalDateTime.now();
-        OrdemDeServicoSala ordemDeServicoSala = new OrdemDeServicoSala(data, aux,requerimento);
+        OrdemDeServicoSala ordemDeServicoSala = new OrdemDeServicoSala(data,aux.getMatricula(), aux.getNome(),
+                requerimento.getMatricula(),requerimento.getNomeRequerente());
         OS.save(ordemDeServicoSala);
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");

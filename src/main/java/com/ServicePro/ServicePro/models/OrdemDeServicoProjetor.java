@@ -14,23 +14,27 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrdemDeServicoProjetor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private LocalDateTime diaFechamento;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "funcionario_id")
-    private Funcionario funcionario;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "requerimento_id",referencedColumnName = "codigo")
-    private RequerimentoProjetor requerimentoProjetor;
+    private String nomeFuncionarioResponsavel;
+    private String matriculaFuncionario;
 
-    public OrdemDeServicoProjetor(LocalDateTime data, Funcionario aux, RequerimentoProjetor requerimento) {
-    this.diaFechamento = data;
-    this.funcionario = aux;
-    this.requerimentoProjetor = requerimento;
+    private String requerenteNome;
+    private String requerenteMatricula;
+
+
+    public OrdemDeServicoProjetor(LocalDateTime data, String matriculaFuncionario, String nomeFuncionarioResponsavel,
+                              String matriculaReq, String nomeRequerente) {
+        this.diaFechamento = data;
+        this.nomeFuncionarioResponsavel = nomeFuncionarioResponsavel;
+        this.matriculaFuncionario = matriculaFuncionario;
+        this.requerenteNome = nomeRequerente;
+        this.requerenteMatricula = matriculaReq;
     }
 }

@@ -54,6 +54,4 @@ public class RequerimentoProjetor  {
     @ManyToOne
     private Funcionario funcionario;
 
-    @OneToOne(mappedBy = "requerimento")
-    private OrdemDeServico ordemDeServico;
 }

@@ -1,11 +1,13 @@
 package com.ServicePro.ServicePro.models;
 
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 
 @Entity
@@ -22,7 +24,9 @@ public class Funcionario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+
 	private String Tipo;
+
 	private String nome;
 
 	@Column(unique = true)
