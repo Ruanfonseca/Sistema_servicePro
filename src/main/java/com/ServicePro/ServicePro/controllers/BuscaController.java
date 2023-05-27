@@ -45,8 +45,7 @@ public class BuscaController {
 			
 		}else if(nome.equals("nomeauxiliar")) {
 			mv.addObject("auxiliares", dr.findByNomesAuxiliares(buscar));
-			
-				
+
 		}else if(nome.equals("cpfrequerimento")) {
 			mv.addObject("requerimentos", Rr.findByCpf(buscar));
 			
