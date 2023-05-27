@@ -6,6 +6,9 @@ import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -80,23 +83,38 @@ public class ReqProjetorController {
         return "redirect:/cadastrarReqProj";
     }
 
+
+
+
+    //recebendo parâmetros como inteiros , na pagina 0 exponha 10 requerimentos finalizados
     @GetMapping("/requerimentosProjFinalizados")
-    public ModelAndView listaDeFinalizados() {
+    public ModelAndView PagelistaDeFinalizados(@RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = "10") int size) {
         ModelAndView mv = new ModelAndView("template/projetor/lista-req-projetor-finalizado");
 
-        Iterable<RequerimentoProjetor> requerimento = projetorRepository.findByStatusFinalizado();
+        Pageable pageable = PageRequest.of(page, size);
 
-        mv.addObject("req", requerimento);
+        Page<RequerimentoProjetor> requerimentosPage = projetorRepository.findByStatusFinalizado(pageable);
+
+        mv.addObject("requerimento", requerimentosPage.getContent());
+        mv.addObject("currentPage", requerimentosPage.getNumber());
+        mv.addObject("totalPages", requerimentosPage.getTotalPages());
         return mv;
     }
 
+
     @GetMapping("/requerimentosProj")
-    public ModelAndView lista() {
+    public ModelAndView PagelistaPendente(@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size) {
         ModelAndView mv = new ModelAndView("template/projetor/lista-projetor");
 
-        Iterable<RequerimentoProjetor> requerimento = projetorRepository.findByStatusPendente();
+        Pageable pageable = PageRequest.of(page, size);
 
-        mv.addObject("requerimentos", requerimento);
+        Page<RequerimentoProjetor> requerimentosPage = projetorRepository.findByStatusPendente(pageable);
+
+        mv.addObject("requerimento", requerimentosPage.getContent());
+        mv.addObject("currentPage", requerimentosPage.getNumber());
+        mv.addObject("totalPages", requerimentosPage.getTotalPages());
         return mv;
     }
 

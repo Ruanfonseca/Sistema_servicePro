@@ -12,7 +12,10 @@
 		<br>
 		<div class="form-check">
 			<label class="form-check-label">
-				<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" th:checked="${controllerMapping == '/requerimentosProjFinalizados'}" th:onclick="'window.location.href = \'' + @{/requerimentosProjFinalizados} + '\';'">
+				<input class="form-check-input" type="checkbox"
+					   value="" id="flexCheckDefault"
+					   th:checked="${controllerMapping == '/requerimentosProjFinalizados'}"
+					   th:onclick="'window.location.href = \'' + @{/requerimentosProjFinalizados} + '\';'">
 				Listar requerimentos finalizados
 			</label>
 		</div>
@@ -31,25 +34,40 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr th:each="req : ${requerimentos}">
-				<td th:text="${req.codigo}"></td>
-				<td th:text="${req.matricula}"></td>
-				<td th:text="${req.nomeRequerente}"></td>
-				<td th:text="${req.descricao}"></td>
-				<td th:text="${req.data}"></td>
+			<tr th:each="requerimento : ${requerimento}">
+				<td th:text="${requerimento.codigo}"></td>
+				<td th:text="${requerimento.matricula}"></td>
+				<td th:text="${requerimento.nomeRequerente}"></td>
+				<td th:text="${requerimento.descricao}"></td>
+				<td th:text="${requerimento.data}"></td>
 
 				<td><a class="btn btn-danger"
-					   th:href="@{/requerimentoProj/{codigo}(codigo=${req.codigo})}">Detalhes</a></td>
+					   th:href="@{/requerimentoProj/{codigo}(codigo=${requerimento.codigo})}">Detalhes</a></td>
 				<td><a class="btn btn-warning"
-					   th:href="@{/TelaBaixaReqProj/{codigo}(codigo=${req.codigo})}">Dar Baixa</a></td>
+					   th:href="@{/TelaBaixaReqProj/{codigo}(codigo=${requerimento.codigo})}">Dar Baixa</a></td>
 				<td><a class="btn btn-primary"
-					   th:href="@{/deletarReqProj/{codigo}(codigo=${req.codigo})}">Excluir</a>
+					   th:href="@{/deletarReqProj/{codigo}(codigo=${requerimento.codigo})}">Excluir</a>
 					<a class="btn btn-success"
-					   th:href="@{/editar-requerimentoProj/{codigo}(codigo=${req.codigo})}">Editar</a>
+					   th:href="@{/editar-requerimentoProj/{codigo}(codigo=${requerimento.codigo})}">Editar</a>
 				</td>
 			</tr>
 			</tbody>
 		</table>
+		<ul class="pagination">
+			<li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+				<a class="page-link" th:href="@{/requerimentosProj(page=0, size=${size})}">Primeira</a>
+			</li>
+			<li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+				<a class="page-link" th:href="@{/requerimentosProj(page=${currentPage - 1}, size=${size})}">Anterior</a>
+			</li>
+			<li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? disabled">
+				<a class="page-link" th:href="@{/requerimentosProj(page=${currentPage + 1}, size=${size})}">Próxima</a>
+			</li>
+			<li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? disabled">
+				<a class="page-link" th:href="@{/requerimentosProj(page=${totalPages - 1}, size=${size})}">Última</a>
+			</li>
+
+		</ul>
 	</div>
 <div th:insert="template/fragmentos/divfooter.html :: div"> </div>
 </body>

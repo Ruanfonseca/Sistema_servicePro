@@ -50,6 +50,21 @@
 				</tr>
 			</tbody>
 		</table>
+		<ul class="pagination">
+			<li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+				<a class="page-link" th:href="@{/requerimentoSALA(page=0, size=${size})}">Primeira</a>
+			</li>
+			<li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+				<a class="page-link" th:href="@{/requerimentoSALA(page=${currentPage - 1}, size=${size})}">Anterior</a>
+			</li>
+			<li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? disabled">
+				<a class="page-link" th:href="@{/requerimentoSALA(page=${currentPage + 1}, size=${size})}">Próxima</a>
+			</li>
+			<li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? disabled">
+				<a class="page-link" th:href="@{/requerimentoSALA(page=${totalPages - 1}, size=${size})}">Última</a>
+			</li>
+
+		</ul>
 
 	</div>
 <div th:insert="template/fragmentos/divfooter.html :: div"> </div>

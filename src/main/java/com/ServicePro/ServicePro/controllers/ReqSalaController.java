@@ -9,6 +9,9 @@ import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -83,21 +86,38 @@ public class ReqSalaController {
     }
 
 
+
+    //recebendo parâmetros como inteiros , na pagina 0 exponha 10 requerimentos finalizados
     @GetMapping("/requerimentosSALAFinalizados")
-    public ModelAndView listaDeFinalizados() {
+    public ModelAndView PagelistaDeFinalizados(@RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = "10") int size) {
         ModelAndView mv = new ModelAndView("template/Sala/lista-req-sala-finalizado");
 
-        Iterable<RequerimentoSala> requerimento = salaRepository.findByStatusFinalizado();
+        Pageable pageable = PageRequest.of(page, size);
 
-        mv.addObject("requerimentos", requerimento);
+        Page<RequerimentoSala> requerimentosPage = salaRepository.findByStatusFinalizado(pageable);
+
+        mv.addObject("requerimentos", requerimentosPage.getContent());
+        mv.addObject("currentPage", requerimentosPage.getNumber());
+        mv.addObject("totalPages", requerimentosPage.getTotalPages());
         return mv;
     }
 
+
+
+
     @GetMapping("/requerimentosSALA")
-    public ModelAndView lista() {
+    public ModelAndView PagelistaPendente(@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size) {
         ModelAndView mv = new ModelAndView("template/Sala/lista-sala.html");
-        Iterable<RequerimentoSala> requerimento = salaRepository.findByStatusPendente();
-        mv.addObject("requerimentos", requerimento);
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<RequerimentoSala> requerimentosPage = salaRepository.findByStatusPendente(pageable);
+
+        mv.addObject("requerimentos", requerimentosPage.getContent());
+        mv.addObject("currentPage", requerimentosPage.getNumber());
+        mv.addObject("totalPages", requerimentosPage.getTotalPages());
         return mv;
     }
 

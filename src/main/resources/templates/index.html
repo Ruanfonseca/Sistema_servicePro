@@ -75,7 +75,7 @@
 							class="table table-hover table-responsive w-auto table-striped">
 
 							<tbody>
-								<tr th:each="funcionario : ${funcionarios}">
+								<tr th:each="funcionario : ${funcionario}">
 									<td><a
 										th:href="${(#mvc.url('FC#detalhesFuncionario').arg(0, funcionario.id)).build()}"><span
 											th:text="${funcionario.nome}"></span></a> - em <i>funcionários.</i></td>

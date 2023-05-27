@@ -51,7 +51,7 @@ public class BuscaController {
 			mv.addObject("requerimentos", Rr.findByCpf(buscar));
 			
 		}else {
-			mv.addObject("funcionarios", fr.findByNomes(buscar));
+			mv.addObject("funcionario", fr.findByNomes(buscar));
 			mv.addObject("auxiliares", dr.findByNomesAuxiliares(buscar));
 		
 			//mv.addObject("requerimento", Reqrepo.findByNomesRequerimento(buscar));

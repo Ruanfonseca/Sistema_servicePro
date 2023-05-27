@@ -4,12 +4,14 @@ import javax.validation.Valid;
 
 import com.ServicePro.ServicePro.models.Auxiliar;
 import com.ServicePro.ServicePro.models.Funcionario;
+import com.ServicePro.ServicePro.models.Requerimento;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,12 +47,18 @@ public class FuncionarioController {
 		return "redirect:/cadastrarFuncionario";
 	}
 
-	// GET que lista funcionários
-	@RequestMapping("/funcionarios")
-	public ModelAndView listaFuncionarios() {
+	@GetMapping("/funcionarios")
+	public ModelAndView PagelistaPendente(@RequestParam(defaultValue = "0") int page,
+										  @RequestParam(defaultValue = "10") int size) {
 		ModelAndView mv = new ModelAndView("template/funcionario/lista-funcionario");
-		Iterable<Funcionario> funcionarios = fr.findAll();
-		mv.addObject("funcionarios", funcionarios);
+
+		Pageable pageable = PageRequest.of(page, size);
+
+		Page<Funcionario> funcionariosPage = fr.findall(pageable);
+
+		mv.addObject("funcionarios", funcionariosPage.getContent());
+		mv.addObject("currentPage", funcionariosPage.getNumber());
+		mv.addObject("totalPages", funcionariosPage.getTotalPages());
 		return mv;
 	}
 

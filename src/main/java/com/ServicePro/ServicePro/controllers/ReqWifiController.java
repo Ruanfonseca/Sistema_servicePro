@@ -15,6 +15,9 @@ import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -41,7 +44,7 @@ public class ReqWifiController {
 
 	@GetMapping("/cadastrarReq")
 	public ModelAndView form() {
-		ModelAndView modelAndView = new ModelAndView("template/vaga/form-vaga.html");
+		ModelAndView modelAndView = new ModelAndView("template/reqWIFI/form-vaga.html");
 		modelAndView.addObject("requerimento", new Requerimento());
 		return modelAndView;
 	}
@@ -88,34 +91,41 @@ public class ReqWifiController {
 		return "redirect:/cadastrarReq";
 	}
 
+	//recebendo parâmetros como inteiros , na pagina 0 exponha 10 requerimentos finalizados
+	@GetMapping("/requerimentosPageFinalizados")
+	public ModelAndView PagelistaDeFinalizados(@RequestParam(defaultValue = "0") int page,
+										   @RequestParam(defaultValue = "10") int size) {
+		ModelAndView mv = new ModelAndView("template/reqWIFI/lista-req-finalizado");
 
-	@GetMapping("/requerimentosFinalizados")
-	public ModelAndView listaDeFinalizados() {
-		ModelAndView mv = new ModelAndView("template/vaga/lista-req-finalizado");
+		Pageable pageable = PageRequest.of(page, size);
 
-		Iterable<Requerimento> requerimento = vr.findByStatusFinalizado();
+		Page<Requerimento> requerimentosPage = vr.findByStatusFinalizado(pageable);
 
-		mv.addObject("requerimentos", requerimento);
+		mv.addObject("requerimentos", requerimentosPage.getContent());
+		mv.addObject("currentPage", requerimentosPage.getNumber());
+		mv.addObject("totalPages", requerimentosPage.getTotalPages());
 		return mv;
 	}
 
-
 	@GetMapping("/requerimentos")
-	public ModelAndView lista() {
-		ModelAndView mv = new ModelAndView("template/vaga/lista-vaga");
+	public ModelAndView PagelistaPendente(@RequestParam(defaultValue = "0") int page,
+							  @RequestParam(defaultValue = "10") int size) {
+		ModelAndView mv = new ModelAndView("template/reqWIFI/lista-req");
 
-		Iterable<Requerimento> requerimento = vr.findByStatusPendente();
+		Pageable pageable = PageRequest.of(page, size);
 
+		Page<Requerimento> requerimentosPage = vr.findByStatusPendente(pageable);
 
-		mv.addObject("requerimentos", requerimento);
-
+		mv.addObject("requerimentos", requerimentosPage.getContent());
+		mv.addObject("currentPage", requerimentosPage.getNumber());
+		mv.addObject("totalPages", requerimentosPage.getTotalPages());
 		return mv;
 	}
 
 	@GetMapping("/requerimento/{codigo}")
 	public ModelAndView detalhesReq(@PathVariable("codigo") long codigo) {
 		Requerimento requerimento = vr.findByCodigo(codigo);
-		ModelAndView mv = new ModelAndView("template/vaga/detalhes-vaga.html");
+		ModelAndView mv = new ModelAndView("template/reqWIFI/detalhes-vaga.html");
 		mv.addObject("requerimento", requerimento);
 		return mv;
 	}
@@ -130,7 +140,7 @@ public class ReqWifiController {
 	@GetMapping("/editar-requerimento/{codigo}")
 	public ModelAndView editarRequerimento(@PathVariable("codigo") long codigo) {
 		Requerimento requerimento = vr.findByCodigo(codigo);
-		ModelAndView mv = new ModelAndView("template/vaga/update-vaga");
+		ModelAndView mv = new ModelAndView("template/reqWIFI/update-vaga");
 		mv.addObject("requerimento", requerimento);
 		return mv;
 	}
@@ -166,7 +176,7 @@ public class ReqWifiController {
 public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
 	//Iterable<Funcionario> funcionarios = func.findAllsetor("Coinfo");
-	ModelAndView mv = new ModelAndView("template/vaga/TelaBaixaReq");
+	ModelAndView mv = new ModelAndView("template/reqWIFI/TelaBaixaReq");
 
 	//mv.addObject("funcionario", funcionarios);
 

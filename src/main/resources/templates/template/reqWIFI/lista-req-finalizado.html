@@ -1,25 +1,19 @@
 <!DOCTYPE html>
-<html lang=”pt-br” xmlns:th="http://thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout">
-<head th:insert="template/fragmentos/cabecalho.html :: head"> </head>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+<head th:insert="template/fragmentos/cabecalho.html :: head"></head>
 
 <body>
-
-
-
-<header th:insert="template/fragmentos/header.html :: header"> </header>
+<header th:insert="template/fragmentos/header.html :: header"></header>
 
 <div class="container">
     <h2>Lista de requerimentos finalizados</h2>
     <br>
     <div class="form-check">
         <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" th:checked="${controllerMapping == 'requerimentosSALA'}" th:onclick="'window.location.href = \'' + @{requerimentosSALA} + '\';'">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" th:checked="${controllerMapping == '/requerimentos'}" th:onclick="'window.location.href = \'' + @{/requerimentos} + '\';'">
             Listar requerimentos pendentes
         </label>
     </div>
-
 
     <table class="table table-hover table-responsive w-auto table-striped">
         <thead>
@@ -31,7 +25,6 @@
             <th>Senha</th>
             <th>Data</th>
             <th>Ações</th>
-
         </tr>
         </thead>
         <tbody>
@@ -40,32 +33,32 @@
             <td th:text="${req.matricula}"></td>
             <td th:text="${req.nomeRequerente}"></td>
             <td th:text="${req.descricao}"></td>
+            <td th:text="${req.senha}"></td>
             <td th:text="${req.data}"></td>
-
-
-            <td><a class="btn btn-danger"
-                   th:href="@{/requerimento/{codigo}(codigo=${req.codigo})}">Detalhes</a></td>
+            <td>
+                <a class="btn btn-danger" th:href="@{/requerimento/{codigo}(codigo=${req.codigo})}">Detalhes</a>
+            </td>
         </tr>
         </tbody>
     </table>
 
     <ul class="pagination">
         <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
-            <a class="page-link" th:href="@{/requerimentosSALAFinalizados(page=0, size=${size})}">Primeira</a>
+            <a class="page-link" th:href="@{/requerimentosPageFinalizados(page=0, size=${size})}">Primeira</a>
         </li>
         <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
-            <a class="page-link" th:href="@{/requerimentosSALAFinalizados(page=${currentPage - 1}, size=${size})}">Anterior</a>
+            <a class="page-link" th:href="@{/requerimentosPageFinalizados(page=${currentPage - 1}, size=${size})}">Anterior</a>
         </li>
         <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
-            <a class="page-link" th:href="@{/requerimentosSALAFinalizados(page=${currentPage + 1}, size=${size})}">Próxima</a>
+            <a class="page-link" th:href="@{/requerimentosPageFinalizados(page=${currentPage + 1}, size=${size})}">Próxima</a>
         </li>
         <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
-            <a class="page-link" th:href="@{/requerimentosSALAFinalizados(page=${totalPages - 1}, size=${size})}">Última</a>
+            <a class="page-link" th:href="@{/requerimentosPageFinalizados(page=${totalPages - 1}, size=${size})}">Última</a>
         </li>
     </ul>
 
 </div>
-<div th:insert="template/fragmentos/divfooter.html :: div"> </div>
-</body>
 
+<div th:insert="template/fragmentos/divfooter.html :: div"></div>
+</body>
 </html>
