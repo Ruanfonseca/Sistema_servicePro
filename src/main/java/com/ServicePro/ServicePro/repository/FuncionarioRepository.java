@@ -24,11 +24,17 @@ public interface FuncionarioRepository extends CrudRepository<Funcionario, Long>
 	Iterable<Funcionario> findAllsetor(String setor);
 
 	Auxiliar findByCpf(String cpf);
+
+
 	Page<Funcionario> findAll(Pageable pageable);
 
 
 	@Query("select u from Funcionario u where u.matricula = ?1")
 	Funcionario findByMatricula(String matricula);
+
+
+	@Query("SELECT f FROM Funcionario f WHERE f.cpf = ?1")
+	Funcionario findByCPF(String cpf);
 
 
 	@Query("SELECT f FROM Funcionario f")

@@ -7,17 +7,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FuncionarioService {
 
     @Autowired
     private FuncionarioRepository fr;
 
-
     private Funcionario func;
+
+
     public void salvarFuncionario(Funcionario funcionario) {
 
         fr.save(funcionario);
+    }
+
+    public List<Funcionario> buscarPorNome(String nome){
+        return fr.findByNomes(nome);
     }
 
     public Page<Funcionario> encontrarTodosPaginacao(Pageable pageable) {
@@ -33,4 +40,11 @@ public class FuncionarioService {
        fr.delete(funcionario);
     }
 
+    public Funcionario buscarPorCPF(String cpf) {
+      return fr.findByCPF(cpf);
+    }
+
+    public Funcionario buscarPorMatricula(String matricula) {
+        return fr.findByMatricula(matricula);
+    }
 }

@@ -7,6 +7,8 @@ import com.ServicePro.ServicePro.repository.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuxiliarService {
 
@@ -36,4 +38,10 @@ public class AuxiliarService {
     public void deletar(Auxiliar auxiliar) {
     deletar(auxiliar);
     }
+
+    public List<Auxiliar> buscarPorNomesAuxiliares(String nome) {
+        return Aux.findByNomesAuxiliares(nome);
+    }
+
 }
+

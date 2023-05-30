@@ -2,15 +2,15 @@ package com.ServicePro.ServicePro.controllers;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import com.ServicePro.ServicePro.models.Funcionario;
 import com.ServicePro.ServicePro.models.OrdemDeServico;
 import com.ServicePro.ServicePro.models.OrdemDeServicoSala;
 import com.ServicePro.ServicePro.models.Requerimento;
 import com.ServicePro.ServicePro.repository.OrdemDeServicoRepository;
 import com.ServicePro.ServicePro.repository.RequerimentoWIfiRepository;
+import com.ServicePro.ServicePro.service.FuncionarioService;
+import com.ServicePro.ServicePro.service.ReqWifiService;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +33,9 @@ import com.ServicePro.ServicePro.repository.FuncionarioRepository;
 public class ReqWifiController {
 
 	@Autowired
-	private RequerimentoWIfiRepository vr;
-
-	@Autowired
-	private FuncionarioRepository func;
+	private ReqWifiService ReqWifiService;
+	 @Autowired
+	 private FuncionarioService funcionarioService;
 
 	@Autowired
 	private OrdemDeServicoRepository OS;
@@ -66,17 +65,17 @@ public class ReqWifiController {
 			attributes.addFlashAttribute("mensagem", "CPF invalido!");
 			return "redirect:/cadastrarReq";
 
-		}if(vr.findByCpf(req.getCpf()) !=null){
-			if(req.getStatus() == "Pendente")
+		}if(ReqWifiService.buscarPorCPF(req.getCpf()) !=null){
+			if(req.getStatus() == "PENDENTE")
 			attributes.addFlashAttribute("mensagem", "Já Existe um requerimento pendente associado a esse cpf !");
 			return "redirect:/cadastrarReq";
 
-		}if(func.findByCpf(req.getCpf())!=null){
+		}if(funcionarioService.buscarPorCPF(req.getCpf())!=null){
 			attributes.addFlashAttribute("mensagem", "Você é um funcionário, funcionário não pode abrir requerimento");
 			return "redirect:/cadastrarReq";
 		}
 		try {
-			if (vr.save(req) != null) {
+			if (ReqWifiService.salvar(req)) {
 
 				attributes.addFlashAttribute("mensagem", "Requerimento cadastrado com sucesso!");
 			} else {
@@ -99,7 +98,7 @@ public class ReqWifiController {
 
 		Pageable pageable = PageRequest.of(page, size);
 
-		Page<Requerimento> requerimentosPage = vr.findByStatusFinalizado(pageable);
+		Page<Requerimento> requerimentosPage = ReqWifiService.buscarPorStatusFinalizado(pageable);
 
 		mv.addObject("requerimentos", requerimentosPage.getContent());
 		mv.addObject("currentPage", requerimentosPage.getNumber());
@@ -114,7 +113,7 @@ public class ReqWifiController {
 
 		Pageable pageable = PageRequest.of(page, size);
 
-		Page<Requerimento> requerimentosPage = vr.findByStatusPendente(pageable);
+		Page<Requerimento> requerimentosPage = ReqWifiService.buscarPorStatusPendente(pageable);
 
 		mv.addObject("requerimentos", requerimentosPage.getContent());
 		mv.addObject("currentPage", requerimentosPage.getNumber());
@@ -124,7 +123,7 @@ public class ReqWifiController {
 
 	@GetMapping("/requerimento/{codigo}")
 	public ModelAndView detalhesReq(@PathVariable("codigo") long codigo) {
-		Requerimento requerimento = vr.findByCodigo(codigo);
+		Requerimento requerimento = ReqWifiService.buscarPorCodigo(codigo);
 		ModelAndView mv = new ModelAndView("template/reqWIFI/detalhes-vaga.html");
 		mv.addObject("requerimento", requerimento);
 		return mv;
@@ -132,14 +131,14 @@ public class ReqWifiController {
 
 	@GetMapping("/deletarReq/{codigo}")
 	public String deletarReq(@PathVariable("codigo") long codigo) {
-		Requerimento req = vr.findByCodigo(codigo);
-		vr.delete(req);
+		Requerimento req = ReqWifiService.buscarPorCodigo(codigo);
+		ReqWifiService.deletar(req);
 		return "redirect:/requerimentos";
 	}
 
 	@GetMapping("/editar-requerimento/{codigo}")
 	public ModelAndView editarRequerimento(@PathVariable("codigo") long codigo) {
-		Requerimento requerimento = vr.findByCodigo(codigo);
+		Requerimento requerimento = ReqWifiService.buscarPorCodigo(codigo);
 		ModelAndView mv = new ModelAndView("template/reqWIFI/update-vaga");
 		mv.addObject("requerimento", requerimento);
 		return mv;
@@ -157,21 +156,11 @@ public class ReqWifiController {
 			attributes.addFlashAttribute("mensagem", "O requerimento já foi finalizado");
 			return "redirect:/requerimento/" + codigo;
 		}
-		vr.save(requerimento);
+		ReqWifiService.salva(requerimento);
 		attributes.addFlashAttribute("mensagem", "Requerimento alterado com sucesso!");
 		return "redirect:/requerimento/" + codigo;
 	}
 
-/*
-	@GetMapping("/TelaBaixaReq/{codigo}")
-	public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
-
-		Requerimento requerimento = vr.findByCodigo(codigo);
-		ModelAndView mv = new ModelAndView("template/vaga/TelaBaixaReq");
-		mv.addObject("requerimento", requerimento);
-		return mv;
-	}
-*/
 @GetMapping("/TelaBaixaReq/{codigo}")
 public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
@@ -180,13 +169,11 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
 	//mv.addObject("funcionario", funcionarios);
 
-	Requerimento requerimento = vr.findByCodigo(codigo);
+	Requerimento requerimento = ReqWifiService.buscarPorCodigo(codigo);
 	mv.addObject("requerimento", requerimento);
 
 	return mv;
 }
-
-
 
 	@PostMapping("/TelaBaixaReq/{codigo}")
 	public String baixaRequerimento(@PathVariable("codigo") long codigo, @RequestParam("matri") String matricula,
@@ -196,13 +183,13 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
 			return "redirect:/TelaBaixaReq/" + codigo;
 		}
-		Funcionario aux = func.findByMatricula(matricula);
+		Funcionario aux = funcionarioService.buscarPorMatricula(matricula);
 		if (!aux.getTipo().equals("COINFO")) {
 			attributes.addFlashAttribute("mensagem", "Você não é um funcionário da coinfo!");
 			return "redirect:/TelaBaixaReq/" + codigo;
 		}
 
-		vr.save(requerimento);
+		ReqWifiService.salva(requerimento);
 		LocalDateTime data = LocalDateTime.now();
 		OrdemDeServico ordemDeServico = new OrdemDeServico(data,aux.getMatricula(), aux.getNome(),
 				requerimento.getMatricula(),requerimento.getNomeRequerente());

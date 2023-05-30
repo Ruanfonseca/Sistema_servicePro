@@ -1,5 +1,7 @@
 package com.ServicePro.ServicePro.controllers;
 
+import com.ServicePro.ServicePro.service.AuxiliarService;
+import com.ServicePro.ServicePro.service.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,16 +16,17 @@ import com.ServicePro.ServicePro.repository.FuncionarioRepository;
 
 @Controller
 public class BuscaController {
-	
+
+
 	@Autowired
-	private FuncionarioRepository fr;
-	
+	private FuncionarioService funcionarioService;
+
+	@Autowired
+	private AuxiliarService auxiliarService;
 	@Autowired
 	private RequerimentoWIfiRepository Rr;
-	
-	
-	@Autowired
-	private AuxiliarRepository dr;
+
+
 	
 
 	//GET
@@ -38,22 +41,20 @@ public class BuscaController {
 	public ModelAndView buscarIndex(@RequestParam("buscar") String buscar, @RequestParam("nome") String nome) {
 		
 		ModelAndView mv = new ModelAndView("index");
-		String mensagem = "Resultados da busca por " + buscar;
+		String mensagem = " " + buscar;
 		
 		if(nome.equals("nomefuncionario")) {
-			mv.addObject("funcionarios", fr.findByNomes(buscar));
+			mv.addObject("funcionarios", funcionarioService.buscarPorNome(buscar));
 			
 		}else if(nome.equals("nomeauxiliar")) {
-			mv.addObject("auxiliares", dr.findByNomesAuxiliares(buscar));
+			mv.addObject("auxiliares", auxiliarService.buscarPorNomesAuxiliares(buscar));
 
 		}else if(nome.equals("cpfrequerimento")) {
 			mv.addObject("requerimentos", Rr.findByCpf(buscar));
 			
 		}else {
-			mv.addObject("funcionario", fr.findByNomes(buscar));
-			mv.addObject("auxiliares", dr.findByNomesAuxiliares(buscar));
-		
-			//mv.addObject("requerimento", Reqrepo.findByNomesRequerimento(buscar));
+			mv.addObject("funcionario",funcionarioService.buscarPorNome(buscar));
+			mv.addObject("auxiliares",auxiliarService.buscarPorNomesAuxiliares(buscar));
 		}
 		
 		mv.addObject("mensagem", mensagem);
