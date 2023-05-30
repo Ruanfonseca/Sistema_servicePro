@@ -18,14 +18,11 @@ public  class OrdemDeServico {
     private long id;
 
     private LocalDateTime diaFechamento;
-
-
     private String nomeFuncionarioResponsavel;
     private String matriculaFuncionario;
 
     private String requerenteNome;
     private String requerenteMatricula;
-
 
     public OrdemDeServico(LocalDateTime data, String matriculaFuncionario, String nomeFuncionarioResponsavel,
                           String matriculaReq, String nomeRequerente) {

@@ -178,7 +178,7 @@ public class ReqSalaController {
     @GetMapping("/TelaBaixaReqSala/{codigo}")
     public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
-        Iterable<Funcionario> funcionarios = func.findAllsetor("logistica");
+        Iterable<Funcionario> funcionarios = func.findAllsetor("LOGISTICA");
         ModelAndView mv = new ModelAndView("template/Sala/TelaBaixaReqSala");
         mv.addObject("funcionario", funcionarios);
 

@@ -4,7 +4,8 @@ import javax.validation.Valid;
 
 import com.ServicePro.ServicePro.models.Auxiliar;
 import com.ServicePro.ServicePro.models.Funcionario;
-import com.ServicePro.ServicePro.models.Requerimento;
+import com.ServicePro.ServicePro.service.AuxiliarService;
+import com.ServicePro.ServicePro.service.FuncionarioService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,20 +18,19 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.ServicePro.ServicePro.repository.AuxiliarRepository;
-import com.ServicePro.ServicePro.repository.FuncionarioRepository;
 
 import java.util.List;
 
+
 @Controller
 public class FuncionarioController {
+	@Autowired
+	private FuncionarioService funcionarioService;
 
 	@Autowired
-	private FuncionarioRepository fr;
+	private AuxiliarService auxiliarService;
 
-	@Autowired
-	private AuxiliarRepository dr;
 
 	// GET que chama o form para cadastrar funcionários
 	@RequestMapping("/cadastrarFuncionario")
@@ -40,14 +40,20 @@ public class FuncionarioController {
 
 	// POST que cadastra funcionários
 	@RequestMapping(value = "/cadastrarFuncionario", method = RequestMethod.POST)
-	public String form(@Valid Funcionario funcionario, BindingResult result, RedirectAttributes attributes) {
+	public String form(@Valid Funcionario funcionario, @NotNull BindingResult result, RedirectAttributes attributes) {
+
 
 		if (result.hasErrors()) {
-			attributes.addFlashAttribute("mensagem", "Verifique os campos");
+			List<ObjectError> errors = result.getAllErrors();
+			for (ObjectError error : errors) {
+				attributes.addFlashAttribute("mensagem",
+						"  Erro no campo " + ((FieldError) error).getField() + ": " + error.getDefaultMessage());
+			}
 			return "redirect:/cadastrarFuncionario";
 		}
 
-		fr.save(funcionario);
+		funcionarioService.salvarFuncionario(funcionario);
+
 		attributes.addFlashAttribute("mensagem", "Funcionário cadastrado com sucesso!");
 		return "redirect:/cadastrarFuncionario";
 	}
@@ -59,7 +65,7 @@ public class FuncionarioController {
 
 		Pageable pageable = PageRequest.of(page, size);
 
-		Page<Funcionario> funcionariosPage = fr.findall(pageable);
+		Page<Funcionario> funcionariosPage = funcionarioService.encontrarTodosPaginacao(pageable);
 
 		mv.addObject("funcionarios", funcionariosPage.getContent());
 		mv.addObject("currentPage", funcionariosPage.getNumber());
@@ -71,12 +77,15 @@ public class FuncionarioController {
 	// GET que lista auxiliares e detalhes dos funcionário
 	@RequestMapping("/detalhes-funcionario/{id}")
 	public ModelAndView detalhesFuncionario(@PathVariable("id") long id) {
-		Funcionario funcionario = fr.findById(id);
+
+		Funcionario funcionario = funcionarioService.encontrarPorId(id);
+
 		ModelAndView mv = new ModelAndView("template/funcionario/detalhes-funcionario");
+
 		mv.addObject("funcionarios", funcionario);
 
 		// lista de dependentes baseada no id do funcionário
-		Iterable<Auxiliar> auxiliares = dr.findByFuncionario(funcionario);
+		Iterable<Auxiliar> auxiliares = auxiliarService.buscarPor(funcionario);
 		mv.addObject("auxiliares", auxiliares);
 
 		return mv;
@@ -85,49 +94,54 @@ public class FuncionarioController {
 
 	// POST que adiciona auxiliares
 	@RequestMapping(value="/detalhes-funcionario/{id}", method = RequestMethod.POST)
-	public String detalhesFuncionarioPost(@PathVariable("id") long id, Auxiliar auxiliares, BindingResult result,
-			RedirectAttributes attributes) {
-		
-		if(result.hasErrors()) {
-			attributes.addFlashAttribute("mensagem", "Verifique os campos!");
+	public String detalhesFuncionarioPost(@PathVariable("id") long id, Auxiliar auxiliar, BindingResult result,
+										  RedirectAttributes attributes) {
+
+		if (result.hasErrors()) {
+			List<ObjectError> errors = result.getAllErrors();
+			for (ObjectError error : errors) {
+				attributes.addFlashAttribute("mensagem",
+						"  Erro no campo " + ((FieldError) error).getField() + ": " + error.getDefaultMessage());
+			}
 			return "redirect:/detalhes-funcionario/{id}";
 		}
-		
-		if(dr.findByCpf(auxiliares.getCpf()) != null) {
+
+
+		if(auxiliarService.buscarPorCPF(auxiliar) != null) {
 			attributes.addFlashAttribute("mensagem_erro", "CPF duplicado");
 			return "redirect:/detalhes-funcionario/{id}";
 		}
-		
-		Funcionario funcionario = fr.findById(id);
-		auxiliares.setFuncionario(funcionario);
-		dr.save(auxiliares);
+
+		Funcionario funcionario = funcionarioService.encontrarPorId(id);
+		auxiliar.setFuncionario(funcionario);
+		auxiliarService.salvar(auxiliar);
 		attributes.addFlashAttribute("mensagem", "auxiliar adicionado com sucesso");
 		return "redirect:/detalhes-funcionario/{id}";
-		
+
 	}
-	
+
 	//GET que deleta funcionário
 	@RequestMapping("/deletarFuncionario")
 	public String deletarFuncionario(long id) {
-		Funcionario funcionario = fr.findById(id);
-		fr.delete(funcionario);
+		Funcionario funcionario = funcionarioService.encontrarPorId(id);
+		funcionarioService.deletar(funcionario);
 		return "redirect:/funcionarios";
-		
+
 	}
-	
+
 	// Métodos que atualizam funcionário
 	// GET que chama o FORM de edição do funcionário
 	@RequestMapping("/editar-funcionario")
 	public ModelAndView editarFuncionario(long id) {
-		Funcionario funcionario = fr.findById(id);
+		Funcionario funcionario = funcionarioService.encontrarPorId(id);
 		ModelAndView mv = new ModelAndView("template/funcionario/update-funcionario");
 		mv.addObject("funcionario", funcionario);
 		return mv;
 	}
-	
+
 	// POST que atualiza o funcionário
 	@RequestMapping(value = "/editar-funcionario", method = RequestMethod.POST)
-	public String updateFuncionario(@Valid Funcionario funcionario, @NotNull BindingResult result, RedirectAttributes attributes){
+	public String updateFuncionario(@Valid @ModelAttribute("funcionario") Funcionario funcionario, @NotNull BindingResult result, RedirectAttributes attributes){
 
 		if (result.hasErrors()) {
 			List<ObjectError> errors = result.getAllErrors();
@@ -139,26 +153,26 @@ public class FuncionarioController {
 		}
 
 
-		fr.save(funcionario);
+		funcionarioService.salvarFuncionario(funcionario);
 
 		attributes.addFlashAttribute("successs", "Funcionário alterado com sucesso!");
-		
+
 		long idLong = funcionario.getId();
 		String id = "" + idLong;
 		return "redirect:/detalhes-funcionario/" + id;
-		
+
 	}
-	
+
 	// GET que deleta auxu
 	@RequestMapping("/deletarAuxiliar")
 	public String deletarAuxiliar(String cpf) {
-		Auxiliar auxiliar = dr.findByCpf(cpf);
-		
+		Auxiliar auxiliar = auxiliarService.buscarPorCPF(cpf);
+
 		Funcionario funcionario = auxiliar.getFuncionario();
 		String codigo = "" + funcionario.getId();
-		
-		dr.delete(auxiliar);
+
+		auxiliarService.deletar(auxiliar);
 		return "redirect:/detalhes-funcionario/" + codigo;
-	
+
 	}
 }

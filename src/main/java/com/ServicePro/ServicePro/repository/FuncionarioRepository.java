@@ -2,8 +2,8 @@ package com.ServicePro.ServicePro.repository;
 
 import java.util.List;
 
+import com.ServicePro.ServicePro.models.Auxiliar;
 import com.ServicePro.ServicePro.models.Funcionario;
-import com.ServicePro.ServicePro.models.Requerimento;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -12,9 +12,8 @@ import org.springframework.data.repository.CrudRepository;
 public interface FuncionarioRepository extends CrudRepository<Funcionario, Long>{
 	
 	Funcionario findById(long id);
-	Funcionario findByNome(String nome);
-	Funcionario findByCpf(String cpf);
 
+	Funcionario findByNome(String nome);
 
 
 	// Query para a busca
@@ -23,6 +22,10 @@ public interface FuncionarioRepository extends CrudRepository<Funcionario, Long>
 
 	@Query(value = "select u from Funcionario u where u.Tipo ='COINFO'")
 	Iterable<Funcionario> findAllsetor(String setor);
+
+	Auxiliar findByCpf(String cpf);
+	Page<Funcionario> findAll(Pageable pageable);
+
 
 	@Query("select u from Funcionario u where u.matricula = ?1")
 	Funcionario findByMatricula(String matricula);

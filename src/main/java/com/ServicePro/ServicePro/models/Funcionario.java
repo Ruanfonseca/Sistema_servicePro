@@ -12,8 +12,6 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Funcionario implements Serializable {
@@ -23,7 +21,6 @@ public class Funcionario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-
 
 	private String Tipo;
 
