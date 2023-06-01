@@ -1,7 +1,9 @@
 package com.ServicePro.ServicePro.controllers;
 
 import com.ServicePro.ServicePro.models.*;
-import com.ServicePro.ServicePro.repository.*;
+import com.ServicePro.ServicePro.service.FuncionarioService;
+import com.ServicePro.ServicePro.service.OrdemDeServicoPROJETORservice;
+import com.ServicePro.ServicePro.service.ReqPROJETORService;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +23,19 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.ServicePro.ServicePro.utils.FormatadorUtil.FormatadorDeData;
+
 @Controller
 public class ReqProjetorController {
 
-    @Autowired
-    private FuncionarioRepository func;
+     @Autowired
+     private FuncionarioService funcionarioService;
 
-    @Autowired
-    private OrdemDeServicoProjetorRepository OS;
+     @Autowired
+     private OrdemDeServicoPROJETORservice ordemDeServicoPROJETORservice;
 
-    @Autowired
-    private RequerimentoProjetorRepository projetorRepository;
+     @Autowired
+     private ReqPROJETORService reqPROJETORService;
 
 
 
@@ -58,17 +62,18 @@ public class ReqProjetorController {
             attributes.addFlashAttribute("mensagem", "CPF invalido!");
             return "redirect:/cadastrarReqProj";
 
-        }if(projetorRepository.findByCpf(req.getCpf()) !=null){
+        }if(reqPROJETORService.buscarPorCpf(req.getCpf()) !=null){
             if(req.getStatus() == "PENDENTE")
                 attributes.addFlashAttribute("mensagem", "Já Existe um requerimento pendente associado a esse cpf !");
             return "redirect:/cadastrarReqProj";
 
-        }if(func.findByCpf(req.getCpf())!=null){
+        }if(funcionarioService.buscarPorCPF(req.getCpf())!=null){
             attributes.addFlashAttribute("mensagem", "Você é um funcionário, funcionário não pode abrir requerimento");
             return "redirect:/cadastrarReqProj";
         }
         try {
-            if (projetorRepository.save(req) != null) {
+            req.setData(FormatadorDeData(req.getData()));
+            if (reqPROJETORService.salvar(req)) {
 
                 attributes.addFlashAttribute("mensagem", "Requerimento cadastrado com sucesso!");
             } else {
@@ -94,7 +99,7 @@ public class ReqProjetorController {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<RequerimentoProjetor> requerimentosPage = projetorRepository.findByStatusFinalizado(pageable);
+        Page<RequerimentoProjetor> requerimentosPage = reqPROJETORService.buscarPorStatusFinalizado(pageable);
 
         mv.addObject("requerimento", requerimentosPage.getContent());
         mv.addObject("currentPage", requerimentosPage.getNumber());
@@ -110,7 +115,7 @@ public class ReqProjetorController {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<RequerimentoProjetor> requerimentosPage = projetorRepository.findByStatusPendente(pageable);
+        Page<RequerimentoProjetor> requerimentosPage = reqPROJETORService.buscarPorStatusPendente(pageable);
 
         mv.addObject("requerimento", requerimentosPage.getContent());
         mv.addObject("currentPage", requerimentosPage.getNumber());
@@ -120,7 +125,7 @@ public class ReqProjetorController {
 
     @GetMapping("/requerimentoProj/{codigo}")
     public ModelAndView detalhesReq(@PathVariable("codigo") long codigo) {
-        RequerimentoProjetor requerimento = projetorRepository.findByCodigo(codigo);
+        RequerimentoProjetor requerimento = reqPROJETORService.buscrPorCodigo(codigo);
         ModelAndView mv = new ModelAndView("template/projetor/detalhes-projetor.html");
         mv.addObject("requerimento", requerimento);
         return mv;
@@ -128,14 +133,14 @@ public class ReqProjetorController {
 
     @GetMapping("/deletarReqProj/{codigo}")
     public String deletarReq(@PathVariable("codigo") long codigo) {
-        RequerimentoProjetor req = projetorRepository.findByCodigo(codigo);
-        projetorRepository.delete(req);
+        RequerimentoProjetor req = reqPROJETORService.buscrPorCodigo(codigo);
+        reqPROJETORService.deletar(req);
         return "redirect:/requerimentosProj";
     }
 
     @GetMapping("/editar-requerimentoProj/{codigo}")
     public ModelAndView editarRequerimento(@PathVariable("codigo") long codigo) {
-        RequerimentoProjetor requerimento = projetorRepository.findByCodigo(codigo);
+        RequerimentoProjetor requerimento = reqPROJETORService.buscrPorCodigo(codigo);
         ModelAndView mv = new ModelAndView("template/projetor/update-projetor");
         mv.addObject("requerimento", requerimento);
         return mv;
@@ -158,7 +163,7 @@ public class ReqProjetorController {
             attributes.addFlashAttribute("mensagem", "O requerimento já foi finalizado");
             return "redirect:/requerimentosProj/" + codigo;
         }
-        projetorRepository.save(requerimento);
+        reqPROJETORService.salvar(requerimento);
 
         attributes.addFlashAttribute("mensagem", "Requerimento alterado com sucesso!");
 
@@ -168,11 +173,11 @@ public class ReqProjetorController {
     @GetMapping("/TelaBaixaReqProj/{codigo}")
     public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
-        Iterable<Funcionario> funcionarios = func.findAllsetor("LOGISTICA");
+        Iterable<Funcionario> funcionarios = funcionarioService.BuscarPorsetor("LOGISTICA");
         ModelAndView mv = new ModelAndView("template/projetor/TelaBaixaProjetor");
         mv.addObject("funcionario", funcionarios);
 
-        RequerimentoProjetor requerimento = projetorRepository.findByCodigo(codigo);
+        RequerimentoProjetor requerimento = reqPROJETORService.buscrPorCodigo(codigo);
         mv.addObject("requerimento", requerimento);
 
         return mv;
@@ -188,20 +193,23 @@ public class ReqProjetorController {
             attributes.addFlashAttribute("mensagem", "Verifique os campos...");
             return "redirect:/TelaBaixaReqProj/" + codigo;
         }
-        Funcionario aux = func.findByMatricula(matricula);
+        Funcionario aux = funcionarioService.buscarPorMatricula(matricula);
 
         if (!aux.getTipo().equals("LOGISTICA")) {
             attributes.addFlashAttribute("mensagem", "Você não é um funcionário da Logistica!");
             return "redirect:/TelaBaixaReqProj/" + codigo;
         }
 
-        projetorRepository.save(requerimento);
+        reqPROJETORService.salvar(requerimento);
 
         LocalDateTime data = LocalDateTime.now();
         OrdemDeServicoProjetor ordemDeServicoProjetor = new OrdemDeServicoProjetor(data,aux.getMatricula(), aux.getNome(),
                 requerimento.getMatricula(),requerimento.getNomeRequerente());
-        OS.save(ordemDeServicoProjetor);
+
+        ordemDeServicoPROJETORservice.salvar(ordemDeServicoProjetor);
+
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
+
         return "redirect:/requerimentosProj/" + codigo;
     }
 

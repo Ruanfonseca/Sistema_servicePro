@@ -1,7 +1,6 @@
 package com.ServicePro.ServicePro.repository;
 
 import com.ServicePro.ServicePro.models.Funcionario;
-import com.ServicePro.ServicePro.models.Requerimento;
 import com.ServicePro.ServicePro.models.RequerimentoSala;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

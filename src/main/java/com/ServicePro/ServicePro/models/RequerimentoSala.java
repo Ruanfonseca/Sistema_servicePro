@@ -48,8 +48,9 @@ public class RequerimentoSala{
     private String mensagemRetorno;
 
     private LocalDateTime data = LocalDateTime.now();
+
     @NotEmpty
-    private String status = "Pendente";
+    private String status = "PENDENTE";
 
     @ManyToOne
     private Funcionario funcionario;

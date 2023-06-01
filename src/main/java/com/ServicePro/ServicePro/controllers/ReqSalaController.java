@@ -1,10 +1,9 @@
 package com.ServicePro.ServicePro.controllers;
 
 import com.ServicePro.ServicePro.models.*;
-import com.ServicePro.ServicePro.repository.FuncionarioRepository;
-import com.ServicePro.ServicePro.repository.OrdemDeServicoRepository;
-import com.ServicePro.ServicePro.repository.OrdemDeServicoSalaRepository;
-import com.ServicePro.ServicePro.repository.RequerimentoSalaRepository;
+import com.ServicePro.ServicePro.service.FuncionarioService;
+import com.ServicePro.ServicePro.service.OrdemDeServicoSalaService;
+import com.ServicePro.ServicePro.service.ReqSALAService;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +23,19 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.ServicePro.ServicePro.utils.FormatadorUtil.FormatadorDeData;
+
 @Controller
 public class ReqSalaController {
 
     @Autowired
-    private FuncionarioRepository func;
+    private FuncionarioService funcionarioService;
 
     @Autowired
-    private OrdemDeServicoSalaRepository OS;
+    private OrdemDeServicoSalaService ordemDeServicoSalaService;
 
     @Autowired
-    private RequerimentoSalaRepository salaRepository;
+    private ReqSALAService reqSALAService;
 
     @GetMapping("/cadastrarReqSala")
     public ModelAndView form() {
@@ -60,18 +61,18 @@ public class ReqSalaController {
             attributes.addFlashAttribute("mensagem", "CPF invalido!");
             return "redirect:/cadastrarReqSala";
 
-        }if(salaRepository.findByCpf(req.getCpf()) !=null){
+        }if(reqSALAService.BuscarPorCpf(req.getCpf()) !=null){
             if(req.getStatus() == "Pendente")
                 attributes.addFlashAttribute("mensagem", "Já Existe um requerimento pendente associado a esse cpf !");
             return "redirect:/cadastrarReqSala";
 
-        }if(func.findByCpf(req.getCpf())!=null){
+        }if(funcionarioService.buscarPorCPF(req.getCpf())!=null){
             attributes.addFlashAttribute("mensagem", "Você é um funcionário, funcionário não pode abrir requerimento");
             return "redirect:/cadastrarReqSala";
         }
         try {
-            if (salaRepository.save(req) != null) {
-
+            req.setData(FormatadorDeData(req.getData()));
+            if (reqSALAService.salvar(req)) {
                 attributes.addFlashAttribute("mensagem", "Requerimento cadastrado com sucesso!");
             } else {
                 attributes.addFlashAttribute("mensagem",
@@ -95,7 +96,7 @@ public class ReqSalaController {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<RequerimentoSala> requerimentosPage = salaRepository.findByStatusFinalizado(pageable);
+        Page<RequerimentoSala> requerimentosPage = reqSALAService.BuscarStatusFinalizado(pageable);
 
         mv.addObject("requerimentos", requerimentosPage.getContent());
         mv.addObject("currentPage", requerimentosPage.getNumber());
@@ -113,7 +114,7 @@ public class ReqSalaController {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<RequerimentoSala> requerimentosPage = salaRepository.findByStatusPendente(pageable);
+        Page<RequerimentoSala> requerimentosPage = reqSALAService.BuscarStatusPendente(pageable);
 
         mv.addObject("requerimentos", requerimentosPage.getContent());
         mv.addObject("currentPage", requerimentosPage.getNumber());
@@ -123,7 +124,7 @@ public class ReqSalaController {
 
     @GetMapping("/requerimentoSALA/{codigo}")
     public ModelAndView detalhesSALA(@PathVariable("codigo") long codigo) {
-        RequerimentoSala requerimento = salaRepository.findByCodigo(codigo);
+        RequerimentoSala requerimento = reqSALAService.buscarPorCodigo(codigo);
         ModelAndView mv = new ModelAndView("template/Sala/detalhes-sala.html");
         mv.addObject("requerimento", requerimento);
         return mv;
@@ -131,18 +132,19 @@ public class ReqSalaController {
 
     @GetMapping("/deletarReqSALA/{codigo}")
     public String deletarReq(@PathVariable("codigo") long codigo) {
-        RequerimentoSala req = salaRepository.findByCodigo(codigo);
-        salaRepository.delete(req);
+        RequerimentoSala req = reqSALAService.buscarPorCodigo(codigo);
+        reqSALAService.deletar(req);
         return "redirect:/requerimentosSALA";
     }
 
     @GetMapping("/editar-requerimentoSALA/{codigo}")
     public ModelAndView editarRequerimento(@PathVariable("codigo") long codigo) {
-        RequerimentoSala requerimento = salaRepository.findByCodigo(codigo);
+        RequerimentoSala requerimento = reqSALAService.buscarPorCodigo(codigo);
         ModelAndView mv = new ModelAndView("template/Sala/update-sala");
         mv.addObject("requerimento", requerimento);
         return mv;
     }
+
 
     @PostMapping("/editar-requerimentoSALA/{codigo}")
     public String updateReq(@PathVariable("codigo") long codigo,
@@ -160,7 +162,7 @@ public class ReqSalaController {
             attributes.addFlashAttribute("mensagem", "O requerimento já foi finalizado");
             return "redirect:/requerimentosSALA/" + codigo;
         }
-        salaRepository.save(requerimento);
+        reqSALAService.salvar(requerimento);
         attributes.addFlashAttribute("mensagem", "Requerimento alterado com sucesso!");
         return "redirect:/requerimentoSALA/" + codigo;
     }
@@ -178,11 +180,11 @@ public class ReqSalaController {
     @GetMapping("/TelaBaixaReqSala/{codigo}")
     public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
-        Iterable<Funcionario> funcionarios = func.findAllsetor("LOGISTICA");
+        Iterable<Funcionario> funcionarios = funcionarioService.BuscarPorsetor("LOGISTICA");
         ModelAndView mv = new ModelAndView("template/Sala/TelaBaixaReqSala");
         mv.addObject("funcionario", funcionarios);
 
-        RequerimentoSala requerimento = salaRepository.findByCodigo(codigo);
+        RequerimentoSala requerimento = reqSALAService.buscarPorCodigo(codigo);
         mv.addObject("requerimento", requerimento);
 
         return mv;
@@ -201,19 +203,20 @@ public class ReqSalaController {
                         "Erro no campo " + ((FieldError) error).getField() + ": " + error.getDefaultMessage());
             }
         }
-        Funcionario aux = func.findByMatricula(matricula);
+        Funcionario aux = funcionarioService.buscarPorMatricula(matricula);
 
         if (!aux.getTipo().equals("LOGISTICA")) {
             attributes.addFlashAttribute("mensagem", "Você não é um funcionário da Logistica!");
             return "redirect:/TelaBaixaReqSala/" + codigo;
         }
 
-        salaRepository.save(requerimento);
+
+        reqSALAService.salvar(requerimento);
 
         LocalDateTime data = LocalDateTime.now();
         OrdemDeServicoSala ordemDeServicoSala = new OrdemDeServicoSala(data,aux.getMatricula(), aux.getNome(),
                 requerimento.getMatricula(),requerimento.getNomeRequerente());
-        OS.save(ordemDeServicoSala);
+        ordemDeServicoSalaService.salvar(ordemDeServicoSala);
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
         return "redirect:/requerimentoSALA/" + codigo;

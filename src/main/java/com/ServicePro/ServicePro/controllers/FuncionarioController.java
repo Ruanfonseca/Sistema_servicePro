@@ -18,7 +18,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.ServicePro.ServicePro.repository.AuxiliarRepository;
 
 import java.util.List;
 

@@ -51,17 +51,18 @@
 
     <ul class="pagination">
         <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
-            <a class="page-link" th:href="@{/requerimentosSALAFinalizados(page=0, size=${size})}">Primeira</a>
+            <a class="page-link" th:href="@{/requerimentos(page=0, size=${size})}">Primeira</a>
         </li>
         <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
-            <a class="page-link" th:href="@{/requerimentosSALAFinalizados(page=${currentPage - 1}, size=${size})}">Anterior</a>
+            <a class="page-link" th:href="@{/requerimentos(page=${currentPage - 1}, size=${size})}">Anterior</a>
         </li>
-        <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
-            <a class="page-link" th:href="@{/requerimentosSALAFinalizados(page=${currentPage + 1}, size=${size})}">Próxima</a>
+        <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? disabled">
+            <a class="page-link" th:href="@{/requerimentos(page=${currentPage + 1}, size=${size})}">Próxima</a>
         </li>
-        <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
-            <a class="page-link" th:href="@{/requerimentosSALAFinalizados(page=${totalPages - 1}, size=${size})}">Última</a>
+        <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? disabled">
+            <a class="page-link" th:href="@{/requerimentos(page=${totalPages - 1}, size=${size})}">Última</a>
         </li>
+
     </ul>
 
 </div>

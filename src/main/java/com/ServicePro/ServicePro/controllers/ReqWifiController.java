@@ -5,11 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 import com.ServicePro.ServicePro.models.Funcionario;
 import com.ServicePro.ServicePro.models.OrdemDeServico;
-import com.ServicePro.ServicePro.models.OrdemDeServicoSala;
 import com.ServicePro.ServicePro.models.Requerimento;
-import com.ServicePro.ServicePro.repository.OrdemDeServicoRepository;
-import com.ServicePro.ServicePro.repository.RequerimentoWIfiRepository;
 import com.ServicePro.ServicePro.service.FuncionarioService;
+import com.ServicePro.ServicePro.service.OrdemDeServicoService;
 import com.ServicePro.ServicePro.service.ReqWifiService;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ServicePro.ServicePro.repository.FuncionarioRepository;
+import static com.ServicePro.ServicePro.utils.FormatadorUtil.FormatadorDeData;
 
 
 @Controller
@@ -38,7 +36,7 @@ public class ReqWifiController {
 	 private FuncionarioService funcionarioService;
 
 	@Autowired
-	private OrdemDeServicoRepository OS;
+	private OrdemDeServicoService OSservice;
 
 
 	@GetMapping("/cadastrarReq")
@@ -75,6 +73,7 @@ public class ReqWifiController {
 			return "redirect:/cadastrarReq";
 		}
 		try {
+			req.setData(FormatadorDeData(req.getData()));
 			if (ReqWifiService.salvar(req)) {
 
 				attributes.addFlashAttribute("mensagem", "Requerimento cadastrado com sucesso!");
@@ -170,6 +169,7 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 	//mv.addObject("funcionario", funcionarios);
 
 	Requerimento requerimento = ReqWifiService.buscarPorCodigo(codigo);
+
 	mv.addObject("requerimento", requerimento);
 
 	return mv;
@@ -190,10 +190,13 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 		}
 
 		ReqWifiService.salva(requerimento);
+
 		LocalDateTime data = LocalDateTime.now();
+
 		OrdemDeServico ordemDeServico = new OrdemDeServico(data,aux.getMatricula(), aux.getNome(),
 				requerimento.getMatricula(),requerimento.getNomeRequerente());
-		OS.save(ordemDeServico);
+
+		OSservice.salva(ordemDeServico);
 
 		attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
 		return "redirect:/requerimento/" + codigo;

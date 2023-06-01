@@ -40,6 +40,7 @@ public class Requerimento {
     @NotEmpty
     private String senha;
 
+    @NotEmpty
     private String status = "PENDENTE";
 
     @ManyToOne

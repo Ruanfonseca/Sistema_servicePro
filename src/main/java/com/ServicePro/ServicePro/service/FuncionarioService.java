@@ -47,4 +47,8 @@ public class FuncionarioService {
     public Funcionario buscarPorMatricula(String matricula) {
         return fr.findByMatricula(matricula);
     }
+
+    public Iterable<Funcionario> BuscarPorsetor(String setor) {
+        return fr.findAllsetor(setor);
+    }
 }

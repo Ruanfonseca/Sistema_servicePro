@@ -4,7 +4,6 @@ import com.ServicePro.ServicePro.models.Funcionario;
 import com.ServicePro.ServicePro.models.OrdemDeServico;
 import com.ServicePro.ServicePro.models.Requerimento;
 import com.ServicePro.ServicePro.repository.FuncionarioRepository;
-import com.ServicePro.ServicePro.repository.FuncionarioRepository;
 import com.ServicePro.ServicePro.repository.OrdemDeServicoRepository;
 import com.ServicePro.ServicePro.repository.RequerimentoWIfiRepository;
 import org.junit.jupiter.api.Test;
