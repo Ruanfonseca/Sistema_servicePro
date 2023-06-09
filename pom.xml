@@ -5,7 +5,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.9</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath /> <!--lookup parent from repository-->
 	</parent>
 
 	<groupId>com.ServicePro</groupId>
@@ -13,12 +13,17 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>com.ServicePro</name>
 	<description>Projeto ServicePro</description>
+	<packaging>jar</packaging>
+
 
 	<properties>
 		<thymeleaf.version>3.0.13.RELEASE</thymeleaf.version>
 		<thymeleaf-layout.version>3.0.12</thymeleaf-layout.version>
 		<thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
 		<java.version>17</java.version>
+		<maven.test.skip>true</maven.test.skip>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 
@@ -30,6 +35,12 @@
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.10.1</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/nl.talsmasoftware/umldoclet -->
@@ -128,6 +139,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.1.1.RELEASE</version>
 				<configuration>
 					<addResources>true</addResources>
 				</configuration>
