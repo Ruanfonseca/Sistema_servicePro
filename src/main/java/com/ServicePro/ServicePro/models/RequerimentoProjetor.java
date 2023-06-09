@@ -24,8 +24,6 @@ public class RequerimentoProjetor  {
 
     private String horaFinal;
 
-    @NotEmpty
-    private String titulo;
 
     @NotEmpty
     private String descricao;

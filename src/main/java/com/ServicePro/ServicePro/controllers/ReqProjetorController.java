@@ -58,18 +58,27 @@ public class ReqProjetorController {
 
             return "redirect:/cadastrarReqProj";
         }
-        if (!ValidacaoUtil.validarCPF(req.getCpf())) {
+        else if (!ValidacaoUtil.validarCPF(req.getCpf())) {
             attributes.addFlashAttribute("mensagem", "CPF invalido!");
             return "redirect:/cadastrarReqProj";
 
-        }if(reqPROJETORService.buscarPorCpf(req.getCpf()) !=null){
+        } else if(reqPROJETORService.buscarPorCpf(req.getCpf()) !=null){
+
             if(req.getStatus() == "PENDENTE")
                 attributes.addFlashAttribute("mensagem", "Já Existe um requerimento pendente associado a esse cpf !");
+
             return "redirect:/cadastrarReqProj";
 
-        }if(funcionarioService.buscarPorCPF(req.getCpf())!=null){
+        }else if(funcionarioService.buscarPorCPF(req.getCpf())!=null){
+
             attributes.addFlashAttribute("mensagem", "Você é um funcionário, funcionário não pode abrir requerimento");
             return "redirect:/cadastrarReqProj";
+
+        }else if (req.getHoraInicial() == req.getHoraFinal()) {
+
+            attributes.addFlashAttribute("mensagem", "Horario inicial igual ao Horario final");
+            return "redirect:/cadastrarReqSala";
+
         }
         try {
             req.setData(FormatadorDeData(req.getData()));

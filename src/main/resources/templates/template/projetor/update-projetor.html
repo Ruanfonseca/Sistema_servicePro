@@ -22,12 +22,6 @@
 			<br>
 
 			<div class="form-group">
-				<label for=""><b>Título</b></label> <input type="text"
-					class="form-control" value="" name="titulo"
-					th:value="${requerimento.titulo}" required />
-			</div>
-
-			<div class="form-group">
 				<label for=""><b>Descrição</b></label>
 				<textarea class="form-control" name="descricao" rows="3"
 					th:text="${requerimento.descricao}" required></textarea>
@@ -77,8 +71,9 @@
 					class="form-control" value="" name="email"
 					th:value="${requerimento.email}" required />
 			</div>
-
-			<button style="margin-top:10px;" type="submit" class="btn btn-success">Salvar</button>
+			</br>
+			<button type="submit" class="btn btn-success">Salvar</button>
+			<a class="btn btn-danger" href="/requerimentosProj">Voltar </a>
 		</form>
 	</div>
 

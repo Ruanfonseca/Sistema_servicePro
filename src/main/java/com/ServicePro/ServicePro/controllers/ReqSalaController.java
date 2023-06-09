@@ -57,19 +57,23 @@ public class ReqSalaController {
 
             return "redirect:/cadastrarReqSala";
         }
-        if (!ValidacaoUtil.validarCPF(req.getCpf())) {
+        else if (!ValidacaoUtil.validarCPF(req.getCpf())) {
             attributes.addFlashAttribute("mensagem", "CPF invalido!");
             return "redirect:/cadastrarReqSala";
 
-        }if(reqSALAService.BuscarPorCpf(req.getCpf()) !=null){
-            if(req.getStatus() == "Pendente")
+        }else if(reqSALAService.BuscarPorCpf(req.getCpf()) !=null){
+            if(req.getStatus() == "PENDENTE")
                 attributes.addFlashAttribute("mensagem", "Já Existe um requerimento pendente associado a esse cpf !");
             return "redirect:/cadastrarReqSala";
 
-        }if(funcionarioService.buscarPorCPF(req.getCpf())!=null){
+        }else if(funcionarioService.buscarPorCPF(req.getCpf())!=null){
             attributes.addFlashAttribute("mensagem", "Você é um funcionário, funcionário não pode abrir requerimento");
             return "redirect:/cadastrarReqSala";
+        } else if (req.getHoraInicial() == req.getHoraFinal()) {
+            attributes.addFlashAttribute("mensagem", "Horario inicial igual ao Horario final");
+            return "redirect:/cadastrarReqSala";
         }
+
         try {
             req.setData(FormatadorDeData(req.getData()));
             if (reqSALAService.salvar(req)) {

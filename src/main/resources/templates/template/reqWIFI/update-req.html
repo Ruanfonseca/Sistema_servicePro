@@ -22,17 +22,10 @@
 			<br>
 
 			<div class="form-group">
-				<label for=""><b>Título</b></label> <input type="text"
-					class="form-control" value="" name="titulo"
-					th:value="${requerimento.titulo}" required />
-			</div>
-
-			<div class="form-group">
 				<label for=""><b>Descrição</b></label>
 				<textarea class="form-control" name="descricao" rows="3"
 					th:text="${requerimento.descricao}" required></textarea>
-				<small class="form-text text-muted"><i>* Breve resumo da
-						vaga oferecida.</i></small>
+				<small class="form-text text-muted"><i>* resumo da descrição do modelo do aparelho.</i></small>
 			</div>
 
 			<div class="form-group">
@@ -53,11 +46,6 @@
 					th:value="${requerimento.nomeRequerente}" required />
 			</div>
 
-			<div class="form-group">
-				<label for=""><b>status</b></label> <input type="text"
-																	   class="form-control" value="" name="status"
-																	   th:value="${requerimento.status}" required />
-			</div>
 
 			<div class="form-group">
 				<label for=""><b>E-mail</b></label> <input type="email"
@@ -72,9 +60,11 @@
 				<small class="form-text text-muted"><i>* Utilize valores
 						considerando vírgula e ponto.</i></small>
 			</div>
-
+			</br>
 			<button type="submit" class="btn btn-success">Salvar</button>
+			<a class="btn btn-danger" href="/requerimentos">Voltar </a>
 		</form>
+
 	</div>
 
 

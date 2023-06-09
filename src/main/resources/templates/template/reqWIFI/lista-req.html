@@ -2,7 +2,7 @@
 <html lang=”pt-br” xmlns:th="http://thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="layout">
-<head th:insert="template/fragmentos/cabecalho.html :: head"> </head>
+<head th:insert="template/fragmentos/cabecalho.html :: head"></head>
 
 <body>
 
@@ -12,13 +12,20 @@
 
 	<div class="container">
 		<h2>Lista de requerimentos pendentes</h2>
+        </br>
+
+
+		<a class="btn btn-success "  href="/requerimentosPageFinalizados"> Verificar </a>
+		<p>Listar requerimentos finalizados</p>
+
+		<!--
 		<div class="form-check">
 			<label class="form-check-label">
 				<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" th:checked="${controllerMapping == '/requerimentosPageFinalizados'}" th:onclick="'window.location.href = \'' + @{/requerimentosPageFinalizados} + '\';'">
 				Listar requerimentos finalizados
 			</label>
 		</div>
-
+-->
 		<br>
 
 		<table class="table table-hover table-responsive w-auto table-striped">
@@ -31,7 +38,7 @@
 					<th>Senha</th>
 					<th>Data</th>
 					<th>Ações</th>
-					
+
 				</tr>
 			</thead>
 			<tbody>
@@ -42,7 +49,7 @@
 					<td th:text="${req.descricao}"></td>
 					<td th:text="${req.senha}"></td>
 					<td th:text="${req.data}"></td>
-					
+
 					<td><a class="btn btn-danger"
 						th:href="@{/requerimento/{codigo}(codigo=${req.codigo})}">Detalhes</a></td>
 					<td><a class="btn btn-warning"
@@ -74,6 +81,8 @@
 		</ul>
 	</div>
 <div th:insert="template/fragmentos/divfooter.html :: div"> </div>
+</script>
+
 </body>
 
 </html>

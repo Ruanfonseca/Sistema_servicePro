@@ -1,4 +1,4 @@
-package com.ServicePro.ServicePro;
+package com.ServicePro.ServicePro.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

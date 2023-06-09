@@ -1,4 +1,4 @@
-package com.ServicePro.ServicePro;
+package com.ServicePro.ServicePro.config;
 
 import javax.sql.DataSource;
 

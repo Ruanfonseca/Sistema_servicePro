@@ -16,9 +16,6 @@ public class Requerimento {
     private Long codigo;
 
     @NotEmpty
-    private String titulo;
-
-    @NotEmpty
     private String descricao;
 
     @Column(unique = true)

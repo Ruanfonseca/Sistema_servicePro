@@ -26,10 +26,6 @@ public class RequerimentoSala{
     private String horaFinal;
 
 
-
-    @NotEmpty
-    private String titulo;
-
     @NotEmpty
     private String descricao;
 

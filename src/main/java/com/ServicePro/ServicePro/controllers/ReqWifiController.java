@@ -41,7 +41,7 @@ public class ReqWifiController {
 
 	@GetMapping("/cadastrarReq")
 	public ModelAndView form() {
-		ModelAndView modelAndView = new ModelAndView("template/reqWIFI/form-vaga.html");
+		ModelAndView modelAndView = new ModelAndView("template/reqWIFI/form-req.html");
 		modelAndView.addObject("requerimento", new Requerimento());
 		return modelAndView;
 	}
@@ -123,7 +123,7 @@ public class ReqWifiController {
 	@GetMapping("/requerimento/{codigo}")
 	public ModelAndView detalhesReq(@PathVariable("codigo") long codigo) {
 		Requerimento requerimento = ReqWifiService.buscarPorCodigo(codigo);
-		ModelAndView mv = new ModelAndView("template/reqWIFI/detalhes-vaga.html");
+		ModelAndView mv = new ModelAndView("template/reqWIFI/detalhes-req.html");
 		mv.addObject("requerimento", requerimento);
 		return mv;
 	}
@@ -138,7 +138,7 @@ public class ReqWifiController {
 	@GetMapping("/editar-requerimento/{codigo}")
 	public ModelAndView editarRequerimento(@PathVariable("codigo") long codigo) {
 		Requerimento requerimento = ReqWifiService.buscarPorCodigo(codigo);
-		ModelAndView mv = new ModelAndView("template/reqWIFI/update-vaga");
+		ModelAndView mv = new ModelAndView("template/reqWIFI/update-req");
 		mv.addObject("requerimento", requerimento);
 		return mv;
 	}
