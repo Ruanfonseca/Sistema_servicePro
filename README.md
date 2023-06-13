@@ -6,6 +6,8 @@ acaba ficando sobrecarregado. Entretanto a aplicação se propõe a resolver uns
 persistindo requerimentos de solicitação de acesso a WIFI,Sala de aula e Projetores do campos, 
 garantindo assim uma agilidade na resolução das solicitações que são feitas de forma presencial.  
 
+sua imagem docker -> https://hub.docker.com/r/ruanfonseca2023/servicepro
+
 video de seu funcionamento
 
 https://github.com/Ruanfonseca/Sistema_servicePro/assets/64973978/471a0f83-69d0-4a44-b601-9f2262371663
