@@ -9,6 +9,8 @@ EXPOSE 8080
 # Segundo estágio: Imagem final com PostgreSQL
 FROM postgres:latest
 
+
+
 # Opcional: Defina variáveis de ambiente para o PostgreSQL
 ENV POSTGRES_USER postgres
 ENV POSTGRES_PASSWORD ruan123
