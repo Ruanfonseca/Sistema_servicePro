@@ -17,10 +17,9 @@
 			<thead>
 				<tr>
 					<th>Código</th>
-					<th>Matrícula</th>
+					<th class="d-none d-md-table-cell">Matrícula</th>
 					<th>Requerente</th>
-					<th>Descrição</th>
-					<th>Data</th>
+					<th class="d-none d-md-table-cell">Data</th>
 					<th>Ações</th>
 					
 				</tr>
@@ -30,17 +29,15 @@
 					<td th:text="${req.codigo}"></td>
 					<td th:text="${req.matricula}"></td>
 					<td th:text="${req.nomeRequerente}"></td>
-					<td th:text="${req.descricao}"></td>
-
 					<td th:text="${req.data}"></td>
 					
-					<td><a class="btn btn-danger"
+					<td><a class="btn btn-danger d-none d-md-block mr-2"
 						th:href="@{/requerimentoSALA/{codigo}(codigo=${req.codigo})}">Detalhes</a></td>
-					<td><a class="btn btn-warning"
+					<td><a class="btn btn-warning d-block d-md-none mr-2"
 						th:href="@{/TelaBaixaReqSala/{codigo}(codigo=${req.codigo})}">Dar Baixa</a></td>
-					<td><a class="btn btn-primary"
+					<td><a class="btn btn-primary d-none d-md-block mr-2"
 						th:href="@{/deletarReq/{codigo}(codigo=${req.codigo})}">Excluir</a>
-						<a class="btn btn-success"
+						<a class="btn btn-primary d-none d-md-block mr-2"
 						th:href="@{/editar-requerimentoSALA/{codigo}(codigo=${req.codigo})}">Editar</a>
 					</td>
 				</tr>
