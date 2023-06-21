@@ -37,7 +37,6 @@
 								<select name="nome" id="nome"
 									class="custom-select my-3 p-2 w-100" required>
 									<option value="">Escolher...</option>
-									<option value="todos">Todos</option>
 									<option value="nomefuncionario">Funcionário</option>
 									<option value="nomeauxiliar">Auxiliar</option>
 									<option value="cpfrequerimento">Requerimento</option>
@@ -50,7 +49,11 @@
 
 								<input class="form-control form-control-lg my-3 p-2 w-100"
 									type="search" placeholder="Insira sua pesquisa..."
-									aria-label="Pesquisar" name="buscar" id="buscar" required><i>* Digite o cpf para buscar requerimentos.</i></input>
+									aria-label="Pesquisar" name="buscar" id="buscar" required>
+								<i>* Digite o cpf para buscar requerimentos.
+								   * Digite o cpf para buscar auxiliares.
+								   * Digite a matricula para buscar funcionario.
+								</i></input>
 
 							</div>
 
@@ -73,26 +76,21 @@
 					<div class="row form-group justify-content-center w-100 p-2">
 						<table
 							class="table table-hover table-responsive w-auto table-striped">
-
 							<tbody>
-								<tr th:each="funcionario : ${funcionario}">
-									<td><a
-										th:href="${(#mvc.url('FC#detalhesFuncionario').arg(0, funcionario.id)).build()}"><span
-											th:text="${funcionario.nome}"></span></a> - em <i>funcionários.</i></td>
-
-
-								</tr>
-								<tr th:each="requerimento : ${requerimentos}">
-									<td><i>Seus Status - </i><span th:text="${requerimento.status}"></span> </td>
-									<td><i>Mensagem da Área técnica - </i><span th:text="${requerimento.mensagemRetorno}"></span> </td>
-
-								</tr>
-
-								<tr th:each="auxiliar : ${auxiliares}">
-									<td><span th:text="${auxiliar.nome}"></span> - <i>em
-											auxiliares.</i></td>
-								</tr>
-
+							<tr th:if="${funcionario != null}">
+								<td>Funcionário</td>
+								<td th:text="${funcionario.nome}"></td>
+								<td th:text="${funcionario.tipo}"></td>
+							</tr>
+							<tr th:if="${auxiliar != null}">
+								<td>Auxiliar</td>
+								<td th:text="${auxiliar.nome}"></td>
+							</tr>
+							<tr th:if="${requerimento != null}">
+								<td>Requerimento</td>
+								<td th:text="${requerimento.status}"></td>
+								<td th:text="${requerimento.mensagemRetorno}"></td>
+							</tr>
 							</tbody>
 						</table>
 					</div>
