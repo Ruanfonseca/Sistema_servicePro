@@ -219,7 +219,7 @@ public class ReqProjetorController {
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
 
-        return "redirect:/requerimentosProj/" + codigo;
+        return "redirect:/requerimentoProj/" + codigo;
     }
 
 }

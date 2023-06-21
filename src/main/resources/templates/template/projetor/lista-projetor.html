@@ -28,27 +28,36 @@
 				<th class="d-none d-md-table-cell">Matrícula</th>
 				<th>Requerente</th>
 				<th class="d-none d-md-table-cell">Data</th>
-				<th>Ações</th>
+				<th class="d-none d-md-table-cell">Ações</th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr th:each="requerimento : ${requerimento}">
 				<td th:text="${requerimento.codigo}"></td>
-				<td th:text="${requerimento.matricula}"></td>
+				<td class="d-none d-md-table-cell" th:text="${requerimento.matricula}"></td>
 				<td th:text="${requerimento.nomeRequerente}"></td>
-				<td th:text="${requerimento.descricao}"></td>
-				<td th:text="${requerimento.data}"></td>
+				<td class="d-none d-md-table-cell" th:text="${requerimento.data}"></td>
 
-				<td><a class="btn btn-danger d-none d-md-block mr-2"
-					   th:href="@{/requerimentoProj/{codigo}(codigo=${requerimento.codigo})}">Detalhes</a></td>
-				<td><a class="btn btn-warning d-block d-md-none mr-2"
-					   th:href="@{/TelaBaixaReqProj/{codigo}(codigo=${requerimento.codigo})}">Dar Baixa</a></td>
-				<td><a class="btn btn-danger d-none d-md-block mr-2"
-					   th:href="@{/deletarReqProj/{codigo}(codigo=${requerimento.codigo})}">Excluir</a>
-					<a class="btn btn-danger d-none d-md-block mr-2"
-					   th:href="@{/editar-requerimentoProj/{codigo}(codigo=${requerimento.codigo})}">Editar</a>
-				</td>
+				<div class="btn-group btn-group-spacing">
+
+					<td><a class="btn btn-danger d-none d-md-block mr-2"
+						   th:href="@{/requerimentoProj/{codigo}(codigo=${requerimento.codigo})}">Detalhes</a></td>
+
+					<td><a class="btn btn-warning d-block d-md-none mr-2"
+						   th:href="@{/TelaBaixaReqProj/{codigo}(codigo=${requerimento.codigo})}">Dar Baixa</a></td>
+
+					<td><a class="btn btn-warning d-none d-md-block mr-2"
+						   th:href="@{/TelaBaixaReqProj/{codigo}(codigo=${requerimento.codigo})}">Dar Baixa</a></td>
+
+
+					<td><a class="btn btn-success d-none d-md-block mr-2"
+						   th:href="@{/deletarReqProj/{codigo}(codigo=${requerimento.codigo})}">Excluir</a></td>
+
+					<td><a class="btn btn-primary d-none d-md-block mr-2"
+						   th:href="@{/editar-requerimentoProj/{codigo}(codigo=${requerimento.codigo})}">Editar</a></td>
+				</div>
 			</tr>
+
 			</tbody>
 		</table>
 	</div>

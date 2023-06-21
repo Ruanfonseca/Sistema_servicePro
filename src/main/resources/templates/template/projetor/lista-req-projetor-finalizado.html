@@ -21,21 +21,19 @@
         <thead>
         <tr>
             <th>Código</th>
-            <th>Matrícula</th>
+            <th class="d-none d-md-table-cell">Matrícula</th>
             <th>Requerente</th>
-            <th>Descrição</th>
-            <th>Data</th>
-            <th>Ações</th>
+            <th class="d-none d-md-table-cell">Data</th>
+            <th class="d-none d-md-table-cell">Ações</th>
 
         </tr>
         </thead>
         <tbody>
         <tr th:each="requerimento : ${requerimento}">
             <td th:text="${requerimento.codigo}"></td>
-            <td th:text="${requerimento.matricula}"></td>
+            <td class="d-none d-md-table-cell" th:text="${requerimento.matricula}"></td>
             <td th:text="${requerimento.nomeRequerente}"></td>
-            <td th:text="${requerimento.descricao}"></td>
-            <td th:text="${requerimento.data}"></td>
+            <td class="d-none d-md-table-cell" th:text="${requerimento.data}"></td>
 
             <td><a class="btn btn-danger"
                    th:href="@{/requerimentoProj/{codigo}(codigo=${requerimento.codigo})}">Detalhes</a></td>

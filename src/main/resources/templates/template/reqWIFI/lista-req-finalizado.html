@@ -16,22 +16,20 @@
         <thead>
         <tr>
             <th>Código</th>
-            <th>Matrícula</th>
-            <th>Requerente</th>
-            <th>Descrição</th>
+            <th class="d-none d-md-table-cell">Matrícula</th>
+            <th >Requerente</th>
             <th>Senha</th>
-            <th>Data</th>
-            <th>Ações</th>
+            <th class="d-none d-md-table-cell">Data</th>
+            <th class="d-none d-md-table-cell">Ações</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="req : ${requerimentos}">
             <td th:text="${req.codigo}"></td>
-            <td th:text="${req.matricula}"></td>
+            <td class="d-none d-md-table-cell" th:text="${req.matricula}"></td>
             <td th:text="${req.nomeRequerente}"></td>
-            <td th:text="${req.descricao}"></td>
-            <td th:text="${req.senha}"></td>
-            <td th:text="${req.data}"></td>
+            <td  th:text="${req.senha}"></td>
+            <td class="d-none d-md-table-cell" th:text="${req.data}"></td>
             <td>
                 <a class="btn btn-danger" th:href="@{/requerimento/{codigo}(codigo=${req.codigo})}">Detalhes</a>
             </td>
