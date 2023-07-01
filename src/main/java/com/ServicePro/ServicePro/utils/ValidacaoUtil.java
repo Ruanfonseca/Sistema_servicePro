@@ -1,5 +1,6 @@
 package com.ServicePro.ServicePro.utils;
 
+
 public class ValidacaoUtil {
 
     public static boolean validarCPF(String cpf) {

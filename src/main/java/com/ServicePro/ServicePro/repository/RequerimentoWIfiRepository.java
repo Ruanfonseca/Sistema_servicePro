@@ -21,12 +21,15 @@ public interface RequerimentoWIfiRepository extends CrudRepository<Requerimento,
 
 	Requerimento findByCpf(String cpf);
 	@Query("SELECT r FROM Requerimento r WHERE r.status = 'FINALIZADO'")
-	Iterable<Requerimento> findByStatusFinalizado();
+	List<Requerimento> findByStatusFinalizado();
 
 	//faça uma busca no banco de dados e retorne por exemplo na pagina 0 10
 	// requerimentos finalizados
 	@Query("SELECT r FROM Requerimento r WHERE r.status = 'FINALIZADO'")
 	Page<Requerimento> findByStatusFinalizado(Pageable pageable);
+
+
+
 
 	@Query("SELECT r FROM Requerimento r WHERE r.status = 'PENDENTE'")
 	Page<Requerimento> findByStatusPendente(Pageable pageable);

@@ -1,7 +1,16 @@
 package com.ServicePro.ServicePro.controllers;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import com.ServicePro.ServicePro.models.Funcionario;
 import com.ServicePro.ServicePro.models.OrdemDeServico;
@@ -10,6 +19,9 @@ import com.ServicePro.ServicePro.service.FuncionarioService;
 import com.ServicePro.ServicePro.service.OrdemDeServicoService;
 import com.ServicePro.ServicePro.service.ReqWifiService;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -104,6 +116,72 @@ public class ReqWifiController {
 		mv.addObject("currentPage", requerimentosPage.getNumber());
 		mv.addObject("totalPages", requerimentosPage.getTotalPages());
 		return mv;
+	}
+
+	@RequestMapping("/requerimentos/GerarPDF")
+	public void geradorDePDFfinalizados(HttpServletResponse response) {
+		try {
+
+			List<Requerimento> requerimentosFinalizados = ReqWifiService.buscarPorStatusFinalizado();
+
+			Document document = new Document();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			response.setContentType("application/pdf");
+			response.setHeader("Content-Disposition", "inline; filename=relatorio_finalizados.pdf");
+
+			PdfWriter writer = PdfWriter.getInstance(document, baos);
+
+
+			document.open();
+
+			//Colocando imagem no pdf , estava dando muitos erros nessa chamada de imagem , resolvi colocar
+			//no github , embora cause lentidão
+			URL imageUrl = new URL("https://github.com/Ruanfonseca/Sistema_servicePro/raw/729e563093d78de37e536aeb88de391a4a08ad42/src/main/resources/static/images/logoUERJ.png");
+			Image image = Image.getInstance(imageUrl);
+			image.scaleToFit(100, 100);
+			image.setAlignment(Element.ALIGN_CENTER);
+			document.add(image);
+
+
+			// Colocando titulo no documento
+			Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24, BaseColor.BLACK);
+			Paragraph title = new Paragraph("Relatório de Requerimentos Finalizados", titleFont);
+			title.setAlignment(Element.ALIGN_CENTER);
+			title.setSpacingAfter(20);
+			document.add(title);
+
+			Font contentFont = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
+			for (Requerimento requerimento : requerimentosFinalizados) {
+				Paragraph paragraph = new Paragraph();
+				paragraph.setFont(contentFont);
+				paragraph.add("ID: " + requerimento.getCodigo() +
+						"\nNome Requerente: " + requerimento.getNomeRequerente() +
+						"\nData: " + requerimento.getData() +
+						"\nStatus: " + requerimento.getStatus() +
+						"\nEmail: "+requerimento.getEmail() +
+						"\nMatricula: "+requerimento.getMatricula()+
+						"\nMensagem de retorno: "+requerimento.getMensagemRetorno()+
+						"\nDescrição: "+requerimento.getDescricao() +
+						"\n "
+
+				);
+				document.add(paragraph);
+			}
+
+
+			document.close();
+
+			response.setHeader("Content-Disposition", "inline; filename=relatorio_finalizados.pdf");
+			response.setContentType("application/pdf");
+			response.setContentLength(baos.toByteArray().length);
+
+			// Escreva os dados do PDF na resposta
+			response.getOutputStream().write(baos.toByteArray());
+			response.getOutputStream().flush();
+
+		} catch (DocumentException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@GetMapping("/requerimentos")

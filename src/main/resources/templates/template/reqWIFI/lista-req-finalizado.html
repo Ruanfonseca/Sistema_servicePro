@@ -7,9 +7,10 @@
 
 <div class="container">
 
-    <h2>Lista de requerimentos finalizados</h2>
+    <h2>Lista de Requerimentos Finalizados</h2>
     <br>
     <a class="btn btn-success "  href="/requerimentos"> Verificar </a>
+    <a class="btn btn-success "  href="/requerimentos/GerarPDF" target="_blank"> Imprimir lista finalizados</a>
     <p>Listar requerimentos pendentes</p>
 
     <table class="table table-hover table-responsive w-auto table-striped">
@@ -33,6 +34,7 @@
             <td>
                 <a class="btn btn-danger" th:href="@{/requerimento/{codigo}(codigo=${req.codigo})}">Detalhes</a>
             </td>
+
         </tr>
         </tbody>
     </table>

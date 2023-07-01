@@ -2,6 +2,7 @@ package com.ServicePro.ServicePro.config;
 
 import javax.sql.DataSource;
 
+import org.hibernate.dialect.PostgreSQLDialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -19,6 +20,7 @@ public class DataConfiguration {
 		dataSource.setUrl("jdbc:postgresql://127.0.0.1:5432/ServiceProDB");
 		dataSource.setUsername("postgres");
 		dataSource.setPassword("ruan123");
+
 		return dataSource;
 	}
 
@@ -28,7 +30,7 @@ public class DataConfiguration {
 		adapter.setDatabase(Database.POSTGRESQL);
 		adapter.setShowSql(true);
 		adapter.setGenerateDdl(true);
-		adapter.setDatabasePlatform("org.hibernate.dialect.PostgreSQLDialect");
+		adapter.setDatabasePlatform(PostgreSQLDialect.class.getName());
 		adapter.setPrepareConnection(true);
 		return adapter;
 	}

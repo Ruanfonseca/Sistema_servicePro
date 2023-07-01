@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReqWifiService {
 
@@ -37,6 +39,9 @@ public class ReqWifiService {
         return  repository.findByStatusFinalizado(pageable);
     }
 
+    public List<Requerimento> buscarPorStatusFinalizado() {
+        return  repository.findByStatusFinalizado();
+    }
     public Page<Requerimento> buscarPorStatusPendente(Pageable pageable) {
         return  repository.findByStatusPendente(pageable);
     }
