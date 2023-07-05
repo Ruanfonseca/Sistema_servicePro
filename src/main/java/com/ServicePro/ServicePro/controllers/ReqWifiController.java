@@ -196,12 +196,14 @@ public class ReqWifiController {
 		mv.addObject("requerimentos", requerimentosPage.getContent());
 		mv.addObject("currentPage", requerimentosPage.getNumber());
 		mv.addObject("totalPages", requerimentosPage.getTotalPages());
+
 		return mv;
 	}
 
 	@GetMapping("/requerimento/{codigo}")
 	public ModelAndView detalhesReq(@PathVariable("codigo") long codigo) {
 		Requerimento requerimento = ReqWifiService.buscarPorCodigo(codigo);
+		requerimento.setData(FormatadorDeData(requerimento.getData()));
 		ModelAndView mv = new ModelAndView("template/reqWIFI/detalhes-req.html");
 		mv.addObject("requerimento", requerimento);
 		return mv;

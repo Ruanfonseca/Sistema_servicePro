@@ -7,19 +7,11 @@ import java.time.format.DateTimeFormatter;
 public class FormatadorUtil {
 
     public static LocalDateTime FormatadorDeData(LocalDateTime data) {
-        // Obtém a data e hora atual
-        LocalDateTime agora = LocalDateTime.now();
 
-        // Define o padrão desejado para obter apenas o dia
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
+        String dataFormatada = data.format(formatter);
 
-        // Formata a data para obter apenas o dia
-        String diaFormatado = agora.format(formatter);
-
-        // Cria um novo LocalDateTime com apenas o dia, mantendo o restante dos valores padrão
-        data = LocalDateTime.of(agora.getYear(), agora.getMonth(), Integer.parseInt(diaFormatado), 0, 0, 0);
-
-     return data;
+        return LocalDateTime.parse(dataFormatada, formatter);
     }
 
 }
