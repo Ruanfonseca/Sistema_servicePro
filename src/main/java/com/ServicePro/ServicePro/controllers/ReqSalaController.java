@@ -1,5 +1,6 @@
 package com.ServicePro.ServicePro.controllers;
 
+import com.ServicePro.ServicePro.component.clienteHTTP;
 import com.ServicePro.ServicePro.models.*;
 import com.ServicePro.ServicePro.service.FuncionarioService;
 import com.ServicePro.ServicePro.service.OrdemDeServicoSalaService;
@@ -36,6 +37,10 @@ public class ReqSalaController {
 
     @Autowired
     private ReqSALAService reqSALAService;
+
+
+    private clienteHTTP clienteHttp;
+
 
     @GetMapping("/cadastrarReqSala")
     public ModelAndView form() {
@@ -171,16 +176,7 @@ public class ReqSalaController {
         return "redirect:/requerimentoSALA/" + codigo;
     }
 
-    /*
-        @GetMapping("/TelaBaixaReq/{codigo}")
-        public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
-            Requerimento requerimento = vr.findByCodigo(codigo);
-            ModelAndView mv = new ModelAndView("template/vaga/TelaBaixaReq");
-            mv.addObject("requerimento", requerimento);
-            return mv;
-        }
-    */
     @GetMapping("/TelaBaixaReqSala/{codigo}")
     public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 
@@ -221,6 +217,14 @@ public class ReqSalaController {
         OrdemDeServicoSala ordemDeServicoSala = new OrdemDeServicoSala(data,aux.getMatricula(), aux.getNome(),
                 requerimento.getMatricula(),requerimento.getNomeRequerente());
         ordemDeServicoSalaService.salvar(ordemDeServicoSala);
+
+        //mandando msg para o broker
+        String msg = "O Requerimento de Sala "+requerimento.getCodigo()+" foi finalizado no dia "+data+
+                "Mensagem da Área técnica "+requerimento.getMensagemRetorno();
+
+        Integer flag = 2;
+        clienteHttp.criaHrequestHTTP(flag,msg);
+
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
         return "redirect:/requerimentoSALA/" + codigo;

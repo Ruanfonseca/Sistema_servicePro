@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import com.ServicePro.ServicePro.component.clienteHTTP;
+import com.ServicePro.ServicePro.models.DadosRabbitmq;
 import com.ServicePro.ServicePro.models.Funcionario;
 import com.ServicePro.ServicePro.models.OrdemDeServico;
 import com.ServicePro.ServicePro.models.Requerimento;
@@ -50,6 +53,7 @@ public class ReqWifiController {
 	@Autowired
 	private OrdemDeServicoService OSservice;
 
+	private  clienteHTTP clienteHttp;
 
 
 	@GetMapping("/cadastrarReq")
@@ -278,6 +282,14 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 				requerimento.getMatricula(),requerimento.getNomeRequerente());
 
 		OSservice.salva(ordemDeServico);
+
+
+		//mandando msg para o broker
+		String msg = "O Requerimento de Wifi "+requerimento.getCodigo()+" foi finalizado no dia "+data+
+				"Mensagem da Área técnica "+requerimento.getMensagemRetorno();
+
+		Integer flag = 1;
+		clienteHttp.criaHrequestHTTP(flag,msg);
 
 		attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
 		return "redirect:/requerimento/" + codigo;

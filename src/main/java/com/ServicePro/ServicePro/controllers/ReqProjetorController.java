@@ -1,5 +1,6 @@
 package com.ServicePro.ServicePro.controllers;
 
+import com.ServicePro.ServicePro.component.clienteHTTP;
 import com.ServicePro.ServicePro.models.*;
 import com.ServicePro.ServicePro.service.FuncionarioService;
 import com.ServicePro.ServicePro.service.OrdemDeServicoPROJETORservice;
@@ -37,6 +38,9 @@ public class ReqProjetorController {
      @Autowired
      private ReqPROJETORService reqPROJETORService;
 
+
+
+    private clienteHTTP clienteHttp;
 
 
     @GetMapping("/cadastrarReqProj")
@@ -212,10 +216,22 @@ public class ReqProjetorController {
         reqPROJETORService.salvar(requerimento);
 
         LocalDateTime data = LocalDateTime.now();
+
         OrdemDeServicoProjetor ordemDeServicoProjetor = new OrdemDeServicoProjetor(data,aux.getMatricula(), aux.getNome(),
                 requerimento.getMatricula(),requerimento.getNomeRequerente());
 
+        /*Fazendo uma tabela para funcionar como um livro de registros de requerimento*/
         ordemDeServicoPROJETORservice.salvar(ordemDeServicoProjetor);
+
+
+
+
+        //mandando msg para o broker
+        String msg = "O Requerimento de Projetor "+requerimento.getCodigo()+" foi finalizado no dia "+data+
+                "Mensagem da Área técnica "+requerimento.getMensagemRetorno();
+        Integer flag = 3;
+
+        clienteHttp.criaHrequestHTTP(flag,msg);
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
 
