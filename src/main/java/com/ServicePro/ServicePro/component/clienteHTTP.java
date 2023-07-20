@@ -1,6 +1,4 @@
 package com.ServicePro.ServicePro.component;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -65,7 +63,7 @@ public class clienteHTTP {
                 }
                 break;
 
-           case 3:
+            case 3:
                 String url3 = "https://api.rabbitMQ.com/enviar-dados/projetor";
 
                 HttpHeaders headers3 = new HttpHeaders();
@@ -77,12 +75,12 @@ public class clienteHTTP {
                 // Enviando a requisição POST
                 ResponseEntity<String> responseEntity3 = restTemplate.postForEntity(url3, requestEntity3, String.class);
 
-               // Verificar se a requisição foi bem-sucedida ou não
-               if (responseEntity3.getStatusCode().is1xxInformational()) {
-                   String response = responseEntity3.getBody();
-                   registrarNoTXT(flag , response);
-               }
-               break;
+                // Verificar se a requisição foi bem-sucedida ou não
+                if (responseEntity3.getStatusCode().is1xxInformational()) {
+                    String response = responseEntity3.getBody();
+                    registrarNoTXT(flag , response);
+                }
+                break;
 
             default:
 
