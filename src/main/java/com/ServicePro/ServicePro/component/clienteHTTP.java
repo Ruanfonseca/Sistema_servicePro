@@ -1,6 +1,6 @@
 package com.ServicePro.ServicePro.component;
 
-import com.ServicePro.ServicePro.models.DadosRabbitmq;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -8,6 +8,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDateTime;
+
+import static com.ServicePro.ServicePro.log.Log.registrarLOG;
 
 /*Classe para criar uma conexão e envio da requisição para o rabbitMq */
 @Component
@@ -35,13 +39,10 @@ public class clienteHTTP {
                 // Enviando a requisição POST
                 ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
 
-                // Verificar se a requisição foi bem-sucedida
-                if (responseEntity.getStatusCode().is2xxSuccessful()) {
+                // Verificar se a requisição foi bem-sucedida ou não
+                if (responseEntity.getStatusCode().is1xxInformational()) {
                     String response = responseEntity.getBody();
-                    System.out.println("Enviado: " + response);
-                } else {
-
-                    System.out.println("Erro na requisição: " + responseEntity.getStatusCode());
+                    registrarNoTXT(flag , response);
                 }
                 break;
 
@@ -57,13 +58,10 @@ public class clienteHTTP {
                 // Enviando a requisição POST
                 ResponseEntity<String> responseEntity2 = restTemplate.postForEntity(url2, requestEntity2, String.class);
 
-                // Verificar se a requisição foi bem-sucedida
-                if (responseEntity2.getStatusCode().is2xxSuccessful()) {
+                // Verificar se a requisição foi bem-sucedida ou não
+                if (responseEntity2.getStatusCode().is1xxInformational()) {
                     String response = responseEntity2.getBody();
-                    System.out.println("Enviado: " + response);
-                } else {
-
-                    System.out.println("Erro na requisição: " + responseEntity2.getStatusCode());
+                    registrarNoTXT(flag , response);
                 }
                 break;
 
@@ -79,15 +77,12 @@ public class clienteHTTP {
                 // Enviando a requisição POST
                 ResponseEntity<String> responseEntity3 = restTemplate.postForEntity(url3, requestEntity3, String.class);
 
-                // Verificar se a requisição foi bem-sucedida
-                if (responseEntity3.getStatusCode().is2xxSuccessful()) {
-                    String response = responseEntity3.getBody();
-                    System.out.println("Enviado: " + response);
-                } else {
-
-                    System.out.println("Erro na requisição: " + responseEntity3.getStatusCode());
-                }
-                break;
+               // Verificar se a requisição foi bem-sucedida ou não
+               if (responseEntity3.getStatusCode().is1xxInformational()) {
+                   String response = responseEntity3.getBody();
+                   registrarNoTXT(flag , response);
+               }
+               break;
 
             default:
 
@@ -95,6 +90,16 @@ public class clienteHTTP {
 
 
         }
+    }
+
+    public static void registrarNoTXT(Integer flag , String response){
+
+        LocalDateTime data = LocalDateTime.now();
+        String FLAG = String.valueOf(flag);
+        String DATA = String.valueOf(data);
+
+        //registra no arquivo.txt
+        registrarLOG(FLAG,response,DATA);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.ServicePro.ServicePro.utils;
 
+import org.springframework.stereotype.Service;
 
+@Service
 public class ValidacaoUtil {
 
     public static boolean validarCPF(String cpf) {
