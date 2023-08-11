@@ -8,6 +8,8 @@ import com.ServicePro.ServicePro.service.ReqSALAService;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -99,6 +101,8 @@ public class ReqSalaController {
 
     //recebendo parâmetros como inteiros , na pagina 0 exponha 10 requerimentos finalizados
     @GetMapping("/requerimentosSALAFinalizados")
+    @CacheEvict(value="requerimentosSALAFinalizados", allEntries = true)
+    @CachePut("requerimentosSALAFinalizados")
     public ModelAndView PagelistaDeFinalizados(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "10") int size) {
         ModelAndView mv = new ModelAndView("template/Sala/lista-req-sala-finalizado");
@@ -117,6 +121,8 @@ public class ReqSalaController {
 
 
     @GetMapping("/requerimentosSALA")
+    @CacheEvict(value="requerimentosSALA", allEntries = true)
+    @CachePut("requerimentosSALA")
     public ModelAndView PagelistaPendente(@RequestParam(defaultValue = "0") int page,
                                           @RequestParam(defaultValue = "10") int size) {
         ModelAndView mv = new ModelAndView("template/Sala/lista-sala.html");
