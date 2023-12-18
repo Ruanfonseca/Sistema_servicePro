@@ -81,12 +81,6 @@ public class clienteHTTP {
                     registrarNoTXT(flag , response);
                 }
                 break;
-
-            default:
-
-
-
-
         }
     }
 
