@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang=”pt-br” xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout">
+<head th:insert="template/fragmentos/cabecalho.html :: head"> </head>
+<body>
+<header th:insert="template/fragmentos/header.html :: header"> </header>
+
+
+	<div class="container">
+
+		<h1>Cadastrar requerimento projetor</h1>
+		<br>
+		<th:block th:include="mensagem-validacao"></th:block>
+
+		<form method="post" th:action="@{/cadastrarReqProj}"
+			th:object="${requerimentoProjetor}">
+
+			<div class="form-group">
+				<label for=""><b>Nome</b> </label> <input type="text"
+					class="form-control" th:field="*{nomeRequerente}"
+					placeholder="Insira seu nome" required> <small
+					class="form-text text-muted"><i>* Não deixe em branco.</i></small>
+			</div>
+
+			<div class="row">
+
+				<div class="col">
+					<div class="form-group">
+						<label for=""><b>CPF:</b></label> <input type="text"
+							th:field="*{cpf}" class="form-control" required /> <small
+							class="form-text text-muted"><i>*Insira seu CPF</i></small>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-group">
+						<label for=""><b>Matrícula</b></label> <input type="text"
+							th:field="*{matricula}" class="form-control" required /> <small
+							class="form-text text-muted"><i>*Insira sua matrícula</i></small>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-group">
+						<label for=""><b>Data</b></label> <input type="date"
+																	  th:field="*{dataDeUso}" class="form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" /> <small
+							class="form-text text-muted"><i>*Insira o data em que vai usar </i></small>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						<label for=""><b>Hora Inicial</b></label> <input type="text"
+																 th:field="*{horaInicial}" class="form-control" required /> <small
+							class="form-text text-muted"><i>*Insira a hora em que vai usar </i></small>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						<label for=""><b>Hora Final</b></label> <input type="text"
+																 th:field="*{horaFinal}" class="form-control" required /> <small
+							class="form-text text-muted"><i>*Insira a hora em que vai usar </i></small>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-group">
+						<label for=""><b>E-mail</b></label> <input type="text"
+							th:field="*{email}" class="form-control" required
+							pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" /> <small
+							class="form-text text-muted"><i>*Insira seu E-mail</i></small>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="form-group">
+				<label for=""><b>Descrição de que tipo de aula será:</b></label>
+				<textarea class="form-control" th:field="*{descricao}"
+					maxlength="300" rows="3" required></textarea>
+				<small class="form-text text-muted"><i>*Breve descrição da aula que você ministrará</i></small>
+			</div>
+
+			<button type="submit" class="btn btn-success">Adicionar
+				Requerimento</button>
+		</form>
+
+	</div>
+
+<div th:insert="template/fragmentos/divfooter.html :: div"> </div>
+
+</body>
+
+</html>

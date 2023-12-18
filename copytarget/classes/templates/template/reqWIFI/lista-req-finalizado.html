@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+
+<head th:insert="template/fragmentos/cabecalho.html :: head"></head>
+
+<body>
+<header th:insert="template/fragmentos/header.html :: header"></header>
+
+<div class="container">
+
+    <h2>Lista de Requerimentos Finalizados</h2>
+    <br>
+    <a class="btn btn-success "  href="/requerimentos"> Verificar </a>
+    <a class="btn btn-success "  href="/requerimentos/GerarPDF" target="_blank"> Imprimir lista finalizados</a>
+    <p>Listar requerimentos pendentes</p>
+
+    <table class="table table-hover table-responsive w-auto table-striped">
+        <thead>
+        <tr>
+            <th>Código</th>
+            <th class="d-none d-md-table-cell">Matrícula</th>
+            <th >Requerente</th>
+            <th>Senha</th>
+            <th class="d-none d-md-table-cell">Data</th>
+            <th class="d-none d-md-table-cell">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="req : ${requerimentos}">
+            <td th:text="${req.codigo}"></td>
+            <td class="d-none d-md-table-cell" th:text="${req.matricula}"></td>
+            <td th:text="${req.nomeRequerente}"></td>
+            <td  th:text="${req.senha}"></td>
+            <td class="d-none d-md-table-cell" th:text="${req.data}"></td>
+            <td>
+                <a class="btn btn-danger" th:href="@{/requerimento/{codigo}(codigo=${req.codigo})}">Detalhes</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <ul class="pagination">
+        <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+            <a class="page-link" th:href="@{/requerimentos(page=0, size=${size})}">Primeira</a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+            <a class="page-link" th:href="@{/requerimentos(page=${currentPage - 1}, size=${size})}">Anterior</a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? disabled">
+            <a class="page-link" th:href="@{/requerimentos(page=${currentPage + 1}, size=${size})}">Próxima</a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? disabled">
+            <a class="page-link" th:href="@{/requerimentos(page=${totalPages - 1}, size=${size})}">Última</a>
+        </li>
+
+    </ul>
+
+</div>
+
+<div th:insert="template/fragmentos/divfooter.html :: div"></div>
+
+</body>
+</html>

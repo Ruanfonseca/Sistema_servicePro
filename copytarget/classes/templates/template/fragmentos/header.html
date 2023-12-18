@@ -1,0 +1,87 @@
+<header xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+
+                <img width="70px" height="70px" th:src="@{/images/logoUERJ.png}"
+                     style="border-radius: 40%;box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;"></a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item"><a class="nav-link active"
+                                            style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;"
+                                            aria-current="page" href="/">Home</a></li>
+
+                    <li class="nav-item"><a class="nav-link"
+                                            style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;"
+                                            href="/funcionarios">Funcionários</a></li>
+
+                    <li class="nav-item"><a class="nav-link"
+                                            style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;"
+                                            href="/cadastrarFuncionario">Cadastrar Funcionário</a></li>
+
+                    <select onchange="javascript:location.href=this.value;"
+                            th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'"
+                            aria-label="Lista de Requerimentos">
+                        <option value="" selected>Verificar</option>
+                        <option th:value="@{/requerimentos}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                            Lista de Requerimentos WIFI
+                        </option>
+                        <option th:value="@{/requerimentosSALA}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                            Lista de Requerimentos SALA
+                        </option>
+                        <option th:value="@{/requerimentosProj}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                            Lista de Requerimentos PROJETORES
+                        </option>
+                    </select>
+
+
+                    <select onchange="javascript:location.href=this.value;"
+                            th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'"
+                            aria-label="Lista de Requerimentos">
+                        <option value="" selected>Cadastrar</option>
+                        <option th:value="@{/cadastrarReq}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                                 Requerimento Wifi
+                        </option>
+                        <option th:value="@{/cadastrarReqSala}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                            Requerimento Sala
+                        </option>
+                        <option th:value="@{/cadastrarReqProj}"
+                                th:style="'box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;'">
+                            Requerimento Projetor
+                        </option>
+                    </select>
+
+                    <li class="nav-item"><a class="nav-link" style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;" href="https://www.uerj.br/" target="_blank">Portal da UERJ
+
+                    </a>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link"
+                                            style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;"
+                                            href="/relatorio">Relatorio</a></li>
+
+
+                    <li class="nav-item"><a class="nav-link"
+                                            style="box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 1); background: #1f3c58;color: #ebebeb;"
+                                            href="/suporte">Suporte</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</header>

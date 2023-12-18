@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+
+<head th:insert="template/fragmentos/cabecalho.html :: head"></head>
+
+<body>
+<header th:insert="template/fragmentos/header.html :: header"></header>
+
+<div class="container">
+
+	<th:block th:include="mensagem-validacao"></th:block>
+
+	<form method="post">
+
+		<h1>Atualizar Funcionário</h1>
+
+		<br>
+
+		<div class="form-group">
+			<label for=""><b>Nome do funcionário:</b></label>
+			<input type="text" class="form-control" value="" name="nome" required th:value="${funcionario.nome}" />
+			<small class="form-text text-muted"><i>* Utilize nomes e termos mais utilizados no mercado.</i></small>
+		</div>
+		<div class="form-group">
+			<label for=""><b>Matrícula:</b></label>
+			<input type="text" class="form-control" value="" name="matricula" required th:value="${funcionario.matricula}" />
+			<small class="form-text text-muted"><i>* Matrícula.</i></small>
+		</div>
+		<div class="form-group">
+			<label for=""><b>Data de nascimento:</b></label>
+			<input type="date" class="form-control" value="" name="data" required th:value="${funcionario.data}" />
+			<small class="form-text text-muted"><i>* Data de nascimento.</i></small>
+		</div>
+		<div class="form-group">
+			<label for=""><b>E-mail:</b></label>
+			<input type="text" class="form-control" value="" name="email" required th:value="${funcionario.email}" />
+			<small class="form-text text-muted"><i>* email@example.com</i></small>
+		</div>
+		<div class="form-group">
+		<label for=""><b>Setor:</b></label>
+		<select class="form-control" name="setor" required th:field="${funcionario.tipo}">
+			<option value="">Selecione um setor</option>
+			<option value="COINFO">COINFO</option>
+			<option value="LOGISTICA">LOGISTICA</option>
+		</select>
+		<small class="form-text text-muted"><i>* Selecione o setor.</i></small>
+	</div>
+
+		<div class="form-group">
+			<label for=""><b>CPF:</b></label>
+			<input type="text" class="form-control" value="" name="cpf" required th:value="${funcionario.cpf}" />
+			<small class="form-text text-muted"><i>* CPF</i></small>
+		</div>
+
+		<button type="submit" class="btn btn-success">Atualizar Funcionário</button>
+	</form>
+	<br>
+	<a href="http://localhost:8080/funcionarios" class="btn btn-success">Retornar</a>
+</div>
+
+<div th:insert="template/fragmentos/divfooter.html :: div"></div>
+</body>
+
+</html>
