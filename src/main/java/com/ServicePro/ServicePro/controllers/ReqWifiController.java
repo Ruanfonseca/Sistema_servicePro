@@ -20,6 +20,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -101,6 +103,8 @@ public class ReqWifiController {
 
 	//recebendo parâmetros como inteiros , na pagina 0 exponha 10 requerimentos finalizados
 	@GetMapping("/requerimentosPageFinalizados")
+	@CacheEvict(value="requerimentosPageFinalizados", allEntries = true)
+	@CachePut("requerimentosPageFinalizados")
 	public ModelAndView PagelistaDeFinalizados(@RequestParam(defaultValue = "0") int page,
 										   @RequestParam(defaultValue = "10") int size) {
 		ModelAndView mv = new ModelAndView("template/reqWIFI/lista-req-finalizado");
@@ -182,6 +186,8 @@ public class ReqWifiController {
 	}
 
 	@GetMapping("/requerimentos")
+	@CacheEvict(value="requerimentos", allEntries = true)
+	@CachePut("requerimentos")
 	public ModelAndView PagelistaPendente(@RequestParam(defaultValue = "0") int page,
 							  @RequestParam(defaultValue = "10") int size) {
 		ModelAndView mv = new ModelAndView("template/reqWIFI/lista-req");
@@ -287,10 +293,5 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 		attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
 		return "redirect:/requerimento/" + codigo;
 	}
-
-
-
-
-
 
 }

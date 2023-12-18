@@ -8,6 +8,8 @@ import com.ServicePro.ServicePro.service.ReqPROJETORService;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -106,6 +108,8 @@ public class ReqProjetorController {
 
     //recebendo parâmetros como inteiros , na pagina 0 exponha 10 requerimentos finalizados
     @GetMapping("/requerimentosProjFinalizados")
+    @CacheEvict(value="requerimentosProjFinalizados", allEntries = true)
+    @CachePut("requerimentosProjFinalizados")
     public ModelAndView PagelistaDeFinalizados(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "10") int size) {
         ModelAndView mv = new ModelAndView("template/projetor/lista-req-projetor-finalizado");
@@ -122,6 +126,8 @@ public class ReqProjetorController {
 
 
     @GetMapping("/requerimentosProj")
+    @CacheEvict(value="requerimentosProj", allEntries = true)
+    @CachePut("requerimentosProj")
     public ModelAndView PagelistaPendente(@RequestParam(defaultValue = "0") int page,
                                           @RequestParam(defaultValue = "10") int size) {
         ModelAndView mv = new ModelAndView("template/projetor/lista-projetor");
@@ -222,8 +228,6 @@ public class ReqProjetorController {
 
         /*Fazendo uma tabela para funcionar como um livro de registros de requerimento*/
         ordemDeServicoPROJETORservice.salvar(ordemDeServicoProjetor);
-
-
 
 
         //mandando msg para o broker

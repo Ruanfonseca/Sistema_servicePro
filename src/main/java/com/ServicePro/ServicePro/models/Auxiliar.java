@@ -26,7 +26,7 @@ public class Auxiliar {
 	
 	private String nome;
 	
-	private  String datanascimento;
+	private String datanascimento;
 	
 	@ManyToOne
 	private Funcionario funcionario;
