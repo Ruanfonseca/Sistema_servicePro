@@ -267,8 +267,10 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
 			return "redirect:/TelaBaixaReq/" + codigo;
 		}
+
 		Funcionario aux = funcionarioService.buscarPorMatricula(matricula);
-		if (!aux.getTipo().equals("COINFO")) {
+
+		if (!aux.getTipo().equals("COINFO") || aux.getTipo() == null) {
 			attributes.addFlashAttribute("mensagem", "Você não é um funcionário da coinfo!");
 			return "redirect:/TelaBaixaReq/" + codigo;
 		}
@@ -287,8 +289,9 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 		String msg = "O Requerimento de Wifi "+requerimento.getCodigo()+" foi finalizado no dia "+data+
 				"Mensagem da Área técnica "+requerimento.getMensagemRetorno();
 
-		Integer flag = 1;
-		clienteHttp.criaHrequestHTTP(flag,msg);
+		//Integer flag = 1;
+
+		//clienteHttp.criaHrequestHTTP(flag,msg);
 
 		attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
 		return "redirect:/requerimento/" + codigo;
