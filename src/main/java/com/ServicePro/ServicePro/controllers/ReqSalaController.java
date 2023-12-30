@@ -1,6 +1,5 @@
 package com.ServicePro.ServicePro.controllers;
 
-import com.ServicePro.ServicePro.component.clienteHTTP;
 import com.ServicePro.ServicePro.models.*;
 import com.ServicePro.ServicePro.service.FuncionarioService;
 import com.ServicePro.ServicePro.service.OrdemDeServicoSalaService;
@@ -39,9 +38,6 @@ public class ReqSalaController {
 
     @Autowired
     private ReqSALAService reqSALAService;
-
-
-    private clienteHTTP clienteHttp;
 
 
     @GetMapping("/cadastrarReqSala")
@@ -228,8 +224,6 @@ public class ReqSalaController {
         String msg = "O Requerimento de Sala "+requerimento.getCodigo()+" foi finalizado no dia "+data+
                 "Mensagem da Área técnica "+requerimento.getMensagemRetorno();
 
-        Integer flag = 2;
-        clienteHttp.criaHrequestHTTP(flag,msg);
 
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");

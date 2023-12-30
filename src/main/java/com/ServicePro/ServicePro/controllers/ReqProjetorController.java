@@ -1,6 +1,6 @@
 package com.ServicePro.ServicePro.controllers;
 
-import com.ServicePro.ServicePro.component.clienteHTTP;
+
 import com.ServicePro.ServicePro.models.*;
 import com.ServicePro.ServicePro.service.FuncionarioService;
 import com.ServicePro.ServicePro.service.OrdemDeServicoPROJETORservice;
@@ -42,7 +42,6 @@ public class ReqProjetorController {
 
 
 
-    private clienteHTTP clienteHttp;
 
 
     @GetMapping("/cadastrarReqProj")
@@ -233,9 +232,6 @@ public class ReqProjetorController {
         //mandando msg para o broker
         String msg = "O Requerimento de Projetor "+requerimento.getCodigo()+" foi finalizado no dia "+data+
                 "Mensagem da Área técnica "+requerimento.getMensagemRetorno();
-        Integer flag = 3;
-
-        clienteHttp.criaHrequestHTTP(flag,msg);
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
 

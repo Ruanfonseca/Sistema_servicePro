@@ -1,4 +1,0 @@
-
-
-PWA - https://www.freecodecamp.org/portuguese/news/como-criar-um-aplicativo-web-progressivo-pwa-do-zero-com-html-css-e-javascript/
-template para slide -https://drive.google.com/drive/folders/1biMWPaqna7hwhfAEq9GVQEBjJaPeupni
