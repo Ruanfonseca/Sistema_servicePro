@@ -7,12 +7,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.ServicePro.ServicePro.mensageria.RabbitmqConstantes;
+import com.ServicePro.ServicePro.mensageria.RabbitmqService;
 import com.ServicePro.ServicePro.models.Funcionario;
 import com.ServicePro.ServicePro.models.OrdemDeServico;
 import com.ServicePro.ServicePro.models.Requerimento;
 import com.ServicePro.ServicePro.service.FuncionarioService;
 import com.ServicePro.ServicePro.service.OrdemDeServicoService;
 import com.ServicePro.ServicePro.service.ReqWifiService;
+import com.ServicePro.ServicePro.template.TemplateMSG;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -47,6 +50,9 @@ public class ReqWifiController {
 	@Autowired
 	private OrdemDeServicoService OSservice;
 
+
+	@Autowired
+	private RabbitmqService rabbitmqService;
 
 
 	@GetMapping("/cadastrarReq")
@@ -287,6 +293,9 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 		String msg = "O Requerimento de Wifi "+requerimento.getCodigo()+" foi finalizado no dia "+data+
 				"Mensagem da Área técnica "+requerimento.getMensagemRetorno();
 
+
+		TemplateMSG mensagem = new TemplateMSG(msg,requerimento.getEmail());
+		this.rabbitmqService.enviaMensagem(RabbitmqConstantes.FILA_WIFI,mensagem);
 
 		attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
 		return "redirect:/requerimento/" + codigo;

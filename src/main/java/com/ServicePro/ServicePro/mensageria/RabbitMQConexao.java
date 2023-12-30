@@ -7,6 +7,8 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Component
 public class RabbitMQConexao {
 
@@ -32,7 +34,8 @@ public class RabbitMQConexao {
     }
 
 
-    private void adiciona(String nomeFila){
+    @PostConstruct
+    private void adiciona(){
         //preparando as filas
         Queue filaRequerimentoWIFI = this.fila(RabbitmqConstantes.FILA_WIFI);
         Queue filaRequerimentoSALA = this.fila(RabbitmqConstantes.FILA_SALA);

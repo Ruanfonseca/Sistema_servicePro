@@ -1,10 +1,13 @@
 package com.ServicePro.ServicePro.controllers;
 
 
+import com.ServicePro.ServicePro.mensageria.RabbitmqConstantes;
+import com.ServicePro.ServicePro.mensageria.RabbitmqService;
 import com.ServicePro.ServicePro.models.*;
 import com.ServicePro.ServicePro.service.FuncionarioService;
 import com.ServicePro.ServicePro.service.OrdemDeServicoPROJETORservice;
 import com.ServicePro.ServicePro.service.ReqPROJETORService;
+import com.ServicePro.ServicePro.template.TemplateMSG;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +43,8 @@ public class ReqProjetorController {
      @Autowired
      private ReqPROJETORService reqPROJETORService;
 
-
+    @Autowired
+    private RabbitmqService rabbitmqService;
 
 
 
@@ -231,7 +235,12 @@ public class ReqProjetorController {
 
         //mandando msg para o broker
         String msg = "O Requerimento de Projetor "+requerimento.getCodigo()+" foi finalizado no dia "+data+
-                "Mensagem da Área técnica "+requerimento.getMensagemRetorno();
+                "Mensagem da Área técnica " + requerimento.getMensagemRetorno();
+
+        TemplateMSG mensagem = new TemplateMSG(msg,requerimento.getEmail());
+        this.rabbitmqService.enviaMensagem(RabbitmqConstantes.FILA_PROJETOR,mensagem);
+
+
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
 

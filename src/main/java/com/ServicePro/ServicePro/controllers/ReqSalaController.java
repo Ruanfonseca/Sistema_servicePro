@@ -1,9 +1,12 @@
 package com.ServicePro.ServicePro.controllers;
 
+import com.ServicePro.ServicePro.mensageria.RabbitmqConstantes;
+import com.ServicePro.ServicePro.mensageria.RabbitmqService;
 import com.ServicePro.ServicePro.models.*;
 import com.ServicePro.ServicePro.service.FuncionarioService;
 import com.ServicePro.ServicePro.service.OrdemDeServicoSalaService;
 import com.ServicePro.ServicePro.service.ReqSALAService;
+import com.ServicePro.ServicePro.template.TemplateMSG;
 import com.ServicePro.ServicePro.utils.ValidacaoUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,8 @@ public class ReqSalaController {
     @Autowired
     private ReqSALAService reqSALAService;
 
+    @Autowired
+    private RabbitmqService rabbitmqService;
 
     @GetMapping("/cadastrarReqSala")
     public ModelAndView form() {
@@ -224,7 +229,8 @@ public class ReqSalaController {
         String msg = "O Requerimento de Sala "+requerimento.getCodigo()+" foi finalizado no dia "+data+
                 "Mensagem da Área técnica "+requerimento.getMensagemRetorno();
 
-
+        TemplateMSG mensagem = new TemplateMSG(msg,requerimento.getEmail());
+        this.rabbitmqService.enviaMensagem(RabbitmqConstantes.FILA_SALA,mensagem);
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
         return "redirect:/requerimentoSALA/" + codigo;
