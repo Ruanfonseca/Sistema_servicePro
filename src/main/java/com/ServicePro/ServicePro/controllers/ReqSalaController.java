@@ -229,7 +229,7 @@ public class ReqSalaController {
         String msg = "O Requerimento de Sala "+requerimento.getCodigo()+" foi finalizado no dia "+data+
                 "Mensagem da Área técnica "+requerimento.getMensagemRetorno();
 
-        TemplateMSG mensagem = new TemplateMSG(msg,requerimento.getEmail());
+        TemplateMSG mensagem = new TemplateMSG(msg,requerimento.getEmail(),requerimento.getNomeRequerente());
         this.rabbitmqService.enviaMensagem(RabbitmqConstantes.FILA_SALA,mensagem);
 
         attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");

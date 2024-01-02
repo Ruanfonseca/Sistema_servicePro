@@ -294,7 +294,7 @@ public ModelAndView baixaRequerimento(@PathVariable("codigo") long codigo) {
 				"Mensagem da Área técnica "+requerimento.getMensagemRetorno();
 
 
-		TemplateMSG mensagem = new TemplateMSG(msg,requerimento.getEmail());
+		TemplateMSG mensagem = new TemplateMSG(msg,requerimento.getEmail(),requerimento.getNomeRequerente());
 		this.rabbitmqService.enviaMensagem(RabbitmqConstantes.FILA_WIFI,mensagem);
 
 		attributes.addFlashAttribute("mensagem", "Requerimento finalizado com sucesso!");
