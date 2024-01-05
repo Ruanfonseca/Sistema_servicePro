@@ -1,16 +1,18 @@
 version: '3'
 
 services:
-  #postgres-db:
-    #image: postgres
-    #container_name: bancoServicePro
-    #restart: always
-    #environment:
-      #POSTGRES_DB: ServiceProDB
-      #POSTGRES_USER: postgres
-      #POSTGRES_PASSWORD: ruan123
-    #ports:
-      #- '5432:5432'
+  postgres-db:
+    image: postgres
+    container_name: bancoServicePro
+    restart: always
+    environment:
+      POSTGRES_DB: ServiceProDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ruan123
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./volumepostgres:/var/lib/postgresql/data  # Adicionando um volume para o PostgreSQL
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -20,10 +22,11 @@ services:
       - 5672:5672
       - 15672:15672
     volumes:
-      - ./dados:/var/lib/rabbitmq/
+      - ./volumerabbitmq:/var/lib/rabbitmq/
     environment:
-      - RABBITMQ_DEFAULT_USER =admin
-      - RABBITMQ_DEFAULT_PASS =123456
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=123456
+
   servicepro:
     image: serviceproimg:latest
     restart: on-failure
