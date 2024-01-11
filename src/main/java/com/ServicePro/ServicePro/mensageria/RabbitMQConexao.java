@@ -34,6 +34,7 @@ public class RabbitMQConexao {
     }
 
 
+    /*
     @PostConstruct
     private void adiciona(){
         //preparando as filas
@@ -58,8 +59,6 @@ public class RabbitMQConexao {
         this.amqpAdmin.declareBinding(LigacaoSALA);
         this.amqpAdmin.declareBinding(LigacaoPROJETOR);
 
-
-
-    }
+    }*/
 
 }

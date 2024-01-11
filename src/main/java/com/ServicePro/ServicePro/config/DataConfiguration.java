@@ -3,6 +3,8 @@ package com.ServicePro.ServicePro.config;
 import javax.sql.DataSource;
 
 import org.hibernate.dialect.PostgreSQLDialect;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -17,6 +19,7 @@ public class DataConfiguration {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.postgresql.Driver");
+		//dataSource.setUrl("jdbc:postgresql://localhost:5432/ServiceProDB");
 		dataSource.setUrl("jdbc:postgresql://postgres-db:5432/ServiceProDB");
 		dataSource.setUsername("postgres");
 		dataSource.setPassword("ruan123");
@@ -33,6 +36,17 @@ public class DataConfiguration {
 		adapter.setDatabasePlatform(PostgreSQLDialect.class.getName());
 		adapter.setPrepareConnection(true);
 		return adapter;
+	}
+
+	@Bean
+	public ConnectionFactory rabbitConnectionFactory(){
+		CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+		connectionFactory.setHost("rabbitmq");
+		connectionFactory.setPort(5672);
+		connectionFactory.setUsername("admin");
+		connectionFactory.setPassword("123456");
+		return connectionFactory;
+
 	}
 
 }
