@@ -1,5 +1,5 @@
 # Use a imagem base do OpenJDK
-FROM eclipse-temurin:17-jdk-alpine
+FROM openjdk:17-alpine
 
 ADD target/com.ServicePro-0.0.1-SNAPSHOT.jar app.jar
 
