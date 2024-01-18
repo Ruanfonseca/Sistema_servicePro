@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class WebConfig extends WebSecurityConfigurerAdapter {
 
-	// Método que configura usuários e escopo de atuação no sistema
+	// Método que configura usuários e escopo de atuação no sistema teste
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder builder)throws Exception{
 		
