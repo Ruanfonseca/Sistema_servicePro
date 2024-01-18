@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class TemplateMSG implements Serializable {
 
 
-
+   public static long serialVersionUID = 1L;
    private String MSG;
    private String EMAIL;
    private String NOME;
