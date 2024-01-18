@@ -23,3 +23,12 @@ jobs:
         run: docker build -t ruanfonseca/serviceproimg:latest .
       - name: Push image docker
         run: docker push ruanfonseca/serviceproimg:latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull ruanfonseca/serviceproimg:latest
+      - name: Run docker container
+        run: docker-compose up -d servicepro
