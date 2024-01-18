@@ -30,5 +30,7 @@ jobs:
     steps:
       - name: Pull image from docker hub
         run: sudo docker pull ruanfonseca/serviceproimg:latest
+      - name: Remove docker container
+        run: docker rm -f servicepro
       - name: Run docker container
         run: docker-compose up
