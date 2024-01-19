@@ -36,8 +36,8 @@ jobs:
         run: sudo docker rm -f rabbitmq
       - name: Remove docker container postgresql
         run: sudo docker rm -f bancoServicePro
-      - name: Criando Ligação com o dockerfile
-        run: curl -LJO https://raw.githubusercontent.com/Ruanfonseca/teste/main/dockerfile.txt
-      - name: rodando o container
-        run: sudo docker-compose -f dockerfile.txt up
+      #- name: Criando Ligação com o dockerfile
+       # run: curl -LJO https://raw.githubusercontent.com/Ruanfonseca/teste/main/dockerfile.txt
+      #- name: rodando o container
+       # run: sudo docker-compose -f dockerfile.txt up
 
