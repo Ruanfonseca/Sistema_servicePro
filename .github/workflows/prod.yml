@@ -42,7 +42,6 @@ jobs:
        # run: sudo docker-compose -f dockerfile.txt up
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -52,6 +51,11 @@ jobs:
           curl -L https://fly.io/install.sh | sh
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
-          flyctl deploy
+          
+          # A mensagem abaixo indica o diretório do projeto para fins de debug
+          echo "Current working directory: $(pwd)"
+          
+          # Certifique-se de estar no mesmo diretório do fly.toml ou ajuste conforme necessário
+          flyctl deploy --app Servicepro
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
