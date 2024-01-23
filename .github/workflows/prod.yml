@@ -56,6 +56,7 @@ jobs:
           echo "Current working directory: $(pwd)"
           
           # Certifique-se de estar no mesmo diretório do fly.toml ou ajuste conforme necessário
-          flyctl deploy --app Servicepro
+          flyctl deploy -a Servicepro
+
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
