@@ -49,6 +49,7 @@ jobs:
           curl -L https://fly.io/install.sh | sh
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
+          flyctl apps create Servicepro
           fly deploy --app Servicepro --image ruanfonseca/serviceproimg:latest
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
