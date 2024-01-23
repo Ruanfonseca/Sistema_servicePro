@@ -23,6 +23,20 @@ jobs:
         run: docker build -t ruanfonseca/serviceproimg:latest .
       - name: Push image docker
         run: docker push ruanfonseca/serviceproimg:latest
+      - name: Deploy to Fly.io
+        run: |
+          curl -L https://fly.io/install.sh | sh
+          export FLYCTL_INSTALL="/home/runner/.fly"
+          export PATH="$FLYCTL_INSTALL/bin:$PATH"
+          
+          # A mensagem abaixo indica o diretório do projeto para fins de debug
+          echo "Current working directory: $(pwd)"
+          
+          # Certifique-se de estar no mesmo diretório do fly.toml ou ajuste conforme necessário
+          flyctl deploy -a servicepro  # Substitua "Servicepro" pelo nome do seu aplicativo
+
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
  # deploy:
   #  needs: build
@@ -41,24 +55,4 @@ jobs:
       #- name: rodando o container
        # run: sudo docker-compose -f dockerfile.txt up
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
 
-      - name: Deploy to Fly.io
-        run: |
-          curl -L https://fly.io/install.sh | sh
-          export FLYCTL_INSTALL="/home/runner/.fly"
-          export PATH="$FLYCTL_INSTALL/bin:$PATH"
-          
-          # A mensagem abaixo indica o diretório do projeto para fins de debug
-          echo "Current working directory: $(pwd)"
-          
-          # Certifique-se de estar no mesmo diretório do fly.toml ou ajuste conforme necessário
-          flyctl deploy -a servicepro  # Substitua "Servicepro" pelo nome do seu aplicativo
-
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
