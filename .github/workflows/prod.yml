@@ -41,6 +41,7 @@ jobs:
       #- name: rodando o container
        # run: sudo docker-compose -f dockerfile.txt up
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
