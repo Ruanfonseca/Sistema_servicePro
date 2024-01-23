@@ -40,8 +40,21 @@ jobs:
        # run: curl -LJO https://raw.githubusercontent.com/Sistema_servicePro/raw/main/dockerfile
       #- name: rodando o container
        # run: sudo docker-compose -f dockerfile.txt up
+  create-fly-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Fly.io App
+        run: |
+          curl -L https://fly.io/install.sh | sh
+          export FLYCTL_INSTALL="/home/runner/.fly"
+          export PATH="$FLYCTL_INSTALL/bin:$PATH"
+          flyctl apps create Servicepro
+
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
   deploy:
-    needs: build
+    needs: [ build, create-fly-app ]  # Dependência no trabalho 'create-fly-app'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
