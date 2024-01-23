@@ -38,21 +38,26 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
- # deploy:
-  #  needs: build
-   # runs-on: self-hosted
-    #steps:
-     # - name: Pull image from docker hub
-      #  run: sudo docker pull ruanfonseca/serviceproimg:latest
-      #- name: Remove docker container
-       # run: sudo docker rm -f sistema_servicepro-servicepro-1
-      #- name: Remove docker container rabbitmq
-       # run: sudo docker rm -f rabbitmq
-      #- name: Remove docker container postgresql
-       # run: sudo docker rm -f bancoServicePro
-      #- name: Criando Ligação com o dockerfile
-       # run: curl -LJO https://raw.githubusercontent.com/Sistema_servicePro/raw/main/dockerfile
-      #- name: rodando o container
-       # run: sudo docker-compose -f dockerfile.txt up
+
+
+
+
+
+       # deploy:
+        #  needs: build
+         # runs-on: self-hosted
+          #steps:
+           # - name: Pull image from docker hub
+            #  run: sudo docker pull ruanfonseca/serviceproimg:latest
+            #- name: Remove docker container
+             # run: sudo docker rm -f sistema_servicepro-servicepro-1
+            #- name: Remove docker container rabbitmq
+             # run: sudo docker rm -f rabbitmq
+            #- name: Remove docker container postgresql
+             # run: sudo docker rm -f bancoServicePro
+            #- name: Criando Ligação com o dockerfile
+             # run: curl -LJO https://raw.githubusercontent.com/Sistema_servicePro/raw/main/dockerfile
+            #- name: rodando o container
+             # run: sudo docker-compose -f dockerfile.txt up
 
 
