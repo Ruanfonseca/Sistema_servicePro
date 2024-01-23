@@ -41,15 +41,17 @@ jobs:
       #- name: rodando o container
        # run: sudo docker-compose -f dockerfile.txt up
   deploy:
-    needs: build
     runs-on: ubuntu-latest
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Deploy to Fly.io
         run: |
           curl -L https://fly.io/install.sh | sh
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
-          flyctl apps create Servicepro
-          fly deploy --app Servicepro --image ruanfonseca/serviceproimg:latest
+          flyctl deploy
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
