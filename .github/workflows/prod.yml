@@ -48,7 +48,7 @@ jobs:
           curl -L https://fly.io/install.sh | sh
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
-          flyctl apps create Servicepro
+          flyctl apps create servicepro
 
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
@@ -70,7 +70,7 @@ jobs:
           echo "Current working directory: $(pwd)"
           
           # Certifique-se de estar no mesmo diretório do fly.toml ou ajuste conforme necessário
-          flyctl deploy -a Servicepro
+          flyctl deploy -a servicepro
 
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
