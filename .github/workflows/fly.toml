@@ -1,4 +1,4 @@
-app = "Servicepro"
+app = "servicepro"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
@@ -20,6 +20,3 @@ script_checks = ["pg_isready", "-q", "-h", "postgres-db", "-U", "postgres"]
 internal_port = 5672
 protocol = "tcp"
 script_checks = ["rabbitmq-diagnostics", "ping"]
-
-[experimental]
-private_network = true
