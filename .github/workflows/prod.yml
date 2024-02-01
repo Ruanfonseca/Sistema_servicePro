@@ -39,6 +39,6 @@ jobs:
             - name: Criando Ligação com o dockerfile
               run: curl -LJO https://raw.githubusercontent.com/Sistema_servicePro/raw/main/dockerfile
             - name: rodando o container
-              run: sudo docker-compose -f dockerfile.txt up
+              run: sudo docker-compose -f dockerfile up
 
 
