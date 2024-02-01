@@ -20,32 +20,39 @@ jobs:
       - name: Build project
         run: mvn clean install -DskipTests
 
-      - name: Login dockerhub
+      - name: Login DockerHub
         run: docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_PASSWORD}}
 
-      - name: Build docker image
-        run: |
-          docker build -t ruanfonseca/serviceproimg:latest .
-          docker push ruanfonseca/serviceproimg:latest
+      - name: Build Docker image
+        run: docker build -t ruanfonseca/serviceproimg:latest .
+
+      - name: Push Docker image
+        run: docker push ruanfonseca/serviceproimg:latest
 
   deploy:
     needs: build
     runs-on: self-hosted
     steps:
-      - name: Pull image from docker hub
-        run: docker pull ruanfonseca/serviceproimg:latest
+      - name: Pull image from Docker Hub
+        run: sudo docker pull ruanfonseca/serviceproimg:latest
+
+      - name: Remove Docker container
+        run: sudo docker rm -f sistema_servicepro-servicepro-1
+
+      - name: Remove Docker container rabbitmq
+        run: sudo docker rm -f rabbitmq
+
+      - name: Remove Docker container postgresql
+        run: sudo docker rm -f bancoServicePro
 
       - name: Install Docker Compose
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
 
-      - name: Clone Docker Compose file
-        run: git clone https://github.com/Sistema_servicePro/raw.git
-
-      - name: Change directory
-        run: cd raw
+      - name: Download Docker Compose file
+        run: |
+          curl -O https://raw.githubusercontent.com/Ruanfonseca/Sistema_servicePro/main/docker-compose.yml
 
       - name: Run Docker Compose
-        run: |
-          sudo docker-compose up -d
+        run: sudo docker-compose up -d
