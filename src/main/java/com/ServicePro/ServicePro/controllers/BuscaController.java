@@ -28,6 +28,7 @@ public class BuscaController {
 
 	@Autowired
 	private AuxiliarService auxiliarService;
+
 	@Autowired
 	private RequerimentoWIfiRepository Rr;
 
