@@ -33,6 +33,13 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
+      - name: Instalação do docker
+        run: |
+          sudo curl -fsSL https://get.docker.com/ | sh
+          sudo apt-get update
+          sudo apt-get install docker-ce
+          sudo service docker start
+
       - name: Pull image from Docker Hub
         run: sudo docker pull ruanfonseca/serviceproimg:latest
 
@@ -45,12 +52,6 @@ jobs:
       - name: Remove Docker container postgresql
         run: sudo docker rm -f bancoServicePro
 
-      - name: Instalação do docker
-        run: |
-         sudo curl -fsSL https://get.docker.com/ | sh
-         sudo apt-get update
-         sudo apt-get install docker-ce
-         sudo service docker start
 
       - name: Install Docker Compose
         run: |
