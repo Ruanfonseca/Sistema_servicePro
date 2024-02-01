@@ -24,7 +24,7 @@ jobs:
       - name: Push image docker
         run: docker push ruanfonseca/serviceproimg:latest
 
-    deploy:
+  deploy:
         needs: build
         runs-on: self-hosted
         steps:
