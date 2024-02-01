@@ -45,6 +45,13 @@ jobs:
       - name: Remove Docker container postgresql
         run: sudo docker rm -f bancoServicePro
 
+      - name: Instalação do docker
+        run: |
+         sudo curl -fsSL https://get.docker.com/ | sh
+         sudo apt-get update
+         sudo apt-get install docker-ce
+         sudo service docker start
+
       - name: Install Docker Compose
         run: |
           sudo apt-get update
