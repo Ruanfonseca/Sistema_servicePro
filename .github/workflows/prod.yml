@@ -1,0 +1,44 @@
+name: Deploy ServicePro system
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17.0.9'
+      - name: Build project
+        run: mvn clean install -DskipTests
+      - name: Login dockerhub
+        run: docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_PASSWORD}}
+      - name: Build docker image
+        run: docker build -t ruanfonseca/serviceproimg:latest .
+      - name: Push image docker
+        run: docker push ruanfonseca/serviceproimg:latest
+
+    deploy:
+        needs: build
+        runs-on: self-hosted
+        steps:
+            - name: Pull image from docker hub
+              run: sudo docker pull ruanfonseca/serviceproimg:latest
+            - name: Remove docker container
+              run: sudo docker rm -f sistema_servicepro-servicepro-1
+            - name: Remove docker container rabbitmq
+              run: sudo docker rm -f rabbitmq
+            - name: Remove docker container postgresql
+              run: sudo docker rm -f bancoServicePro
+            - name: Criando Ligação com o dockerfile
+              run: curl -LJO https://raw.githubusercontent.com/Sistema_servicePro/raw/main/dockerfile
+            - name: rodando o container
+              run: sudo docker-compose -f dockerfile.txt up
+
+
