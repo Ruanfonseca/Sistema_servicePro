@@ -12,3 +12,5 @@ video de seu funcionamento
 
 https://github.com/Ruanfonseca/Sistema_servicePro/assets/64973978/471a0f83-69d0-4a44-b601-9f2262371663
 
+link para sua ec2 na aws -> http://34.230.149.61:8080/
+
