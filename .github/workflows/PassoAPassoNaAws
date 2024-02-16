@@ -1,16 +1,27 @@
 criar um iam,grupo de segurança e vpc , logo apos uma ec2(maquina ubuntu) e associar a um ip publico com elastic ip
 criar uma runners no github associando essa ec2 ao github
 e no prompt da ec2 digitar
+
+
+
+
+
 Download
+
 # Create a folder
 $ mkdir actions-runner && cd actions-runner# Download the latest runner package
-$ curl -o actions-runner-linux-x64-2.312.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.312.0/actions-runner-linux-x64-2.312.0.tar.gz# Optional: Validate the hash
-$ echo "85c1bbd104d539f666a89edef70a18db2596df374a1b51670f2af1578ecbe031  actions-runner-linux-x64-2.312.0.tar.gz" | shasum -a 256 -c# Extract the installer
-$ tar xzf ./actions-runner-linux-x64-2.312.0.tar.gz
+$ curl -o actions-runner-linux-x64-2.313.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.313.0/actions-runner-linux-x64-2.313.0.tar.gz# Optional: Validate the hash
+$ echo "56910d6628b41f99d9a1c5fe9df54981ad5d8c9e42fc14899dcc177e222e71c4  actions-runner-linux-x64-2.313.0.tar.gz" | shasum -a 256 -c# Extract the installer
+$ tar xzf ./actions-runner-linux-x64-2.313.0.tar.gz
+
+
+
 Configure
 # Create the runner and start the configuration experience
-$ ./config.sh --url https://github.com/Ruanfonseca/Sistema_servicePro --token APPWZGTRME26G3FPCBEYNZ3FXPJP4# Last step, run it!
+$ ./config.sh --url https://github.com/Ruanfonseca/Sistema_servicePro --token APPWZGTVGH66RYHNBNH67Q3FZ6U4Y# Last step, run it!
 $ ./run.sh
+
+
 Using your self-hosted runner
 # Use this YAML in your workflow file for each job
 runs-on: self-hosted
