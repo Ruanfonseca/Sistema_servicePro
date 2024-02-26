@@ -45,7 +45,7 @@ public class DataConfiguration {
 	public ConnectionFactory rabbitConnectionFactory(){
 		CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
 		connectionFactory.setHost("rabbitmq");
-		connectionFactory.setPort(15672);
+		connectionFactory.setPort(5672);
 		connectionFactory.setUsername("admin");
 		connectionFactory.setPassword("123456");
 		return connectionFactory;
