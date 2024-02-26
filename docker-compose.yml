@@ -30,3 +30,7 @@ services:
     image: ruanfonseca/serviceproimg:latest
     ports:
       - "8080:8080"
+  consumer:
+    image: ruanfonseca/consumer:latest
+    ports:
+      - "9191:9191"
