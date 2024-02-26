@@ -55,6 +55,9 @@ public class RabbitMQConexao {
         //canal onde as filas estarão
         this.amqpAdmin.declareExchange(enviomsg);
 
+
+
+
         this.amqpAdmin.declareBinding(LigacaoWIFI);
         this.amqpAdmin.declareBinding(LigacaoSALA);
         this.amqpAdmin.declareBinding(LigacaoPROJETOR);
