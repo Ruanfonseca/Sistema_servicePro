@@ -24,8 +24,11 @@ public class BuscaController {
 	@Autowired
 	private FuncionarioService funcionarioService;
 
+
+
 	@Autowired
 	private AuxiliarService auxiliarService;
+
 	@Autowired
 	private RequerimentoWIfiRepository Rr;
 
