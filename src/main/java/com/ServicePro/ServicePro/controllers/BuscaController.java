@@ -59,7 +59,7 @@ public class BuscaController {
 
 		}else if(nome.equals("cpfrequerimento")) {
 			Requerimento req =  Rr.findByCpf(buscar);
-			mv.addObject("requerimentos",req);
+			mv.addObject("requerimento",req);
 			
 		}else {
 			mv.addObject("funcionario",funcionarioService.buscarPorNome(buscar));
