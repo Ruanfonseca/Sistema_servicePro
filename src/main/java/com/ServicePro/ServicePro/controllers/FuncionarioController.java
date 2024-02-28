@@ -39,7 +39,7 @@ public class FuncionarioController {
 
 	// POST que cadastra funcionários
 	@RequestMapping(value = "/cadastrarFuncionario", method = RequestMethod.POST)
-	public String form(@Valid Funcionario funcionario, @NotNull BindingResult result, RedirectAttributes attributes) {
+	public String form(Funcionario funcionario, @NotNull BindingResult result, RedirectAttributes attributes) {
 
 
 		if (result.hasErrors()) {
@@ -52,13 +52,15 @@ public class FuncionarioController {
 
 		}
 
-
-		if(!funcionarioService.salvarFuncionario(funcionario)){
-			attributes.addFlashAttribute("mensagem",
-					"  Funcionário já cadastrado ! ");
-			return "redirect:/cadastrarFuncionario";
+        try {
+			if (!funcionarioService.salvarFuncionario(funcionario)) {
+				attributes.addFlashAttribute("mensagem",
+						"  Funcionário já cadastrado ! ");
+				return "redirect:/cadastrarFuncionario";
+			}
+		}catch (Exception e){
+			e.printStackTrace();
 		}
-
 		attributes.addFlashAttribute("mensagem", "Funcionário cadastrado com sucesso!");
 		return "redirect:/cadastrarFuncionario";
 	}
@@ -119,12 +121,14 @@ public class FuncionarioController {
 
 		Funcionario funcionario = funcionarioService.encontrarPorId(id);
 		auxiliar.setFuncionario(funcionario);
-
-		if(!auxiliarService.salvar(auxiliar)){
-			attributes.addFlashAttribute("mensagem_erro", "Já existe auxiliar !");
-			return "redirect:/detalhes-funcionario/{id}";
-		}
-
+     try {
+		 if (!auxiliarService.salvar(auxiliar)) {
+			 attributes.addFlashAttribute("mensagem_erro", "Já existe auxiliar !");
+			 return "redirect:/detalhes-funcionario/{id}";
+		 }
+	 }catch (Exception e){
+		 e.printStackTrace();
+	 }
 		attributes.addFlashAttribute("mensagem", "auxiliar adicionado com sucesso");
 		return "redirect:/detalhes-funcionario/{id}";
 
