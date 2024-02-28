@@ -21,7 +21,7 @@ public class FuncionarioService {
 
     public boolean salvarFuncionario(Funcionario funcionario) {
 
-        Optional<Funcionario> aux = Optional.ofNullable(encontrarPorId(funcionario.getId()));
+        Optional<Funcionario> aux = Optional.ofNullable(buscarPorCPF(funcionario.getCpf()));
         if(aux.isPresent()) {
             return false;
         }else{
