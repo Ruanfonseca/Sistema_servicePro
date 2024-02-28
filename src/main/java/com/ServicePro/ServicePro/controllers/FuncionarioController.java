@@ -49,6 +49,7 @@ public class FuncionarioController {
 						"  Erro no campo " + ((FieldError) error).getField() + ": " + error.getDefaultMessage());
 			}
 			return "redirect:/cadastrarFuncionario";
+
 		}
 
 
