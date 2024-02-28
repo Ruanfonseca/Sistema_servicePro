@@ -119,6 +119,9 @@ public class FuncionarioController {
 			return "redirect:/detalhes-funcionario/{id}";
 		}
 
+
+
+
 		Funcionario funcionario = funcionarioService.encontrarPorId(id);
 		auxiliar.setFuncionario(funcionario);
      try {
