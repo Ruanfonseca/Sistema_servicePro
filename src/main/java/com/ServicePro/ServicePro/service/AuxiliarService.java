@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuxiliarService {
@@ -31,8 +32,15 @@ public class AuxiliarService {
         return Aux.findByCpf(cpf);
     }
 
-    public void salvar(Auxiliar auxiliar) {
-      Aux.save(auxiliar);
+    public boolean salvar(Auxiliar auxiliar) {
+        Optional<Auxiliar> aux = Optional.ofNullable(buscarPorCPF(auxiliar));
+        if(aux.isPresent()) {
+            return false;
+        }else{
+            Aux.save(auxiliar);
+            return true;
+        }
+
     }
 
     public void deletar(Auxiliar auxiliar) {

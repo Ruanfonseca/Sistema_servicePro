@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FuncionarioService {
@@ -18,9 +19,16 @@ public class FuncionarioService {
     private Funcionario func;
 
 
-    public void salvarFuncionario(Funcionario funcionario) {
+    public boolean salvarFuncionario(Funcionario funcionario) {
 
-        fr.save(funcionario);
+        Optional<Funcionario> aux = Optional.ofNullable(encontrarPorId(funcionario.getId()));
+        if(aux.isPresent()) {
+            return false;
+        }else{
+            fr.save(funcionario);
+            return true;
+        }
+
     }
 
     public List<Funcionario> buscarPorNome(String nome){

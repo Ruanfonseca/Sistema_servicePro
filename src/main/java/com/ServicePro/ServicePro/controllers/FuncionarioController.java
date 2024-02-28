@@ -51,7 +51,12 @@ public class FuncionarioController {
 			return "redirect:/cadastrarFuncionario";
 		}
 
-		funcionarioService.salvarFuncionario(funcionario);
+
+		if(!funcionarioService.salvarFuncionario(funcionario)){
+			attributes.addFlashAttribute("mensagem",
+					"  Funcionário já cadastrado ! ");
+			return "redirect:/cadastrarFuncionario";
+		}
 
 		attributes.addFlashAttribute("mensagem", "Funcionário cadastrado com sucesso!");
 		return "redirect:/cadastrarFuncionario";
@@ -113,7 +118,12 @@ public class FuncionarioController {
 
 		Funcionario funcionario = funcionarioService.encontrarPorId(id);
 		auxiliar.setFuncionario(funcionario);
-		auxiliarService.salvar(auxiliar);
+
+		if(!auxiliarService.salvar(auxiliar)){
+			attributes.addFlashAttribute("mensagem_erro", "Já existe auxiliar !");
+			return "redirect:/detalhes-funcionario/{id}";
+		}
+
 		attributes.addFlashAttribute("mensagem", "auxiliar adicionado com sucesso");
 		return "redirect:/detalhes-funcionario/{id}";
 
