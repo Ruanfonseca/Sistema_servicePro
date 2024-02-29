@@ -39,7 +39,7 @@ public class FuncionarioController {
 
 	// POST que cadastra funcionários
 	@RequestMapping(value = "/cadastrarFuncionario", method = RequestMethod.POST)
-	public String form(Funcionario funcionario, @NotNull BindingResult result, RedirectAttributes attributes) {
+	public String form(@Valid Funcionario funcionario, @NotNull BindingResult result, RedirectAttributes attributes) {
 
 
 		if (result.hasErrors()) {
@@ -49,19 +49,16 @@ public class FuncionarioController {
 						"  Erro no campo " + ((FieldError) error).getField() + ": " + error.getDefaultMessage());
 			}
 			return "redirect:/cadastrarFuncionario";
-
 		}
 
-        try {
-			if (!funcionarioService.salvarFuncionario(funcionario)) {
-				attributes.addFlashAttribute("mensagem",
-						"  Funcionário já cadastrado ! ");
-				return "redirect:/cadastrarFuncionario";
-			}
-		}catch (Exception e){
-			e.printStackTrace();
+		if(funcionarioService.salvarFuncionario(funcionario)){
+			attributes.addFlashAttribute("mensagem", "Funcionário cadastrado com sucesso!");
+			return "redirect:/cadastrarFuncionario";
 		}
-		attributes.addFlashAttribute("mensagem", "Funcionário cadastrado com sucesso!");
+		attributes.addFlashAttribute("mensagem",
+				" Já existe um usuario com esse cpf ");
+
+
 		return "redirect:/cadastrarFuncionario";
 	}
 
@@ -93,6 +90,7 @@ public class FuncionarioController {
 
 		// lista de dependentes baseada no id do funcionário
 		Iterable<Auxiliar> auxiliares = auxiliarService.buscarPor(funcionario);
+
 		mv.addObject("auxiliares", auxiliares);
 
 		return mv;
@@ -119,20 +117,18 @@ public class FuncionarioController {
 			return "redirect:/detalhes-funcionario/{id}";
 		}
 
-
-
-
 		Funcionario funcionario = funcionarioService.encontrarPorId(id);
 		auxiliar.setFuncionario(funcionario);
-     try {
-		 if (!auxiliarService.salvar(auxiliar)) {
-			 attributes.addFlashAttribute("mensagem_erro", "Já existe auxiliar !");
-			 return "redirect:/detalhes-funcionario/{id}";
-		 }
-	 }catch (Exception e){
-		 e.printStackTrace();
-	 }
-		attributes.addFlashAttribute("mensagem", "auxiliar adicionado com sucesso");
+
+		if(auxiliarService.salvar(auxiliar)){
+			attributes.addFlashAttribute("mensagem", "auxiliar adicionado com sucesso");
+			return "redirect:/detalhes-funcionario/{id}";
+		}
+
+
+		attributes.addFlashAttribute("mensagem",
+				" Já existe um usuario com esse cpf ");
+
 		return "redirect:/detalhes-funcionario/{id}";
 
 	}

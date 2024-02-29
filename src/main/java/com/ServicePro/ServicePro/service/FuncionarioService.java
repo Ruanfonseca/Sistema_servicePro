@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FuncionarioService {
@@ -21,13 +20,20 @@ public class FuncionarioService {
 
     public boolean salvarFuncionario(Funcionario funcionario) {
 
-        Optional<Funcionario> aux = Optional.ofNullable(buscarPorCPF(funcionario.getCpf()));
-        if(aux.isPresent()) {
+        try {
+            func = buscarPorCPF(funcionario.getCpf());
+            if (func.getCpf() == funcionario.getCpf()) {
+                return false;
+            } else {
+                fr.save(funcionario);
+                return true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
-        }else{
-            fr.save(funcionario);
-            return true;
         }
+
 
     }
 
@@ -45,11 +51,11 @@ public class FuncionarioService {
 
 
     public void deletar(Funcionario funcionario) {
-       fr.delete(funcionario);
+        fr.delete(funcionario);
     }
 
     public Funcionario buscarPorCPF(String cpf) {
-      return fr.findByCPF(cpf);
+        return fr.findByCPF(cpf);
     }
 
     public Funcionario buscarPorMatricula(String matricula) {

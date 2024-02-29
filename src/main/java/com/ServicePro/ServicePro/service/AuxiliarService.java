@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AuxiliarService {
@@ -21,7 +20,7 @@ public class AuxiliarService {
 
 
     public Iterable<Auxiliar> buscarPor(Funcionario funcionario) {
-       return Aux.findByFuncionario(funcionario);
+        return Aux.findByFuncionario(funcionario);
     }
 
     public Auxiliar buscarPorCPF(Auxiliar auxiliar) {
@@ -33,18 +32,28 @@ public class AuxiliarService {
     }
 
     public boolean salvar(Auxiliar auxiliar) {
-        Optional<Auxiliar> aux = Optional.ofNullable(buscarPorCPF(auxiliar));
-        if(aux.isPresent()) {
+        try {
+            Auxiliar aux = buscarPorCPF(auxiliar.getCpf());
+
+            if (aux.getCpf() == auxiliar.getCpf()) {
+                return false;
+            } else {
+                Aux.save(auxiliar);
+                return true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
-        }else{
-            Aux.save(auxiliar);
-            return true;
         }
+
+
+
 
     }
 
     public void deletar(Auxiliar auxiliar) {
-    deletar(auxiliar);
+        deletar(auxiliar);
     }
 
     public List<Auxiliar> buscarPorNomesAuxiliares(String nome) {
