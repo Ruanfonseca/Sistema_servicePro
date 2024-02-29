@@ -27,11 +27,13 @@ services:
       - RABBITMQ_DEFAULT_PASS=123456
 
   servicepro:
-    image: serviceproimg
+    image: ruanfonseca/serviceproimg
     ports:
       - "8080:8080"
 
   consumer:
-    image: consumer
+    depends_on:
+    - servicepro
+    image: ruanfonseca/consumer
     ports:
       - "9191:9191"
