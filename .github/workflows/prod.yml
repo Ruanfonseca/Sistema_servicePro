@@ -41,7 +41,8 @@ jobs:
               sudo service docker start
 
           - name: Limpando o cache de imagens
-            run: sudo docker system prune -a
+            run: echo "y" | sudo docker system prune -a
+            
           - name: Pull image from Docker Hub
             run: sudo docker pull ruanfonseca/serviceproimg:latest
 
