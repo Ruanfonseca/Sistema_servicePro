@@ -34,10 +34,16 @@ public class AuxiliarService {
     public boolean salvar(Auxiliar auxiliar) {
         try {
             Auxiliar aux = buscarPorCPF(auxiliar.getCpf());
+            //se for null é porque não existe nenhum usuario no banco com o mesmo cpf
+            if(aux != null){
 
-            if (aux.getCpf() == auxiliar.getCpf()) {
-                return false;
-            } else {
+                    if (aux.getCpf() == auxiliar.getCpf()) {
+                        return false;
+                    } else {
+                        Aux.save(auxiliar);
+                        return true;
+                    }
+            }else{
                 Aux.save(auxiliar);
                 return true;
             }

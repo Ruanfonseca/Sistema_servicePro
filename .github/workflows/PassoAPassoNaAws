@@ -4,7 +4,7 @@ e no prompt da ec2 digitar
 
 
 para apagar todas as imagens da maquina
-#docker system prune -a
+#sudo docker system prune -a
 
 
 Download
