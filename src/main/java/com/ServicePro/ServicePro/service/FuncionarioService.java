@@ -22,13 +22,17 @@ public class FuncionarioService {
 
         try {
             func = buscarPorCPF(funcionario.getCpf());
-            if (func.getCpf() == funcionario.getCpf()) {
-                return false;
-            } else {
-                fr.save(funcionario);
-                return true;
-            }
-
+                 if(func != null) {
+                     if (func.getCpf() == funcionario.getCpf()) {
+                         return false;
+                     } else {
+                         fr.save(funcionario);
+                         return true;
+                     }
+                 }else{
+                     fr.save(funcionario);
+                     return true;
+                 }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
